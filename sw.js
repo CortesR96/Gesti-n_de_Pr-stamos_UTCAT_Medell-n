@@ -4,7 +4,7 @@
    actualización en segundo plano (stale-while-revalidate).
    Al cambiar archivos, sube el número de CACHE_VERSION.
    ============================================================ */
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3';
 const CACHE_NAME = `prestamos-ut-${CACHE_VERSION}`;
 
 const APP_SHELL = [

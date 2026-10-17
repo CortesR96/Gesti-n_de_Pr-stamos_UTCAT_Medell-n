@@ -116,7 +116,8 @@ const hist = (r, txt, by) => r.hist.push({ts: Date.now(), txt, by});
 /* ---------- Estado de interfaz (por pestaña) ---------- */
 let role = 'st', cur = 'sdash', cat = 'Todos', nm = 'Inicio', q = '', cart = {}, done = '', sel = '', rf = 'Todas';
 let frm = {group:'Semillero Arte Vivo', act:'', date:dayPlus(2), time:'14:00', ret:dayPlus(3), obs:''};
-try { const r = sessionStorage.getItem('ut-role'); if (r === 'co' || r === 'st') { role = r; cur = r === 'co' ? 'dash' : 'sdash'; nm = r === 'co' ? 'Panel principal' : 'Inicio'; } } catch (e) {}
+let authed = false;
+try { const r = sessionStorage.getItem('ut-role'); if (r === 'co' || r === 'st') { authed = true; role = r; cur = r === 'co' ? 'dash' : 'sdash'; nm = r === 'co' ? 'Panel principal' : 'Inicio'; } } catch (e) {}
 
 /* ---------- Cromo: navegación, campana, avisos ---------- */
 function nav() {
@@ -124,7 +125,7 @@ function nav() {
   $('#nav').innerHTML = (role == 'co' ? NAV : SNAV).map(n => `<button class="${n[1] == nm ? 'on' : ''}" onclick="go('${n[2]}','${n[1]}')"><svg viewBox="0 0 24 24"><path d="${P[n[0]]}"/></svg>${n[1]}${role == 'co' && n[1] == 'Solicitudes' && pc ? `<em class="nbadge">${pc}</em>` : ''}</button>`).join('');
   $('#me').innerHTML = av(U.seed, 44) + `<div><b>${U.name}</b><small>${U.sub}</small></div>`;
   $('#prof').innerHTML = av(U.seed, 34) + `<span><b>${U.short}</b></span>`;
-  $('#seg').innerHTML = [['st','Estudiante'],['co','Coordinación']].map(r => `<button class="${r[0] == role ? 'on' : ''}" onclick="setRole('${r[0]}')">${r[1]}</button>`).join('');
+  $('#seg').innerHTML = `<button onclick="logout()" title="Cerrar sesión">⎋ Salir</button>`;
   $('#gs').placeholder = role == 'co' ? 'Buscar solicitudes, grupos, materiales…' : 'Buscar material o espacio…';
 }
 function tog() { $('#side').classList.toggle('open'); $('#scrim').classList.toggle('open'); }
@@ -381,6 +382,42 @@ function cancelReq(id) {
   toast('Solicitud cancelada.', 'info'); commit();
 }
 
+/* ---------- Pantalla de ingreso (demo: credenciales predeterminadas) ---------- */
+const CRED = {
+  st: {user:'valentina', pass:'ut2026', label:'Estudiante', icon:'🎓', desc:'Solicita materiales y espacios para tu grupo'},
+  co: {user:'laura', pass:'admin2026', label:'Administrador', icon:'🛠️', desc:'Aprueba solicitudes y controla el inventario'}
+};
+let lrole = 'st';
+function showLogin(r) {
+  if (r) lrole = r;
+  const c = CRED[lrole], L = $('#login');
+  document.body.classList.add('locked'); L.hidden = false;
+  L.innerHTML = `<div class="lbox">
+  <div class="lhead"><div class="crest">UT</div><div><h1>Gestión de Préstamos</h1><p>Universidad del Tolima · CAT Medellín</p></div></div>
+  <div class="lroles" role="tablist">${['st', 'co'].map(k => `<button type="button" role="tab" aria-selected="${k == lrole}" class="${k == lrole ? 'on' : ''}" onclick="showLogin('${k}')"><span>${CRED[k].icon}</span><b>${CRED[k].label}</b><small>${CRED[k].desc}</small></button>`).join('')}</div>
+  <form class="lform" onsubmit="doLogin(event)" autocomplete="off">
+    <label>Usuario<input class="in" id="lu" value="${c.user}" autocapitalize="none" spellcheck="false"></label>
+    <label>Contraseña<span class="pw"><input class="in" id="lp" type="password" value="${c.pass}"><button type="button" onclick="const i=$('#lp');i.type=i.type=='password'?'text':'password'" aria-label="Mostrar u ocultar contraseña">👁</button></span></label>
+    <div class="lerr" id="lerr" role="alert" hidden></div>
+    <button class="btn p" type="submit">Ingresar como ${c.label.toLowerCase()}</button>
+    <p class="lhint">Modo demostración: los datos de acceso ya vienen cargados.<br>Usuario <b>${c.user}</b> · contraseña <b>${c.pass}</b></p>
+  </form></div>`;
+}
+function doLogin(e) {
+  e.preventDefault();
+  const c = CRED[lrole];
+  if ($('#lu').value.trim().toLowerCase() !== c.user || $('#lp').value !== c.pass) {
+    const m = $('#lerr'); m.textContent = 'Usuario o contraseña incorrectos.'; m.hidden = false; return;
+  }
+  authed = true; $('#login').hidden = true; $('#login').innerHTML = ''; document.body.classList.remove('locked');
+  setRole(lrole);
+}
+function logout() {
+  authed = false; try { sessionStorage.removeItem('ut-role'); } catch (e) {}
+  cart = {}; closeModal(); $('#np').hidden = true; $('#side').classList.remove('open'); $('#scrim').classList.remove('open');
+  showLogin(role);
+}
+
 /* ---------- Render y sincronización ---------- */
 function render() { $('#view').innerHTML = {dash, reqs, det, inv, ret, ph, cfg, sdash, scat, ssol, shist}[cur](); }
 
@@ -402,3 +439,4 @@ setInterval(() => { renderBell(); }, 60000);
 
 $('#date').textContent = new Date().toLocaleDateString('es-CO', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
 nav(); renderBell(); render();
+if (!authed) showLogin('st');

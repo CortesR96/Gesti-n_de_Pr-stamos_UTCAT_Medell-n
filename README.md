@@ -4,6 +4,17 @@ Aplicación web progresiva para gestionar el préstamo de materiales y espacios 
 CAT Medellín de la Universidad del Tolima. Es un prototipo **funcional**: los datos se
 guardan en el navegador (`localStorage`); más adelante se conectará a una base de datos.
 
+## Ingreso (demo)
+
+La app abre en una pantalla de ingreso con dos accesos. Los datos ya vienen cargados:
+
+| Rol | Usuario | Contraseña |
+|---|---|---|
+| Estudiante | `valentina` | `ut2026` |
+| Administrador | `laura` | `admin2026` |
+
+Son credenciales de demostración guardadas en el código (cualquiera las puede ver). Para uso real, la autenticación debe hacerse en un servidor.
+
 ## Qué hace
 
 1. **Estudiante** elige materiales en el catálogo, llena los datos y envía la solicitud.
@@ -12,7 +23,7 @@ guardan en el navegador (`localStorage`); más adelante se conectará a una base
 4. Coordinación registra la **entrega** y la **devolución**; el inventario se descuenta y se repone solo.
 5. En **Inventario** se puede agregar y editar elementos. En **Configuración** se restablecen los datos de demostración.
 
-Las dos vistas (Estudiante / Coordinación) se pueden abrir en dos pestañas del mismo navegador y se sincronizan en vivo.
+Las dos vistas (Estudiante / Administrador) se pueden abrir en dos pestañas del mismo navegador y se sincronizan en vivo.
 **Limitación:** al ser `localStorage`, los datos NO se comparten entre dispositivos distintos; eso requiere un backend.
 
 Tiene dos vistas, que se cambian con el selector de la barra superior:
