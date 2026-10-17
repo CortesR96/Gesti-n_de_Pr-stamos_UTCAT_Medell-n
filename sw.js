@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ut-prestamos-v1';
+const CACHE_NAME = 'ut-prestamos-v2';
 const ASSETS = [
   './',
   './index.html',
@@ -6,10 +6,10 @@ const ASSETS = [
 ];
 
 self.addEventListener('install', event => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
   );
-  self.skipWaiting();
 });
 
 self.addEventListener('activate', event => {
@@ -21,8 +21,15 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
+// Estrategia Network-First: siempre descarga lo último de GitHub si hay internet
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request).then(cached => cached || fetch(event.request))
+    fetch(event.request)
+      .then(response => {
+        const resClone = response.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(event.request, resClone));
+        return response;
+      })
+      .catch(() => caches.match(event.request))
   );
 });
