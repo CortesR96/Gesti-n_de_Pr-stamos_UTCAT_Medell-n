@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#7a1230">
-<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
 <title>Gestión de Préstamos – Universidad del Tolima CAT Medellín</title>
@@ -104,7 +104,7 @@ textarea{width:100%;min-height:70px;border:1px solid var(--line);background:var(
   <div class="seg" id="seg"></div>
   <button class="btn s p" id="installBtn" style="display:none" onclick="installPWA()">📲 Instalar</button>
   <span class="date" id="date"></span>
-  <button class="bell" onclick="role=='co'?go('det','Solicitudes'):go('sdash','Inicio')" aria-label="Notificaciones">🔔<i id="notifCount">0</i></button>
+  <button class="bell" onclick="onBellClick()" aria-label="Notificaciones">🔔<i id="notifCount">0</i></button>
   <div class="prof" id="prof"></div>
  </header>
  <main class="page" id="view"></main>
@@ -144,10 +144,10 @@ textarea{width:100%;min-height:70px;border:1px solid var(--line);background:var(
 <div class="toast" id="toast"></div>
 
 <script>
-const $ = s => document.querySelector(s);
+const el = s => document.querySelector(s);
 
 function notify(msg){
- const t = $('#toast');
+ const t = el('#toast');
  t.textContent = msg;
  t.classList.add('show');
  setTimeout(() => t.classList.remove('show'), 2600);
@@ -242,18 +242,23 @@ let role='st', cur='sdash', cat='Todos', nm='Inicio', q='', cart={}, done=0, sel
 
 function updateBadge(){
  const pend = DB.reqs.filter(r=>r.estado==='Pendiente').length;
- $('#notifCount').textContent = pend;
+ el('#notifCount').textContent = pend;
+}
+
+function onBellClick(){
+ if(role === 'co') go('det','Solicitudes');
+ else go('sdash','Inicio');
 }
 
 function nav(){
- $('#nav').innerHTML=(role=='co'?NAV:SNAV).map(n=>`<button class="${n[1]==nm?'on':''}" onclick="go('${n[2]}','${n[1]}')"><svg viewBox="0 0 24 24"><path d="${P[n[0]]}"/></svg>${n[1]}</button>`).join('');
- $('#me').innerHTML=role=='co'?av(2,44)+'<div><b>Laura Restrepo</b><small>Coordinación CAT Medellín</small></div>':av(7,44)+'<div><b>Valentina Cruz</b><small>Representante · Arte Vivo</small></div>';
- $('#prof').innerHTML=role=='co'?av(2,34)+'<span><b>Laura R.</b></span>':av(7,34)+'<span><b>Valentina C.</b></span>';
- $('#seg').innerHTML=[['st','Estudiante'],['co','Coordinación']].map(r=>`<button class="${r[0]==role?'on':''}" onclick="setRole('${r[0]}')">${r[1]}</button>`).join('');
+ el('#nav').innerHTML=(role=='co'?NAV:SNAV).map(n=>`<button class="${n[1]==nm?'on':''}" onclick="go('${n[2]}','${n[1]}')"><svg viewBox="0 0 24 24"><path d="${P[n[0]]}"/></svg>${n[1]}</button>`).join('');
+ el('#me').innerHTML=role=='co'?av(2,44)+'<div><b>Laura Restrepo</b><small>Coordinación CAT Medellín</small></div>':av(7,44)+'<div><b>Valentina Cruz</b><small>Representante · Arte Vivo</small></div>';
+ el('#prof').innerHTML=role=='co'?av(2,34)+'<span><b>Laura R.</b></span>':av(7,34)+'<span><b>Valentina C.</b></span>';
+ el('#seg').innerHTML=[['st','Estudiante'],['co','Coordinación']].map(r=>`<button class="${r[0]==role?'on':''}" onclick="setRole('${r[0]}')">${r[1]}</button>`).join('');
  updateBadge();
 }
 
-function tog(){$('#side').classList.toggle('open');$('#scrim').classList.toggle('open');}
+function tog(){el('#side').classList.toggle('open');el('#scrim').classList.toggle('open');}
 
 function go(v,n,reqId=null){
  cur=v;if(n)nm=n;
@@ -262,7 +267,7 @@ function go(v,n,reqId=null){
  else if(n=='Espacios')cat='Espacios';
  else if(n=='Inventario')cat='Todos';
  nav();render();
- $('#side').classList.remove('open');$('#scrim').classList.remove('open');scrollTo(0,0);
+ el('#side').classList.remove('open');el('#scrim').classList.remove('open');scrollTo(0,0);
 }
 
 const tag = s => `<span class="tag ${s.replace(' ','-')}">${s}</span>`;
@@ -271,6 +276,22 @@ function onGlobalSearch(val){
  q = val.trim();
  if(role==='st' && cur!=='scat') go('scat','Catálogo');
  else render();
+}
+
+function onCatSearch(val){
+ q = val;
+ const g = el('#grid');
+ if(g) g.innerHTML = grid();
+}
+
+function setCat(newCat){
+ cat = newCat;
+ render();
+}
+
+function selectReq(id){
+ selReqId = id;
+ render();
 }
 
 function dash(){
@@ -305,7 +326,7 @@ function det(){
  if(!r) return `<div class="card"><p>No hay solicitudes registradas.</p></div>`;
 
  return `<button class="crumb" onclick="go('dash','Panel principal')">← Panel principal / Solicitudes</button>
- <div class="chips" style="margin-bottom:14px">${DB.reqs.map(x=>`<button class="chip ${x.id===r.id?'on':''}" onclick="selReqId='${x.id}';render()">${x.id} · ${x.rep.split(' ')[0]} (${x.estado})</button>`).join('')}</div>
+ <div class="chips" style="margin-bottom:14px">${DB.reqs.map(x=>`<button class="chip ${x.id===r.id?'on':''}" onclick="selectReq('${x.id}')">${x.id} · ${x.rep.split(' ')[0]} (${x.estado})</button>`).join('')}</div>
  <div class="ph"><div><h1>Solicitud #${r.id}</h1><p>Actividad: ${r.act}</p></div>${tag(r.estado)}</div>
  <div class="dgrid"><div>
  <div class="card" style="margin-bottom:14px"><h3 style="margin-bottom:12px">Representante y grupo</h3><div class="who" style="margin-bottom:14px">${av(3,56)}<div><b style="font-size:16px">${r.rep}</b><small>Estudiante · ${r.prog} · ${r.email}</small></div></div>
@@ -333,7 +354,7 @@ function cambiarEstadoReq(id, nuevoEst){
  const r = DB.reqs.find(x=>x.id===id);
  if(!r || r.estado===nuevoEst) return;
  const antEst = r.estado;
- const obsEl = $('#obsCoordTxt');
+ const obsEl = el('#obsCoordTxt');
  const obs = obsEl ? obsEl.value : '';
  r.obsCoord = obs;
 
@@ -368,7 +389,7 @@ function inv(){
  const rep = DB.inv.filter(x=>x.est==='Reposición').length;
 
  return `<div class="ph"><div><h1>Inventario</h1><p>Control de existencias, préstamos y novedades</p></div><button class="btn p" onclick="openModal()">+ Agregar elemento</button></div>
- <div class="chips">${cats.map(c=>`<button class="chip ${c==cat?'on':''}" onclick="cat='${c}';render()">${c}</button>`).join('')}</div>
+ <div class="chips">${cats.map(c=>`<button class="chip ${c==cat?'on':''}" onclick="setCat('${c}')">${c}</button>`).join('')}</div>
  <div class="alerts"><div class="al w"><b>${bajos}</b>⚠ Inventario bajo</div><div class="al b"><b>${danados}</b>🔧 Materiales dañados</div><div class="al b"><b>${perd}</b>❗ Pérdidas reportadas</div><div class="al m"><b>${rep}</b>🛒 Requieren reposición</div></div>
  <div class="card"><div class="tw"><table><tr><th>Elemento</th><th>Total</th><th>Disponible</th><th>Prestada</th><th>Estado</th><th></th></tr>
  ${rows.map(r=>`<tr><td><div class="who"><div class="thumb">${r.ic}</div><div><b>${r.nom}</b><small>${r.cat}</small></div></div></td><td>${r.tot}</td><td><b>${r.disp}</b><div class="meter"><i style="width:${Math.min(100,r.disp/r.tot*100)}\%"></i></div></td><td>${r.prest}</td><td><span class="tag ${cls[r.est]\vert{}\vert{}'Aprobada'}">${r.est=='Bajo'?'Inventario bajo':r.est}</span></td><td><button class="btn s" onclick="openModal(${r.id})">✎ Editar</button></td></tr>`).join('')}</table></div></div>`;
@@ -377,22 +398,22 @@ function inv(){
 function openModal(id=null){
  editId = id;
  const item = DB.inv.find(x=>x.id===id);
- $('#modalTitle').textContent = item ? 'Editar elemento' : 'Nuevo elemento de inventario';
- $('#mNom').value = item ? item.nom : '';
- $('#mCat').value = item ? item.cat : 'Tecnología';
- $('#mIcon').value = item ? item.ic : '📦';
- $('#mTot').value = item ? item.tot : 1;
- $('#mDisp').value = item ? item.disp : 1;
- $('#mEst').value = item ? item.est : 'Disponible';
- $('#invModal').classList.add('open');
+ el('#modalTitle').textContent = item ? 'Editar elemento' : 'Nuevo elemento de inventario';
+ el('#mNom').value = item ? item.nom : '';
+ el('#mCat').value = item ? item.cat : 'Tecnología';
+ el('#mIcon').value = item ? item.ic : '📦';
+ el('#mTot').value = item ? item.tot : 1;
+ el('#mDisp').value = item ? item.disp : 1;
+ el('#mEst').value = item ? item.est : 'Disponible';
+ el('#invModal').classList.add('open');
 }
-function closeModal(){ $('#invModal').classList.remove('open'); }
+function closeModal(){ el('#invModal').classList.remove('open'); }
 function saveInvItem(){
- const nom = $('#mNom').value.trim();
+ const nom = el('#mNom').value.trim();
  if(!nom) return notify('Ingresa el nombre del elemento');
- const tot = Math.max(1, parseInt($('#mTot').value)||1);
- const disp = Math.min(tot, Math.max(0, parseInt($('#mDisp').value)||0));
- const data = { nom, cat:$('#mCat').value, ic:$('#mIcon').value\vert{}\vert{}'📦', tot, disp, prest:tot-disp, est:$('#mEst').value };
+ const tot = Math.max(1, parseInt(el('#mTot').value)||1);
+ const disp = Math.min(tot, Math.max(0, parseInt(el('#mDisp').value)||0));
+ const data = { nom, cat:el('#mCat').value, ic:el('#mIcon').value||'📦', tot, disp, prest:tot-disp, est:el('#mEst').value };
  if(editId){
   const idx = DB.inv.findIndex(x=>x.id===editId);
   DB.inv[idx] = Object.assign({}, DB.inv[idx], data);
@@ -447,11 +468,11 @@ function chg(n,d){const c=DB.inv.find(x=>x.nom==n);cart[n]=Math.max(0,Math.min(c
 
 function send(){
  if(!nCart())return;
- const grp = ($('#fGrp') && $('#fGrp').value.trim()) || 'Semillero Arte Vivo';
- const act = ($('#fAct') && $('#fAct').value.trim()) || 'Actividad académica';
- const fDate = ($('#fDate') && $('#fDate').value) || '2026-10-18';
- const fTime = ($('#fTime') && $('#fTime').value) || '14:00';
- const obs = ($('#fObs') && $('#fObs').value.trim()) || '';
+ const grp = (el('#fGrp') && el('#fGrp').value.trim()) || 'Semillero Arte Vivo';
+ const act = (el('#fAct') && el('#fAct').value.trim()) || 'Actividad académica';
+ const fDate = (el('#fDate') && el('#fDate').value) || '2026-10-18';
+ const fTime = (el('#fTime') && el('#fTime').value) || '14:00';
+ const obs = (el('#fObs') && el('#fObs').value.trim()) || '';
 
  const newId = 'UT-2026-0' + (149 + DB.reqs.length);
  const items = Object.entries(cart).map(([nom,cant])=>({nom,cant}));
@@ -492,16 +513,22 @@ function sdash(){
 
 function scat(){
  const cs=['Todos','Tecnología','Artes y Cultura','Deportes','Espacios'];
+ const bar = nCart() ? `<div class="cartbar"><span>🛒 ${nCart()} elemento(s) en tu solicitud</span><button class="btn p s" onclick="go('ssol','Mi solicitud')">Completar solicitud →</button></div>` : '';
  return `<div class="ph"><div><h1>Catálogo de préstamos</h1><p>Materiales, equipos y espacios del CAT Medellín</p></div></div>
- <div class="search" style="max-width:none;margin-bottom:12px">🔍<input value="${q}" placeholder="Buscar material o espacio…" oninput="q=this.value;$('#grid').innerHTML=grid()"></div>
- <div class="chips">${cs.map(c=>`<button class="chip ${c==cat?'on':''}" onclick="cat='${c}';render()">${c}</button>`).join('')}</div>
- ${nCart()?`<div class="cartbar"><span>🛒 ${nCart()} elemento(s) en tu solicitud</span><button class="btn p s" onclick="go('ssol','Mi solicitud')">Completar solicitud →</button></div>`:''}
+ <div class="search" style="max-width:none;margin-bottom:12px">🔍<input value="${q}" placeholder="Buscar material o espacio…" oninput="onCatSearch(this.value)"></div>
+ <div class="chips">${cs.map(c=>`<button class="chip ${c==cat?'on':''}" onclick="setCat('${c}')">${c}</button>`).join('')}</div>
+ ${bar}
  <div class="cg" id="grid">${grid()}</div>`;
+}
+
+function backFromDone(){
+ done = 0;
+ go('sdash','Inicio');
 }
 
 function ssol(){
  const it=Object.entries(cart);
- if(done)return `<div class="card" style="text-align:center;padding:40px"><div style="font-size:40px">✅</div><h2>Solicitud enviada</h2><p style="color:var(--mut)">Ya está visible en el panel de Coordinación del CAT Medellín para su aprobación.</p><button class="btn p" onclick="done=0;go('sdash','Inicio')">Volver al inicio</button></div>`;
+ if(done)return `<div class="card" style="text-align:center;padding:40px"><div style="font-size:40px">✅</div><h2>Solicitud enviada</h2><p style="color:var(--mut)">Ya está visible en el panel de Coordinación del CAT Medellín para su aprobación.</p><button class="btn p" onclick="backFromDone()">Volver al inicio</button></div>`;
  return `<div class="ph"><div><h1>Mi solicitud</h1><p>Revisa los elementos y completa los datos de tu grupo</p></div></div>
  <div class="dgrid"><div class="card"><h3 style="margin-bottom:8px">Elementos seleccionados</h3>${it.length?`<div class="tw"><table><tr><th>Elemento</th><th>Cantidad</th></tr>${it.map(([n,c])=>{const found=DB.inv.find(x=>x.nom==n);return `<tr><td><div class="who"><div class="thumb">${found?found.ic:'📦'}</div><b>${n}</b></div></td><td><div class="qty"><button onclick="chg('${n}',-1)">−</button><b>${c}</b><button onclick="chg('${n}',1)">+</button></div></td></tr>`;}).join('')}</table></div>`:`<p style="color:var(--mut)">Aún no has agregado elementos.</p><button class="btn p" onclick="go('scat','Catálogo')">Ir al catálogo</button>`}</div>
  <div class="card"><h3 style="margin-bottom:10px">Datos de la actividad</h3><div style="display:grid;gap:10px"><input class="in" id="fGrp" value="Semillero Arte Vivo" aria-label="Grupo"><input class="in" id="fAct" placeholder="Nombre de la actividad (ej. Muestra cultural)"><input class="in" id="fDate" type="date" value="2026-10-18"><input class="in" id="fTime" type="time" value="14:00"><textarea id="fObs" placeholder="Observaciones o requerimientos de montaje"></textarea><button class="btn p" ${it.length?'':'disabled style="opacity:.5"'} onclick="send()">Enviar solicitud</button></div></div></div>`;
@@ -516,10 +543,10 @@ function shist(){
 
 function render(){
  const views = {dash,det,inv,dev,rep,cfg,sdash,scat,ssol,shist};
- $('#view').innerHTML = (views[cur] || sdash)();
+ el('#view').innerHTML = (views[cur] || sdash)();
 }
 
-$('#date').textContent = new Date().toLocaleDateString('es-CO',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+el('#date').textContent = new Date().toLocaleDateString('es-CO',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 nav();
 render();
 
@@ -533,14 +560,14 @@ let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e)=>{
  e.preventDefault();
  deferredPrompt = e;
- $('#installBtn').style.display = 'inline-block';
+ el('#installBtn').style.display = 'inline-block';
 });
 
 async function installPWA(){
  if(!deferredPrompt) return;
  deferredPrompt.prompt();
  const { outcome } = await deferredPrompt.userChoice;
- if(outcome === 'accepted') $('#installBtn').style.display = 'none';
+ if(outcome === 'accepted') el('#installBtn').style.display = 'none';
  deferredPrompt = null;
 }
 </script>
