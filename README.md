@@ -1,8 +1,19 @@
 # Gestión de Préstamos – UT CAT Medellín (PWA)
 
 Aplicación web progresiva para gestionar el préstamo de materiales y espacios del
-CAT Medellín de la Universidad del Tolima. Por ahora es un prototipo funcional con
-datos de demostración en memoria; más adelante se conectará a una base de datos.
+CAT Medellín de la Universidad del Tolima. Es un prototipo **funcional**: los datos se
+guardan en el navegador (`localStorage`); más adelante se conectará a una base de datos.
+
+## Qué hace
+
+1. **Estudiante** elige materiales en el catálogo, llena los datos y envía la solicitud.
+2. **Coordinación** recibe una notificación 🔔, abre la solicitud y la aprueba, rechaza (con motivo) o ajusta a la disponibilidad.
+3. El **estudiante** recibe la notificación de aprobada o rechazada (con el mensaje de coordinación).
+4. Coordinación registra la **entrega** y la **devolución**; el inventario se descuenta y se repone solo.
+5. En **Inventario** se puede agregar y editar elementos. En **Configuración** se restablecen los datos de demostración.
+
+Las dos vistas (Estudiante / Coordinación) se pueden abrir en dos pestañas del mismo navegador y se sincronizan en vivo.
+**Limitación:** al ser `localStorage`, los datos NO se comparten entre dispositivos distintos; eso requiere un backend.
 
 Tiene dos vistas, que se cambian con el selector de la barra superior:
 
@@ -58,6 +69,7 @@ Si agregas archivos nuevos, inclúyelos en la lista `APP_SHELL` de `sw.js`.
 
 ## Próximos pasos
 
-- Conectar los datos (`REQ`, `INV`, `CAT` en `js/app.js`) a una base de datos.
+- Conectar `load()` / `save()` de `js/app.js` a una base de datos (Supabase, Firebase…) para compartir datos entre dispositivos.
+- Notificaciones push reales (requiere backend).
 - Sustituir los avatares y usuarios de ejemplo por inicio de sesión real.
-- Completar las secciones marcadas como "próxima fase" (Devoluciones, Reportes, Configuración, Historial).
+- Completar la sección Reportes.

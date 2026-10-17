@@ -27,14 +27,17 @@
 <div class="main">
  <header class="top">
   <button class="burger" onclick="tog()" aria-label="Menú">☰</button>
-  <div class="search">🔍<input placeholder="Buscar solicitudes, materiales, grupos…"></div>
+  <div class="search">🔍<input id="gs" placeholder="Buscar…" oninput="gsearch(this.value)" autocomplete="off"></div>
   <div class="seg" id="seg"></div><span class="date" id="date"></span>
   <button class="btn s" id="btnInstall" hidden>⬇ Instalar app</button>
-  <button class="bell" aria-label="Notificaciones">🔔<i>4</i></button>
+  <div class="bellwrap"><button class="bell" aria-label="Notificaciones" onclick="toggleNP(event)">🔔<i id="nb" hidden></i></button><div class="npanel" id="np" hidden></div></div>
   <div class="prof" id="prof"></div>
  </header>
  <main class="page" id="view"></main>
 </div>
+
+<div class="overlay" id="modal" hidden></div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
 
 <script src="js/app.js"></script>
 <script src="js/pwa.js"></script>
