@@ -79,7 +79,6 @@ textarea{width:100%;min-height:70px;border:1px solid var(--line);background:var(
 .qty{display:flex;gap:8px;align-items:center}.qty button{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
 .cartbar{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--wine-l);border:1px solid var(--wine);color:var(--wine);border-radius:12px;padding:10px 14px;margin-top:14px;font-weight:600}
 .scrim{display:none}
-/* Modal & Toast ligeros para interactividad PWA */
 .modal-bg{position:fixed;inset:0;background:#0008;z-index:50;display:none;place-items:center;padding:16px}
 .modal-bg.open{display:grid}
 .modal{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;width:100%;max-width:440px}
@@ -111,7 +110,6 @@ textarea{width:100%;min-height:70px;border:1px solid var(--line);background:var(
  <main class="page" id="view"></main>
 </div>
 
-<!-- Modal para Agregar/Editar Inventario -->
 <div class="modal-bg" id="invModal">
  <div class="modal">
   <h3 id="modalTitle" style="margin-bottom:12px">Elemento de inventario</h3>
@@ -124,7 +122,7 @@ textarea{width:100%;min-height:70px;border:1px solid var(--line);background:var(
     <option value="Espacios">Espacios</option>
    </select>
    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
-    <input class="in" id="mIcon" placeholder="Ícono (ej. 💻)" value="📦">
+    <input class="in" id="mIcon" placeholder="Ícono" value="📦">
     <input class="in" id="mTot" type="number" min="1" placeholder="Total" value="1">
     <input class="in" id="mDisp" type="number" min="0" placeholder="Disponibles" value="1">
    </div>
@@ -146,27 +144,25 @@ textarea{width:100%;min-height:70px;border:1px solid var(--line);background:var(
 <div class="toast" id="toast"></div>
 
 <script>
-const $=s=>document.querySelector(s);
+const $ = s => document.querySelector(s);
 
 function notify(msg){
- const t=$('#toast');t.textContent=msg;t.classList.add('show');
- setTimeout(()=>t.classList.remove('show'),2600);
+ const t = $('#toast');
+ t.textContent = msg;
+ t.classList.add('show');
+ setTimeout(() => t.classList.remove('show'), 2600);
 }
 
-// Generador de avatares original
-function av(seed,sz=36){
+function av(seed, sz=36){
  const sk=['#f1c9a5','#d9a273','#a8734a','#f5d7bd','#8a5a3b'],hr=['#2b1b14','#141414','#6b3a1f','#3a2a22','#a1121f'],sh=['#7a1230','#141414','#8a8a8a','#5c0d24','#444'];
  const a=seed%5,b=(seed*3)%5,c=(seed*2+1)%5;
- return `<svg width="${sz}" height="${sz}" viewBox="0 0 40 40" style="border-radius:50%;flex:none"><rect width="40" height="40" fill="#efe6e8"/><path d="M5 40c2-9 9-11 15-11s13 2 15 11z" fill="${sh[c]}"/><rect x="17" y="24" width="6" height="6" fill="${sk[a]}"/><ellipse cx="20" cy="17" rx="8" ry="9" fill="${sk[a]}"/><path d="M11.5 16c0-8 5-10 9-10s8.5 2 8.5 10c-2-4-5-5-8.5-5s-6 1-9 5z" fill="${hr[b]}"/><circle cx="17" cy="18" r="1" fill="#222"/><circle cx="23" cy="18" r="1" fill="#222"/><path d="M17.5 22q2.5 2 5 0" stroke="#222" fill="none" stroke-width="1"/></svg>`
+ return `<svg width="${sz}" height="${sz}" viewBox="0 0 40 40" style="border-radius:50%;flex:none"><rect width="40" height="40" fill="#efe6e8"/><path d="M5 40c2-9 9-11 15-11s13 2 15 11z" fill="${sh[c]}"/><rect x="17" y="24" width="6" height="6" fill="${sk[a]}"/><ellipse cx="20" cy="17" rx="8" ry="9" fill="${sk[a]}"/><path d="M11.5 16c0-8 5-10 9-10s8.5 2 8.5 10c-2-4-5-5-8.5-5s-6 1-9 5z" fill="${hr[b]}"/><circle cx="17" cy="18" r="1" fill="#222"/><circle cx="23" cy="18" r="1" fill="#222"/><path d="M17.5 22q2.5 2 5 0" stroke="#222" fill="none" stroke-width="1"/></svg>`;
 }
 
 const P={home:'M3 11l9-8 9 8v10H3zM9 21v-7h6v7',req:'M6 3h9l4 4v14H6zM9 12h7M9 16h7',inv:'M3 7l9-4 9 4v10l-9 4-9-4zM3 7l9 4 9-4M12 11v10',mat:'M4 8h16v12H4zM8 8V5h8v3',esp:'M3 21V9l9-6 9 6v12M9 21v-6h6v6',dev:'M4 12a8 8 0 1 0 3-6M4 4v4h4',rep:'M4 20V4M4 20h16M8 16v-5M12 16V8M16 16v-8',cfg:'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19 12l2-1-1-3-2 .5-1.5-1.5.5-2-3-1-1 2h-2l-1-2-3 1 .5 2L6 8.500 4 8l-1 3 2 1v2l-2 1 1 3 2-.5L7.500 19l-.5 2 3 1 1-2h2l1 2 3-1-.5-2 1.500-1.500 2 .5 1-3-2-1z'};
 const NAV=[['home','Panel principal','dash'],['req','Solicitudes','det'],['inv','Inventario','inv'],['mat','Materiales','inv'],['esp','Espacios','inv'],['dev','Devoluciones','dev'],['rep','Reportes','rep'],['cfg','Configuración','cfg']];
 const SNAV=[['home','Inicio','sdash'],['mat','Catálogo','scat'],['req','Mi solicitud','ssol'],['dev','Historial','shist']];
 
-// ==========================================
-// CAPA DE DATOS (LOCALSTORAGE - PRE-DB)
-// ==========================================
 const DEFAULT_DB = {
  inv: [
   {id:1, nom:'Video beam Epson', cat:'Tecnología', ic:'📽️', tot:12, disp:5, prest:7, est:'Disponible'},
@@ -224,13 +220,25 @@ const DEFAULT_DB = {
  ]
 };
 
-let DB = JSON.parse(localStorage.getItem('UT_PWA_DB')) || structuredClone(DEFAULT_DB);
+function cloneDefault(){
+ return JSON.parse(JSON.stringify(DEFAULT_DB));
+}
+
+let DB;
+try {
+ const saved = localStorage.getItem('UT_PWA_DB');
+ DB = saved ? JSON.parse(saved) : cloneDefault();
+ if(!DB || !DB.inv || !DB.reqs) DB = cloneDefault();
+} catch(e) {
+ DB = cloneDefault();
+}
+
 function saveDB(){
- localStorage.setItem('UT_PWA_DB', JSON.stringify(DB));
+ try { localStorage.setItem('UT_PWA_DB', JSON.stringify(DB)); } catch(e){}
  updateBadge();
 }
 
-let role='st', cur='sdash', cat='Todos', nm='Inicio', q='', cart={}, done=0, selReqId=DB.reqs[0]?.id, editId=null;
+let role='st', cur='sdash', cat='Todos', nm='Inicio', q='', cart={}, done=0, selReqId=DB.reqs[0] ? DB.reqs[0].id : '', editId=null;
 
 function updateBadge(){
  const pend = DB.reqs.filter(r=>r.estado==='Pendiente').length;
@@ -245,7 +253,7 @@ function nav(){
  updateBadge();
 }
 
-function tog(){$('#side').classList.toggle('open');$('#scrim').classList.toggle('open')}
+function tog(){$('#side').classList.toggle('open');$('#scrim').classList.toggle('open');}
 
 function go(v,n,reqId=null){
  cur=v;if(n)nm=n;
@@ -257,7 +265,7 @@ function go(v,n,reqId=null){
  $('#side').classList.remove('open');$('#scrim').classList.remove('open');scrollTo(0,0);
 }
 
-const tag=s=>`<span class="tag ${s.replace(' ','-')}">${s}</span>`;
+const tag = s => `<span class="tag ${s.replace(' ','-')}">${s}</span>`;
 
 function onGlobalSearch(val){
  q = val.trim();
@@ -265,9 +273,6 @@ function onGlobalSearch(val){
  else render();
 }
 
-// ==========================================
-// VISTAS DE COORDINACIÓN
-// ==========================================
 function dash(){
  const pend = DB.reqs.filter(r=>r.estado==='Pendiente').length;
  const act = DB.reqs.filter(r=>r.estado==='En préstamo'||r.estado==='Aprobada').length;
@@ -328,10 +333,10 @@ function cambiarEstadoReq(id, nuevoEst){
  const r = DB.reqs.find(x=>x.id===id);
  if(!r || r.estado===nuevoEst) return;
  const antEst = r.estado;
- const obs = $('#obsCoordTxt')?.value || '';
+ const obsEl = $('#obsCoordTxt');
+ const obs = obsEl ? obsEl.value : '';
  r.obsCoord = obs;
 
- // Ajuste de inventario si pasa a En préstamo o si se devuelve
  if((nuevoEst==='En préstamo' || nuevoEst==='Aprobada') && antEst==='Pendiente'){
   r.items.forEach(it=>{
    const m = DB.inv.find(x=>x.nom===it.nom);
@@ -390,10 +395,10 @@ function saveInvItem(){
  const data = { nom, cat:$('#mCat').value, ic:$('#mIcon').value\vert{}\vert{}'📦', tot, disp, prest:tot-disp, est:$('#mEst').value };
  if(editId){
   const idx = DB.inv.findIndex(x=>x.id===editId);
-  DB.inv[idx] = {...DB.inv[idx], ...data};
+  DB.inv[idx] = Object.assign({}, DB.inv[idx], data);
   notify('Elemento actualizado');
  } else {
-  DB.inv.push({id:Date.now(), ...data});
+  DB.inv.push(Object.assign({id:Date.now()}, data));
   notify('Elemento agregado al inventario');
  }
  saveDB(); closeModal(); render();
@@ -419,8 +424,8 @@ function cfg(){
 }
 
 function resetDB(){
- localStorage.removeItem('UT_PWA_DB');
- DB = structuredClone(DEFAULT_DB);
+ try { localStorage.removeItem('UT_PWA_DB'); } catch(e){}
+ DB = cloneDefault();
  saveDB(); render(); notify('Datos restaurados a los valores iniciales');
 }
 
@@ -432,24 +437,21 @@ function exportJSON(){
  a.click();
 }
 
-// ==========================================
-// VISTAS DE ESTUDIANTE
-// ==========================================
 const stt=c=>c.disp==0?'No disponible':c.disp<=3&&c.tot>1?'Pocas unidades':'Disponible';
 const stc={'Disponible':'Aprobada','Pocas unidades':'Pendiente','No disponible':'Rechazada'};
 const nCart=()=>Object.values(cart).reduce((a,b)=>a+b,0);
 
-function setRole(r){role=r;cur=r=='co'?'dash':'sdash';nm=r=='co'?'Panel principal':'Inicio';cat='Todos';done=0;nav();render();scrollTo(0,0)}
-function add(n){const c=DB.inv.find(x=>x.nom==n);if(!c)return;cart[n]=Math.min((cart[n]||0)+1,c.disp);done=0;render();notify(`${n} añadido a la solicitud`)}
-function chg(n,d){const c=DB.inv.find(x=>x.nom==n);cart[n]=Math.max(0,Math.min(c.disp,cart[n]+d));if(!cart[n])delete cart[n];render()}
+function setRole(r){role=r;cur=r=='co'?'dash':'sdash';nm=r=='co'?'Panel principal':'Inicio';cat='Todos';done=0;nav();render();scrollTo(0,0);}
+function add(n){const c=DB.inv.find(x=>x.nom==n);if(!c)return;cart[n]=Math.min((cart[n]||0)+1,c.disp);done=0;render();notify(`${n} añadido a la solicitud`);}
+function chg(n,d){const c=DB.inv.find(x=>x.nom==n);cart[n]=Math.max(0,Math.min(c.disp,cart[n]+d));if(!cart[n])delete cart[n];render();}
 
 function send(){
  if(!nCart())return;
- const grp = $('#fGrp')?.value.trim() || 'Semillero Arte Vivo';
- const act = $('#fAct')?.value.trim() || 'Actividad académica';
- const fDate = $('#fDate')?.value || '2026-10-04';
- const fTime = $('#fTime')?.value || '14:00';
- const obs = $('#fObs')?.value.trim() || '';
+ const grp = ($('#fGrp') && $('#fGrp').value.trim()) || 'Semillero Arte Vivo';
+ const act = ($('#fAct') && $('#fAct').value.trim()) || 'Actividad académica';
+ const fDate = ($('#fDate') && $('#fDate').value) || '2026-10-18';
+ const fTime = ($('#fTime') && $('#fTime').value) || '14:00';
+ const obs = ($('#fObs') && $('#fObs').value.trim()) || '';
 
  const newId = 'UT-2026-0' + (149 + DB.reqs.length);
  const items = Object.entries(cart).map(([nom,cant])=>({nom,cant}));
@@ -501,7 +503,7 @@ function ssol(){
  const it=Object.entries(cart);
  if(done)return `<div class="card" style="text-align:center;padding:40px"><div style="font-size:40px">✅</div><h2>Solicitud enviada</h2><p style="color:var(--mut)">Ya está visible en el panel de Coordinación del CAT Medellín para su aprobación.</p><button class="btn p" onclick="done=0;go('sdash','Inicio')">Volver al inicio</button></div>`;
  return `<div class="ph"><div><h1>Mi solicitud</h1><p>Revisa los elementos y completa los datos de tu grupo</p></div></div>
- <div class="dgrid"><div class="card"><h3 style="margin-bottom:8px">Elementos seleccionados</h3>${it.length?`<div class="tw"><table><tr><th>Elemento</th><th>Cantidad</th></tr>${it.map(([n,c])=>`<tr><td><div class="who"><div class="thumb">${DB.inv.find(x=>x.nom==n)?.ic||'📦'}</div><b>${n}</b></div></td><td><div class="qty"><button onclick="chg('${n}',-1)">−</button><b>${c}</b><button onclick="chg('${n}',1)">+</button></div></td></tr>`).join('')}</table></div>`:`<p style="color:var(--mut)">Aún no has agregado elementos.</p><button class="btn p" onclick="go('scat','Catálogo')">Ir al catálogo</button>`}</div>
+ <div class="dgrid"><div class="card"><h3 style="margin-bottom:8px">Elementos seleccionados</h3>${it.length?`<div class="tw"><table><tr><th>Elemento</th><th>Cantidad</th></tr>${it.map(([n,c])=>{const found=DB.inv.find(x=>x.nom==n);return `<tr><td><div class="who"><div class="thumb">${found?found.ic:'📦'}</div><b>${n}</b></div></td><td><div class="qty"><button onclick="chg('${n}',-1)">−</button><b>${c}</b><button onclick="chg('${n}',1)">+</button></div></td></tr>`;}).join('')}</table></div>`:`<p style="color:var(--mut)">Aún no has agregado elementos.</p><button class="btn p" onclick="go('scat','Catálogo')">Ir al catálogo</button>`}</div>
  <div class="card"><h3 style="margin-bottom:10px">Datos de la actividad</h3><div style="display:grid;gap:10px"><input class="in" id="fGrp" value="Semillero Arte Vivo" aria-label="Grupo"><input class="in" id="fAct" placeholder="Nombre de la actividad (ej. Muestra cultural)"><input class="in" id="fDate" type="date" value="2026-10-18"><input class="in" id="fTime" type="time" value="14:00"><textarea id="fObs" placeholder="Observaciones o requerimientos de montaje"></textarea><button class="btn p" ${it.length?'':'disabled style="opacity:.5"'} onclick="send()">Enviar solicitud</button></div></div></div>`;
 }
 
@@ -512,13 +514,15 @@ function shist(){
  ${misReqs.map(r=>`<tr><td><b>${r.id}</b></td><td>${r.act}</td><td>${r.items.map(i=>`${i.nom} (${i.cant})`).join(', ')}</td><td>${r.fUso}</td><td>${tag(r.estado)}</td><td><small style="color:var(--mut)">${r.obsCoord||'—'}</small></td></tr>`).join('')}</table></div></div>`;
 }
 
-function render(){$('#view').innerHTML={dash,det,inv,dev,rep,cfg,sdash,scat,ssol,shist}[cur]()}
-$('#date').textContent=new Date().toLocaleDateString('es-CO',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-nav();render();
+function render(){
+ const views = {dash,det,inv,dev,rep,cfg,sdash,scat,ssol,shist};
+ $('#view').innerHTML = (views[cur] || sdash)();
+}
 
-// ==========================================
-// REGISTRO DE SERVICE WORKER E INSTALACIÓN PWA
-// ==========================================
+$('#date').textContent = new Date().toLocaleDateString('es-CO',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+nav();
+render();
+
 if('serviceWorker' in navigator){
  window.addEventListener('load', ()=>{
   navigator.serviceWorker.register('./sw.js').catch(()=>{});
