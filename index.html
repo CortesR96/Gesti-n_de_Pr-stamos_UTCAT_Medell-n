@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Gestión de Préstamos – Universidad del Tolima CAT Medellín</title>
-<meta name="description" content="Gestión de préstamos de materiales y espacios – Universidad del Tolima, CAT Medellín.">
+<title>Préstamos UT · CAT Medellín</title>
+<meta name="description" content="Sistema de préstamo de materiales y espacios de la Universidad del Tolima, CAT Medellín. Prototipo académico funcional.">
+<meta name="author" content="Universidad del Tolima · CAT Medellín">
+<meta name="theme-color" content="#7a1230">
 
 <!-- PWA -->
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#7a1230">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Préstamos UT">
@@ -17,30 +18,68 @@
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 
 <link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/demo.css">
 </head>
 <body>
 <aside class="side" id="side">
- <div class="brand"><div class="crest">UT</div><div><b>Universidad del Tolima</b><small>CAT Medellín</small></div></div>
- <div class="me" id="me"></div><nav id="nav"></nav>
- <small style="color:#777;padding:8px">Préstamo de Materiales y Espacios</small>
-</aside><div class="scrim" id="scrim" onclick="tog()"></div>
+ <div class="brand">
+  <div class="crest brandcrest">
+   <img src="icons/logo-ut.png" alt="Logosímbolo Universidad del Tolima" onerror="this.remove()">
+   <span>UT</span>
+  </div>
+  <div><b>Universidad del Tolima</b><small>CAT Medellín</small></div>
+ </div>
+ <div class="me" id="me"></div>
+ <nav id="nav" aria-label="Menú principal"></nav>
+ <small class="sidefoot">Préstamo de Materiales y Espacios<br>Prototipo académico · 2026</small>
+</aside>
+<div class="scrim" id="scrim" onclick="tog()"></div>
+
 <div class="main">
  <header class="top">
-  <button class="burger" onclick="tog()" aria-label="Menú">☰</button>
-  <div class="search">🔍<input id="gs" placeholder="Buscar…" oninput="gsearch(this.value)" autocomplete="off"></div>
-  <div class="seg" id="seg"></div><span class="date" id="date"></span>
+  <button class="burger" onclick="tog()" aria-label="Abrir menú">☰</button>
+  <div class="search">🔍<input id="gs" placeholder="Buscar…" oninput="gsearch(this.value)" autocomplete="off" aria-label="Buscar"></div>
+  <div class="seg" id="seg"></div>
+  <span class="date" id="date"></span>
   <button class="btn s" id="btnInstall" hidden>⬇ Instalar app</button>
   <div class="bellwrap"><button class="bell" aria-label="Notificaciones" onclick="toggleNP(event)">🔔<i id="nb" hidden></i></button><div class="npanel" id="np" hidden></div></div>
   <div class="prof" id="prof"></div>
  </header>
+ <div class="printhead">
+  <div><b>Universidad del Tolima</b><span>IDEAD · CAT Medellín · Préstamos UT</span></div>
+  <small id="printmeta">Reporte del sistema</small>
+ </div>
  <main class="page" id="view"></main>
+ <footer class="utfoot">
+  <div class="footbrand"><b>Universidad del Tolima</b><span>IDEAD · CAT Medellín</span></div>
+  <div class="footdata">
+   <span>NIT 890.700.640-7</span>
+   <span>I.E. INEM José Félix de Restrepo · Cra. 48 No. 1-125, Av. Las Vegas, Bloque 7A, Medellín</span>
+   <span>PBX 2772020 - 2771515 Ext. 9513 · Tel. 2669041 · Cel. 316 695 0541</span>
+   <span><a href="mailto:cmedellin@ut.edu.co">cmedellin@ut.edu.co</a></span>
+   <span><a href="https://www.ut.edu.co" target="_blank" rel="noopener">www.ut.edu.co</a></span>
+  </div>
+  <div class="footdemo">Prototipo académico · Los datos de esta demostración se guardan únicamente en este navegador.</div>
+ </footer>
 </div>
 
 <div class="login" id="login" hidden></div>
 <div class="overlay" id="modal" hidden></div>
 <div class="toasts" id="toasts" aria-live="polite"></div>
 
+<noscript><div class="noscript">Esta aplicación necesita JavaScript activado para funcionar.</div></noscript>
+
+<!-- Datos y correos -->
+<script src="js/store.js"></script>
+<script src="js/email.js"></script>
+<!-- Núcleo de interfaz -->
 <script src="js/app.js"></script>
+<!-- Vistas -->
+<script src="js/views-requests.js"></script>
+<script src="js/views-admin.js"></script>
+<script src="js/views-student.js"></script>
+<!-- Arranque y PWA -->
+<script src="js/init.js"></script>
 <script src="js/pwa.js"></script>
 </body>
 </html>

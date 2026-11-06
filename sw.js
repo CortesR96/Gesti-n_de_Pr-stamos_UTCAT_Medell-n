@@ -4,21 +4,29 @@
    actualización en segundo plano (stale-while-revalidate).
    Al cambiar archivos, sube el número de CACHE_VERSION.
    ============================================================ */
-const CACHE_VERSION = 'v3';
+const CACHE_VERSION = 'v12';
 const CACHE_NAME = `prestamos-ut-${CACHE_VERSION}`;
 
 const APP_SHELL = [
   './',
   './index.html',
   './css/styles.css',
+  './css/demo.css',
+  './js/store.js',
+  './js/email.js',
   './js/app.js',
+  './js/views-requests.js',
+  './js/views-admin.js',
+  './js/views-student.js',
+  './js/init.js',
   './js/pwa.js',
   './manifest.webmanifest',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/maskable-512.png',
   './icons/apple-touch-icon.png',
-  './icons/favicon-32.png'
+  './icons/favicon-32.png',
+  './icons/logo-ut.png'
 ];
 
 self.addEventListener('install', event => {
@@ -33,8 +41,9 @@ self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
       .then(keys => Promise.all(
-        keys.filter(k => k.startsWith('prestamos-ut-') && k !== CACHE_NAME)
-            .map(k => caches.delete(k))
+        keys.filter(k =>
+          k.startsWith('prestamos-ut-') && k !== CACHE_NAME
+        ).map(k => caches.delete(k))
       ))
       .then(() => self.clients.claim())
   );
@@ -47,7 +56,7 @@ self.addEventListener('fetch', event => {
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return; // no tocar recursos externos
 
-  // Navegación: devolver index.html desde caché si no hay red
+  // Navegación: red primero y, si no hay conexión, index.html en caché.
   if (req.mode === 'navigate') {
     event.respondWith(
       fetch(req).catch(() => caches.match('./index.html'))
@@ -55,7 +64,7 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Resto: caché primero, y se actualiza en segundo plano
+  // Resto: caché primero, y se actualiza en segundo plano.
   event.respondWith(
     caches.match(req).then(cached => {
       const network = fetch(req).then(res => {
