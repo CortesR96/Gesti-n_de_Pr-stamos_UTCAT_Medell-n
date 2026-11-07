@@ -141,6 +141,10 @@ if (!db) { db = seed(); save(); }
 
 /* ---------- Consultas y reglas de negocio ---------- */
 const item = id => db.inv.find(i => i.id === id);
+// Los elementos eliminados se conservan en la base para no perder el
+// nombre en el historial, pero dejan de aparecer en inventario y catálogo.
+const activeInv = () => db.inv.filter(i => !i.deletedAt);
+const isActiveItem = i => !!i && !i.deletedAt;
 const userById = id => db.users.find(u => u.id === id);
 const groupById = id => db.groups.find(g => g.id === id);
 const groupLabel = g => g ? `${g.name} · Semestre ${g.semester}${g.period ? ' · ' + g.period : ''}` : 'Sin grupo';
@@ -158,6 +162,22 @@ function reqEnd(r) {
   const d = new Date(`${r.ret}T${r.retTime || '23:59'}:00`);
   return isNaN(d) ? new Date(`${r.ret}T23:59:00`) : d;
 }
+function effectiveStart(r) {
+  const scheduled = reqStart(r);
+  if (r.status !== 'En préstamo') return scheduled;
+  // Si la entrega se registra antes de la fecha solicitada, el material
+  // ya está físicamente fuera y debe descontarse desde ese momento.
+  const delivered = r.deliveredAt ? new Date(r.deliveredAt) : new Date();
+  return delivered < scheduled ? delivered : scheduled;
+}
+function effectiveEnd(r) {
+  const scheduled = reqEnd(r);
+  if (r.status !== 'En préstamo') return scheduled;
+  // Mientras no se registre la devolución, el préstamo sigue ocupando
+  // inventario aunque la fecha prevista ya haya pasado.
+  const now = new Date();
+  return scheduled > now ? scheduled : now;
+}
 function overlaps(aS, aE, bS, bE) { return aS < bE && aE > bS; }
 
 function outQ(itemId, start, end, excludeReqId) {
@@ -165,7 +185,7 @@ function outQ(itemId, start, end, excludeReqId) {
   const aE = end instanceof Date ? end : new Date(end);
   return db.reqs
     .filter(r => r.id !== excludeReqId && ACTIVE.includes(r.status))
-    .filter(r => overlaps(aS, aE, reqStart(r), reqEnd(r)))
+    .filter(r => overlaps(aS, aE, effectiveStart(r), effectiveEnd(r)))
     .reduce((s, r) => s + ((r.items.find(x => x[0] === itemId) || [0, 0])[1] || 0), 0);
 }
 function avail(itemId, start, end, excludeReqId) {
@@ -223,10 +243,10 @@ function requestStats() {
   const active = all.filter(r => ACTIVE.includes(r.status)).length;
   const loaned = all.filter(r => r.status === 'En préstamo').length;
   const returned = all.filter(r => r.status === 'Devuelta').length;
-  const materials = db.inv.filter(i => i.cat !== 'Espacios');
+  const materials = activeInv().filter(i => i.cat !== 'Espacios');
   const available = materials.reduce((s, i) => s + availNow(i.id), 0);
   const total = materials.reduce((s, i) => s + i.total - i.broken, 0);
-  const broken = db.inv.reduce((s, i) => s + i.broken, 0);
+  const broken = activeInv().reduce((s, i) => s + i.broken, 0);
   const emails = db.emails.length;
   const emailErrors = db.emails.filter(e => e.status === 'error').length;
   return { pending, active, loaned, returned, available, total, broken, emails, emailErrors };

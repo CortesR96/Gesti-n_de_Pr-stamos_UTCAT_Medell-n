@@ -43,9 +43,9 @@ El botón **Configuración → Abrir guion** contiene este mismo recorrido dentr
 - **Roles diferenciados:** administrador, coordinación, estudiante representante y docente.
 - **Gestión de usuarios:** crear, editar, activar/desactivar, cambiar contraseña y enviar invitación/reset por correo.
 - **Grupos y representantes:** crear, editar y eliminar grupos; programa, facultad, semestre, jornada, periodo y representante asignado. Se permite repetir el nombre del grupo en semestres, jornadas o periodos distintos; al eliminar un grupo, los usuarios quedan sin grupo y las solicitudes históricas conservan su nombre.
-- **Catálogo de inventario:** materiales, equipos y espacios con código, ubicación, existencias, unidades fuera de servicio y aval requerido.
+- **Catálogo de inventario:** materiales, equipos y espacios con código, ubicación, existencias, unidades fuera de servicio y aval requerido. El personal puede agregar, editar y eliminar elementos; al eliminar, las solicitudes históricas conservan el nombre del elemento.
 - **Disponibilidad por rangos de fechas:** dos solicitudes que no se cruzan pueden usar el mismo material; las que se cruzan compiten por las existencias.
-- **Solicitudes:** creación, validación de fechas y cantidades, cancelación por el solicitante, aprobación, rechazo con motivo, ajuste automático a la disponibilidad, entrega y devolución.
+- **Solicitudes:** creación, validación de fechas y cantidades, cancelación por el solicitante, aprobación, rechazo con motivo, ajuste automático a la disponibilidad, entrega y devolución. Al registrar la entrega, el inventario se descuenta desde ese momento, aunque la fecha de uso sea posterior.
 - **Devoluciones con novedades:** registrar unidades dañadas o no devueltas y descontarlas del inventario disponible.
 - **Notificaciones:** campana interna para cada usuario.
 - **Correos:** bandeja simulada con plantillas HTML/texto para invitación, solicitud recibida, nueva solicitud, aprobación, rechazo, ajuste, entrega, devolución, cancelación, reset y prueba.
@@ -105,6 +105,16 @@ npx serve .
 ```
 
 No abras `index.html` con `file://`: el service worker, el manifiesto y las rutas relativas están pensados para servirse por HTTP/HTTPS.
+
+### Si no ves los últimos cambios
+
+La PWA guarda archivos en caché. Después de actualizar el proyecto:
+
+1. Recarga con `Ctrl + Shift + R` (o `Cmd + Shift + R` en Mac).
+2. Si sigue igual, abre las herramientas del navegador → **Application → Service Workers → Unregister** y luego **Storage → Clear site data**.
+3. Vuelve a cargar la aplicación.
+
+La versión actual de caché está en `sw.js` (`CACHE_VERSION`) y los archivos de `index.html` llevan un parámetro de versión (`?v=14`) para forzar la actualización.
 
 ---
 
@@ -184,6 +194,22 @@ La ruta para una versión de producción (Supabase/PostgreSQL, autenticación, R
 - [`docs/PLAN-MAESTRO.md`](docs/PLAN-MAESTRO.md)
 - [`docs/REQUISITOS.md`](docs/REQUISITOS.md)
 - [`docs/ARQUITECTURA-Y-DATOS.md`](docs/ARQUITECTURA-Y-DATOS.md)
+
+El **informe académico** con problemática, arquitectura, accesibilidad, requisitos, capturas y pruebas está en:
+
+- [`docs/INFORME-APLICACION.md`](docs/INFORME-APLICACION.md) (editable)
+- [`docs/INFORME-APLICACION.docx`](docs/INFORME-APLICACION.docx) (Word)
+- [`docs/INFORME-APLICACION.pdf`](docs/INFORME-APLICACION.pdf) (para entregar o imprimir)
+
+La versión Word se regenera con `python3 docs/_generar_docx.py` (requiere Pandoc 3.x; si no está en el `PATH`, usa `PANDOC=/ruta/a/pandoc`).
+
+El **manual de usuario** paso a paso, con capturas y solución de problemas, está en:
+
+- [`docs/MANUAL-DE-USUARIO.md`](docs/MANUAL-DE-USUARIO.md) (editable)
+- [`docs/MANUAL-DE-USUARIO.pdf`](docs/MANUAL-DE-USUARIO.pdf) (28 páginas, para entregar o imprimir)
+- [`docs/MANUAL-DE-USUARIO.html`](docs/MANUAL-DE-USUARIO.html) (versión navegable)
+
+El manual se regenera con `python3 docs/_generar_manual.py` (requiere `markdown-it-py` y Chrome/Chromium en modo headless).
 
 ---
 

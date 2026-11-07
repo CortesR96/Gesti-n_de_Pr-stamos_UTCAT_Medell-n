@@ -131,10 +131,11 @@ function deliver(id) {
   const r = db.reqs.find(x => x.id === id);
   if (!r || r.status !== 'Aprobada') return;
   r.status = 'En préstamo';
+  r.deliveredAt = Date.now();
   hist(r, 'Entrega registrada', me.name);
-  notify(r.ownerId, 'info', `Se registró la entrega de tu solicitud ${r.id}. Devuélvela antes del ${fmtDT(r.ret, r.retTime)}.`, r.id);
+  notify(r.ownerId, 'info', `Se registró la entrega de tu solicitud ${r.id}. El material ya está descontado del inventario. Devuélvelo antes del ${fmtDT(r.ret, r.retTime)}.`, r.id);
   emailUser(r.ownerId, tplDelivery(r), r.id);
-  toast('Entrega registrada. Se generó el correo de confirmación.', 'ok');
+  toast('Entrega registrada. El inventario se actualizó desde este momento.', 'ok');
   commit();
 }
 
@@ -186,6 +187,7 @@ function confirmReturn(id) {
     }
   }
   r.status = 'Devuelta';
+  r.returnedAt = Date.now();
   r.note = obs || r.note;
   r.novedades = [...(r.novedades || []), ...novedades];
   hist(r, novedades.length ? 'Devolución recibida con novedades' : 'Devolución recibida', me.name);
@@ -200,16 +202,17 @@ function confirmReturn(id) {
 /* ---------- Inventario ---------- */
 function inv() {
   const cats = ['Todos', ...CATS];
-  const rows = db.inv.filter(r => (cat === 'Todos' || r.cat === cat) && (!q || (r.name + ' ' + r.code + ' ' + r.cat + ' ' + r.location).toLowerCase().includes(q.toLowerCase())));
-  const low = db.inv.filter(i => ['Inventario bajo', 'Agotado'].includes(itemState(i)[0])).length;
-  const brk = db.inv.reduce((s, i) => s + i.broken, 0);
-  const lent = db.inv.reduce((s, i) => s + outQ(i.id, new Date(), new Date()), 0);
-  const zero = db.inv.filter(i => availNow(i.id) === 0).length;
+  const all = activeInv();
+  const rows = all.filter(r => (cat === 'Todos' || r.cat === cat) && (!q || (r.name + ' ' + r.code + ' ' + r.cat + ' ' + r.location).toLowerCase().includes(q.toLowerCase())));
+  const low = all.filter(i => ['Inventario bajo', 'Agotado'].includes(itemState(i)[0])).length;
+  const brk = all.reduce((s, i) => s + i.broken, 0);
+  const lent = all.reduce((s, i) => s + outQ(i.id, new Date(), new Date()), 0);
+  const zero = all.filter(i => availNow(i.id) === 0).length;
   return `<div class="ph"><div><h1>Inventario</h1><p>Existencias, reservas por fechas y unidades fuera de servicio</p></div><button class="btn p" onclick="itemForm()">+ Agregar elemento</button></div>
   <div class="chips">${cats.map(c => `<button class="chip ${c === cat ? 'on' : ''}" onclick="cat='${c}';render()">${c}</button>`).join('')}</div>
   <div class="alerts"><div class="al w"><b>${low}</b>Inventario bajo o agotado</div><div class="al b"><b>${brk}</b>Unidades fuera de servicio</div><div class="al m"><b>${lent}</b>Unidades prestadas o reservadas</div><div class="al i"><b>${zero}</b>Elementos sin disponibilidad</div></div>
   <div class="card"><div class="tw"><table><tr><th>Elemento</th><th>Código / ubicación</th><th>Total</th><th>Disponible hoy</th><th>Prestado</th><th>Novedades</th><th>Estado</th><th></th></tr>
-  ${rows.map(r => { const a = availNow(r.id), s = itemState(r); return `<tr><td><div class="who"><div class="thumb">${r.icon}</div><div><b>${esc(r.name)}</b><small>${esc(r.cat)}${r.requiresAval ? ' · requiere aval' : ''}</small></div></div></td><td>${esc(r.code || '—')}<small class="block mut">${esc(r.location || '')}</small></td><td>${r.total}</td><td><b>${a}</b><div class="meter"><i style="width:${r.total ? a / r.total * 100 : 0}%"></i></div></td><td>${outQ(r.id, new Date(), new Date())}</td><td>${r.broken}</td><td><span class="tag ${s[1]}">${s[0]}</span></td><td><button class="btn s" onclick="itemForm('${r.id}')">✎ Editar</button></td></tr>`; }).join('') || '<tr><td colspan="8" class="empty">Sin resultados.</td></tr>'}</table></div></div>`;
+  ${rows.map(r => { const a = availNow(r.id), s = itemState(r); return `<tr><td><div class="who"><div class="thumb">${r.icon}</div><div><b>${esc(r.name)}</b><small>${esc(r.cat)}${r.requiresAval ? ' · requiere aval' : ''}</small></div></div></td><td>${esc(r.code || '—')}<small class="block mut">${esc(r.location || '')}</small></td><td>${r.total}</td><td><b>${a}</b><div class="meter"><i style="width:${r.total ? a / r.total * 100 : 0}%"></i></div></td><td>${outQ(r.id, new Date(), new Date())}</td><td>${r.broken}</td><td><span class="tag ${s[1]}">${s[0]}</span></td><td class="actions"><button class="btn s" onclick="itemForm('${r.id}')">✎ Editar</button><button class="btn s d" onclick="deleteItem('${r.id}')">🗑 Eliminar</button></td></tr>`; }).join('') || '<tr><td colspan="8" class="empty">Sin resultados.</td></tr>'}</table></div></div>`;
 }
 function itemForm(id) {
   const i = id ? item(id) : null;
@@ -245,4 +248,25 @@ function saveItem(id) {
   else { db.inv.push({ id: 'i' + uid(), ...data }); toast('Elemento agregado al inventario.', 'ok'); }
   closeModal();
   commit();
+}
+function deleteItem(id) {
+  if (!isStaff()) { toast('Solo el personal del CAT puede eliminar elementos del inventario.', 'no'); return; }
+  const i = item(id);
+  if (!isActiveItem(i)) return;
+  const live = db.reqs.filter(r => ['Pendiente', 'Aprobada', 'En préstamo'].includes(r.status) && r.items.some(([x]) => x === id));
+  if (live.length) {
+    toast(`No puedes eliminar “${i.name}”: tiene ${live.length} solicitud(es) pendiente(s) o activa(s). Espera a que se cierren.`, 'no');
+    return;
+  }
+  const hist = db.reqs.filter(r => r.items.some(([x]) => x === id)).length;
+  let msg = `¿Eliminar “${i.name}” del inventario?`;
+  msg += '\n\nDejará de aparecer en el inventario y en el catálogo del estudiante.';
+  if (hist) msg += `\n\nSe conservarán ${hist} solicitud(es) en el historial con el nombre del elemento.`;
+  msg += '\n\nEsta acción no se puede deshacer desde la interfaz.';
+  if (!confirm(msg)) return;
+  i.deletedAt = Date.now();
+  i.deletedBy = me.id;
+  save();
+  commit();
+  toast('Elemento eliminado. Las solicitudes históricas conservaron su nombre.', 'ok');
 }

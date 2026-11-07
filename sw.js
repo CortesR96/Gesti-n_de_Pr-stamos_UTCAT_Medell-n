@@ -4,22 +4,22 @@
    actualización en segundo plano (stale-while-revalidate).
    Al cambiar archivos, sube el número de CACHE_VERSION.
    ============================================================ */
-const CACHE_VERSION = 'v12';
+const CACHE_VERSION = 'v14';
 const CACHE_NAME = `prestamos-ut-${CACHE_VERSION}`;
 
 const APP_SHELL = [
   './',
   './index.html',
-  './css/styles.css',
-  './css/demo.css',
-  './js/store.js',
-  './js/email.js',
-  './js/app.js',
-  './js/views-requests.js',
-  './js/views-admin.js',
-  './js/views-student.js',
-  './js/init.js',
-  './js/pwa.js',
+  './css/styles.css?v=14',
+  './css/demo.css?v=14',
+  './js/store.js?v=14',
+  './js/email.js?v=14',
+  './js/app.js?v=14',
+  './js/views-requests.js?v=14',
+  './js/views-admin.js?v=14',
+  './js/views-student.js?v=14',
+  './js/init.js?v=14',
+  './js/pwa.js?v=14',
   './manifest.webmanifest',
   './icons/icon-192.png',
   './icons/icon-512.png',
@@ -64,7 +64,21 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Resto: caché primero, y se actualiza en segundo plano.
+  // JS y CSS: red primero para que los cambios se vean al recargar.
+  if (/\.(css|js)$/.test(url.pathname)) {
+    event.respondWith(
+      fetch(req).then(res => {
+        if (res && res.ok) {
+          const copy = res.clone();
+          caches.open(CACHE_NAME).then(c => c.put(req, copy));
+        }
+        return res;
+      }).catch(() => caches.match(req))
+    );
+    return;
+  }
+
+  // Resto (iconos, manifiesto): caché primero, y se actualiza en segundo plano.
   event.respondWith(
     caches.match(req).then(cached => {
       const network = fetch(req).then(res => {

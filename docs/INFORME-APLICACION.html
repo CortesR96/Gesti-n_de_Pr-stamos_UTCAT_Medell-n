@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Informe · Sistema de Gestión de Préstamos UT · CAT Medellín</title>
+<style>
+:root{
+  --wine:#7a1230; --wine-d:#5c0d24; --wine-l:#f6e9ed;
+  --ink:#171717; --mut:#5f5f5f; --line:#dedada; --bg:#eeeae9;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font:11.2pt/1.62 "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.sheet{
+  width:min(1000px,100%); margin:28px auto; background:#fff; padding:64px 72px 80px;
+  box-shadow:0 10px 40px #0002; border-radius:2px;
+}
+h1,h2,h3,h4{font-family:Georgia,"Times New Roman",serif; color:var(--ink); line-height:1.18}
+h1{font-size:26pt; margin:0 0 10px}
+h2{
+  font-size:17.5pt; color:var(--wine); margin:34px 0 12px; padding-bottom:6px;
+  border-bottom:1.5px solid var(--wine); break-after:avoid;
+}
+h3{font-size:12.8pt; margin:24px 0 8px; break-after:avoid}
+h4{font-size:11.5pt; margin:18px 0 6px; break-after:avoid}
+p{margin:0 0 10px; text-align:justify; hyphens:auto}
+ul,ol{margin:0 0 12px; padding-left:22px}
+li{margin:3px 0}
+a{color:var(--wine); text-decoration:none}
+strong{color:#111}
+code{
+  font:9.8pt ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  background:#f3efef; border:1px solid #e6dede; border-radius:4px; padding:1px 4px;
+}
+pre{
+  background:#f7f4f4; border:1px solid var(--line); border-left:4px solid var(--wine);
+  border-radius:6px; padding:12px 14px; overflow:auto; margin:14px 0; break-inside:avoid;
+}
+pre code{background:none;border:0;padding:0;font-size:9.2pt;line-height:1.45}
+blockquote{
+  margin:14px 0; padding:10px 16px; background:var(--wine-l);
+  border-left:4px solid var(--wine); border-radius:0 6px 6px 0; color:#3a1822;
+}
+blockquote p{margin:0}
+table{
+  width:100%; border-collapse:collapse; margin:14px 0 18px; font-size:9.4pt; line-height:1.4;
+}
+thead{display:table-header-group}
+th{
+  background:var(--wine-l); color:var(--wine-d); text-align:left; font-weight:700;
+  border:1px solid #d9bfc8; padding:6px 7px;
+}
+td{border:1px solid var(--line); padding:5px 7px; vertical-align:top}
+tr{break-inside:avoid}
+tbody tr:nth-child(even){background:#fbf9f9}
+figure{
+  margin:20px 0 24px; padding:0; break-inside:avoid; text-align:center;
+}
+figure img{
+  display:block; width:100%; height:auto; margin:0 auto;
+  border:1px solid #cfc7c7; border-radius:6px; box-shadow:0 4px 14px #0001;
+}
+figcaption{
+  font-size:9.3pt; color:var(--mut); line-height:1.45; text-align:left;
+  margin:8px 6px 0; padding-left:10px; border-left:3px solid var(--wine);
+}
+figcaption b{color:var(--wine)}
+.fig-mobile img{width:300px; max-width:100%}
+hr{border:0; border-top:1px solid var(--line); margin:28px 0}
+.cover{
+  min-height:245mm; display:flex; flex-direction:column; justify-content:center;
+  padding:12mm 8mm 16mm; break-after:page; text-align:left;
+}
+.cover-logo{width:96px; height:96px; object-fit:contain; margin:0 0 26px}
+.cover-kicker{
+  font:700 10.5pt/1.3 "Segoe UI",Arial,sans-serif; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--wine); margin:0 0 12px;
+}
+.cover h1{font-size:31pt; max-width:760px; margin:0 0 12px; color:var(--wine-d)}
+.cover-sub{font:14pt/1.35 Georgia,serif; color:#4a3a3e; margin:0 0 34px; max-width:640px}
+.cover-meta{
+  border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  padding:14px 0; margin:0 0 26px; max-width:560px;
+}
+.cover-meta p{margin:3px 0; font-size:10.2pt; text-align:left}
+.cover-note{font-size:9.4pt; color:var(--mut); max-width:560px; text-align:left; margin:0}
+.cover + h2{margin-top:0}
+
+@media (max-width:760px){
+  .sheet{margin:0; padding:28px 20px 50px; border-radius:0}
+  .cover{min-height:70vh; padding:24px 0}
+  .cover h1{font-size:24pt}
+  h2{font-size:15.5pt}
+  table{font-size:8.8pt}
+  td,th{padding:4px}
+}
+
+@page{size:A4; margin:17mm 15mm 18mm}
+@media print{
+  body{background:#fff; font-size:10.4pt; line-height:1.5}
+  .sheet{width:auto; margin:0; padding:0; box-shadow:none; border-radius:0}
+  a{color:inherit; text-decoration:none}
+  h2{margin-top:22px}
+  figure{margin:14px 0 18px}
+  figure img{box-shadow:none}
+  .cover{min-height:auto; height:calc(297mm - 35mm); padding:8mm 4mm; page-break-after:always}
+  .cover h1{font-size:28pt}
+  table{font-size:8.9pt}
+  thead{display:table-header-group}
+  .fig-mobile img{width:250px}
+}
+</style>
+</head>
+<body>
+<main class="sheet">
+<div class="cover">
+<img class="cover-logo" src="../icons/logo-ut.png" alt="Logosímbolo oficial de la Universidad del Tolima">
+<p class="cover-kicker">Universidad del Tolima · IDEAD · CAT Medellín</p>
+<h1>Sistema de Gestión de Préstamos de Materiales y Espacios</h1>
+<p class="cover-sub">Informe técnico y académico del prototipo PWA «Préstamos UT»</p>
+<div class="cover-meta">
+<p><b>Modalidad:</b> proyecto académico y prototipo funcional</p>
+<p><b>Periodo de referencia:</b> 2026-2</p>
+<p><b>Versión del documento:</b> 1.0 · noviembre de 2026</p>
+<p><b>Naturaleza:</b> aplicación web progresiva (PWA) para demostración</p>
+</div>
+<p class="cover-note">Documento de apoyo para la presentación universitaria. Las capturas corresponden al prototipo funcional y utilizan datos ficticios de demostración.</p>
+</div>
+<h2>Resumen ejecutivo</h2>
+<p>El CAT Medellín de la Universidad del Tolima presta materiales, equipos y espacios a estudiantes, docentes y grupos académicos. Cuando esta gestión se realiza con planillas, mensajes y correos dispersos, la comunidad no conoce la disponibilidad real, se producen dobles reservas, se pierde la trazabilidad de las entregas y devoluciones y la coordinación invierte tiempo en tareas repetitivas.</p>
+<p>Este proyecto responde a esa situación con <strong>Préstamos UT</strong>, una aplicación web progresiva (PWA) que centraliza el catálogo, las solicitudes, la aprobación, la entrega, la devolución, las notificaciones y los reportes. La aplicación se construyó con tecnologías web estándar —HTML5, CSS3 y JavaScript—, se puede instalar en el teléfono o en el computador, funciona sin compilación y está preparada para publicarse en GitHub Pages. Para esta versión de demostración, los datos se guardan en el <code>localStorage</code> del navegador y los correos se registran en una bandeja simulada; el envío real por EmailJS es una opción configurable.</p>
+<p>El resultado es un prototipo académico completo que permite recorrer todo el flujo de un préstamo: el administrador crea usuarios y grupos, el representante estudiantil solicita, la coordinación aprueba o rechaza, se registra la entrega, se controla el inventario y se recibe la devolución con novedades. La versión actual incorpora reglas de negocio relevantes: disponibilidad por rangos de fechas, descuento inmediato del inventario al registrar una entrega anticipada, grupos con el mismo nombre en semestres distintos, eliminación de grupos sin perder el historial y actualización controlada de la caché de la PWA.</p>
+<p>El informe presenta la problemática, los objetivos, la metodología, la arquitectura, la accesibilidad del servicio, los requisitos funcionales y no funcionales, las capturas de las funciones principales, las pruebas realizadas, las limitaciones y el trabajo futuro. Su conclusión principal es que el prototipo es suficientemente sólido para una demostración universitaria y para validar el diseño con la coordinación del CAT, pero <strong>no debe usarse todavía con datos reales</strong> porque carece de backend, autenticación segura, base de datos central y auditoría institucional.</p>
+<h2>1. Introducción</h2>
+<h3>1.1 Contexto</h3>
+<p>La Universidad del Tolima, a través del Instituto de Educación a Distancia (IDEAD) y del Centro de Atención Tutorial (CAT) Medellín, atiende estudiantes de programas académicos en distintas jornadas y semestres. Además de las actividades de docencia, el CAT presta recursos de apoyo: video beams, bafles, computadores, micrófonos, cámaras, materiales artísticos, implementos deportivos y espacios como el aula múltiple, el auditorio, el coliseo o las canchas.</p>
+<p>La solicitud de estos recursos suele involucrar a varias personas: el estudiante o representante de grupo que necesita el material, el docente que avala la actividad, la coordinación que autoriza y el personal que entrega y recibe. Cuando no existe un sistema único, cada actor guarda su propia versión de la información.</p>
+<h3>1.2 Justificación</h3>
+<p>Digitalizar el préstamo no consiste únicamente en cambiar el papel por un formulario. Implica definir reglas claras de disponibilidad, responsabilidades, estados, evidencias y trazabilidad. Una herramienta bien diseñada puede reducir esperas, evitar conflictos por dobles reservas y dar a la coordinación información confiable para tomar decisiones.</p>
+<p>El proyecto también tiene un valor formativo: permite aplicar conceptos de ingeniería de software, diseño centrado en el usuario, accesibilidad, arquitectura web, persistencia local, aplicaciones progresivas y pruebas funcionales en un caso real de la universidad.</p>
+<h3>1.3 Pregunta problematizadora</h3>
+<p>¿Cómo facilitar la solicitud, aprobación, entrega y devolución de materiales, equipos y espacios del CAT Medellín mediante una aplicación web accesible, instalable y de bajo costo, que permita conocer la disponibilidad real y conservar la trazabilidad de cada préstamo?</p>
+<h2>2. Problemática</h2>
+<h3>2.1 Situación actual</h3>
+<p>En el escenario de referencia, el préstamo se gestiona de forma manual o semiautomática:</p>
+<ul>
+<li>El estudiante pregunta por mensajería o de forma presencial si hay determinado material.</li>
+<li>La coordinación revisa una planilla o su memoria para confirmar si el recurso está libre.</li>
+<li>La solicitud se registra en papel, en un correo o en una hoja de cálculo.</li>
+<li>La entrega se anota en otra planilla y, en ocasiones, no queda claro quién recibió.</li>
+<li>La devolución se registra cuando alguien se acuerda o cuando el material se necesita de nuevo.</li>
+<li>Los reportes se construyen al final del periodo contando registros dispersos.</li>
+</ul>
+<h3>2.2 Causas</h3>
+<ol>
+<li><strong>Información fragmentada:</strong> catálogo, solicitudes, préstamos y devoluciones viven en soportes distintos.</li>
+<li><strong>Ausencia de una regla única de disponibilidad:</strong> no se cruzan las fechas de uso con las existencias reales.</li>
+<li><strong>Canales informales:</strong> mensajes de texto, llamadas y conversaciones presenciales no dejan evidencia.</li>
+<li><strong>Roles poco definidos:</strong> no siempre se distingue quién solicita, quién aprueba, quién entrega y quién recibe.</li>
+<li><strong>Registros incompletos:</strong> faltan datos del solicitante, del grupo, de la actividad y del estado físico del material.</li>
+<li><strong>Dependencia de la presencialidad:</strong> la solicitud solo puede hacerse en horario de atención y con desplazamiento al CAT.</li>
+</ol>
+<h3>2.3 Consecuencias</h3>
+<table>
+<thead>
+<tr>
+<th>Consecuencia</th>
+<th>Efecto sobre la comunidad</th>
+<th>Efecto sobre la gestión</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Doble reserva</td>
+<td>Un grupo llega y el recurso ya está comprometido.</td>
+<td>Se afecta la confianza en el servicio.</td>
+</tr>
+<tr>
+<td>Desconocimiento de existencias</td>
+<td>El solicitante no sabe si hay unidades suficientes.</td>
+<td>Aumentan las consultas y la carga operativa.</td>
+</tr>
+<tr>
+<td>Pérdida de trazabilidad</td>
+<td>No queda claro quién tiene el material.</td>
+<td>Difícil reclamar devoluciones o daños.</td>
+</tr>
+<tr>
+<td>Devoluciones tardías</td>
+<td>El recurso no se libera a tiempo.</td>
+<td>Se reducen las oportunidades de uso.</td>
+</tr>
+<tr>
+<td>Reportes manuales</td>
+<td>No hay indicadores oportunos.</td>
+<td>Decisiones basadas en percepciones.</td>
+</tr>
+<tr>
+<td>Barreras de acceso</td>
+<td>Personas con discapacidad o con horarios difíciles encuentran obstáculos.</td>
+<td>Se excluye parte de la comunidad.</td>
+</tr>
+</tbody>
+</table>
+<h3>2.4 Necesidades detectadas</h3>
+<ul>
+<li>Un catálogo único y actualizado de recursos.</li>
+<li>Consulta de disponibilidad por fecha y hora, no solo por cantidad total.</li>
+<li>Un flujo claro de estados: pendiente, aprobada, en préstamo, devuelta, rechazada o cancelada.</li>
+<li>Registro de la entrega y de la devolución, incluidas novedades por daño o pérdida.</li>
+<li>Notificaciones oportunas para solicitante y coordinación.</li>
+<li>Gestión de usuarios, roles, grupos, semestres y periodos.</li>
+<li>Reportes exportables y trazabilidad de cada acción.</li>
+<li>Acceso desde el teléfono, sin instalaciones complejas y con posibilidad de funcionar como aplicación.</li>
+</ul>
+<h3>2.5 Planteamiento del problema</h3>
+<p>El CAT Medellín carece de un mecanismo integrado que permita conocer en tiempo real la disponibilidad de sus recursos y registrar el ciclo completo del préstamo. Esta carencia genera duplicidad de reservas, pérdida de información, demoras en la atención y dificultades para rendir cuentas. Se requiere una solución web sencilla, de bajo costo, accesible desde distintos dispositivos y adaptada a la organización académica por grupos, semestres y periodos.</p>
+<h2>3. Objetivos</h2>
+<h3>3.1 Objetivo general</h3>
+<p>Diseñar e implementar un prototipo funcional de aplicación web progresiva para gestionar el préstamo de materiales, equipos y espacios del CAT Medellín de la Universidad del Tolima, con control de disponibilidad, roles, notificaciones y trazabilidad.</p>
+<h3>3.2 Objetivos específicos</h3>
+<ol>
+<li>Identificar las necesidades y los actores del proceso de préstamo del CAT Medellín.</li>
+<li>Definir los requisitos funcionales y no funcionales del sistema.</li>
+<li>Diseñar una arquitectura web estática, instalable y de bajo costo, compatible con GitHub Pages.</li>
+<li>Implementar el catálogo, la disponibilidad por fechas, las solicitudes, la aprobación, la entrega y la devolución.</li>
+<li>Incorporar la gestión de usuarios, grupos, semestres, periodos y reportes.</li>
+<li>Aplicar criterios de accesibilidad y diseño responsive que faciliten el uso del servicio.</li>
+<li>Validar el prototipo mediante pruebas funcionales y de regresión en el navegador.</li>
+</ol>
+<h2>4. Alcance</h2>
+<h3>4.1 Alcance incluido en el prototipo</h3>
+<ul>
+<li>Inicio de sesión con correo institucional y cuatro roles: administrador, coordinación, estudiante y docente.</li>
+<li>Creación, edición, activación, desactivación y cambio de contraseña de usuarios.</li>
+<li>Gestión de grupos con programa, facultad, semestre, jornada, periodo, número de integrantes y representante.</li>
+<li>Catálogo de materiales, equipos y espacios con categoría, código, ubicación, existencias y aval.</li>
+<li>Consulta de disponibilidad por rango de fechas.</li>
+<li>Solicitudes con elementos, cantidades, fechas, horas, actividad, observaciones y aval.</li>
+<li>Aprobación, rechazo con motivo y ajuste automático a la disponibilidad.</li>
+<li>Registro de entrega y devolución, con novedades por daño o pérdida.</li>
+<li>Notificaciones internas y correos simulados con plantillas.</li>
+<li>Reportes con indicadores, exportación CSV e impresión o PDF.</li>
+<li>Respaldo local en JSON y restablecimiento de la demo.</li>
+<li>PWA instalable con manifiesto, service worker y caché versionada.</li>
+</ul>
+<h3>4.2 Fuera del alcance de esta versión</h3>
+<ul>
+<li>Backend, base de datos central y sincronización entre dispositivos.</li>
+<li>Autenticación real, recuperación de contraseña por servidor y control de concurrencia.</li>
+<li>Envío garantizado de correos reales sin configurar EmailJS.</li>
+<li>Firma digital certificada, pagos, sanciones automáticas o integración con el sistema académico.</li>
+<li>Aplicaciones nativas para tiendas de aplicaciones.</li>
+<li>Auditoría inmutable y cumplimiento pleno de la Ley 1581 de 2012 con datos reales.</li>
+</ul>
+<blockquote>
+<p><strong>Decisión importante:</strong> el prototipo sirve para validar el diseño y la experiencia de uso. Antes de operar con estudiantes reales debe migrarse a una arquitectura con backend, autenticación y base de datos institucional.</p>
+</blockquote>
+<h2>5. Metodología</h2>
+<p>Se adoptó un enfoque de <strong>desarrollo iterativo e incremental</strong>, con prototipos funcionales que se revisan y ajustan con el usuario. El trabajo se organizó en seis fases:</p>
+<table>
+<thead>
+<tr>
+<th>Fase</th>
+<th>Actividades</th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Análisis</td>
+<td>Revisión del proceso, actores, reglas de negocio y documentos del proyecto.</td>
+<td>Problemática y requisitos iniciales.</td>
+</tr>
+<tr>
+<td>2. Diseño</td>
+<td>Definición de roles, estados, modelo de datos, navegación y sistema visual.</td>
+<td>Arquitectura de información y bocetos.</td>
+</tr>
+<tr>
+<td>3. Construcción</td>
+<td>Implementación de HTML, CSS y JavaScript; datos locales y plantillas de correo.</td>
+<td>Prototipo navegable.</td>
+</tr>
+<tr>
+<td>4. Reglas de negocio</td>
+<td>Disponibilidad por fechas, grupos, entrega, devolución y reportes.</td>
+<td>Flujo completo de préstamo.</td>
+</tr>
+<tr>
+<td>5. Pruebas</td>
+<td>Casos funcionales, regresión, revisión responsive y consola del navegador.</td>
+<td>Evidencias y correcciones.</td>
+</tr>
+<tr>
+<td>6. Documentación</td>
+<td>README, requisitos, arquitectura, guía de presentación e informe.</td>
+<td>Material de sustentación.</td>
+</tr>
+</tbody>
+</table>
+<h3>5.1 Herramientas utilizadas</h3>
+<ul>
+<li><strong>HTML5</strong> para la estructura semántica.</li>
+<li><strong>CSS3</strong> con variables, grid, flexbox, modo oscuro automático y estilos de impresión.</li>
+<li><strong>JavaScript vanilla</strong> para la lógica, sin frameworks ni proceso de compilación.</li>
+<li><strong><code>localStorage</code></strong> para la persistencia local de la demostración.</li>
+<li><strong>Service Worker y Web App Manifest</strong> para la PWA.</li>
+<li><strong>GitHub Pages</strong> como destino previsto de publicación estática.</li>
+<li><strong>Python <code>http.server</code></strong> para servir la aplicación durante las pruebas.</li>
+<li><strong>Navegador Chrome</strong> y sus herramientas de desarrollo para validar consola, caché y diseño responsive.</li>
+</ul>
+<h3>5.2 Enfoque de diseño</h3>
+<p>El diseño se orientó a tres principios:</p>
+<ol>
+<li><strong>Claridad:</strong> cada pantalla responde a una tarea concreta y muestra el estado actual.</li>
+<li><strong>Consistencia:</strong> los mismos colores, etiquetas y componentes se reutilizan en todos los roles.</li>
+<li><strong>Progresividad:</strong> la aplicación funciona sin instalación y puede instalarse como PWA cuando el navegador lo permite.</li>
+</ol>
+<h2>6. Cómo se construyó la aplicación</h2>
+<h3>6.1 Arquitectura general</h3>
+<p>Préstamos UT es una <strong>aplicación web estática de una sola página</strong> (SPA sin framework). El navegador carga un shell HTML, los estilos y los módulos JavaScript; la navegación se resuelve en el cliente y los datos se leen y escriben en <code>localStorage</code>.</p>
+<pre><code class="language-text">Navegador
+  ├── index.html            Shell de la PWA
+  ├── css/styles.css        Estilos base y componentes
+  ├── css/demo.css          Login, correos, reportes y perfil
+  ├── js/store.js           Datos, persistencia y reglas
+  ├── js/email.js           Plantillas y bandeja de correos
+  ├── js/app.js             Login, navegación y utilidades
+  ├── js/views-requests.js  Panel, solicitudes, inventario y devoluciones
+  ├── js/views-admin.js     Usuarios, grupos, reportes y configuración
+  ├── js/views-student.js   Catálogo, solicitud, historial y perfil
+  ├── js/init.js            Arranque y sincronización entre pestañas
+  ├── js/pwa.js             Registro del service worker e instalación
+  └── sw.js                 Caché del app shell
+</code></pre>
+<p>Esta separación permite migrar por módulos a un backend real sin reescribir toda la interfaz. La documentación de la ruta de producción está en <code>docs/PLAN-MAESTRO.md</code>, <code>docs/REQUISITOS.md</code> y <code>docs/ARQUITECTURA-Y-DATOS.md</code>.</p>
+<h3>6.2 Modelo de datos local</h3>
+<p>La base de demostración se guarda con la clave <code>prestamos-ut-db-v5</code> y la sesión con <code>prestamos-ut-session-v5</code>. El objeto principal contiene:</p>
+<table>
+<thead>
+<tr>
+<th>Colección</th>
+<th>Contenido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>users</code></td>
+<td>Cuenta, nombre, correo, contraseña demo, rol, documento, teléfono, programa, semestre, grupo, curso, estado y último ingreso.</td>
+</tr>
+<tr>
+<td><code>groups</code></td>
+<td>Nombre, programa, facultad, semestre, jornada, periodo, integrantes, representante y estado.</td>
+</tr>
+<tr>
+<td><code>inv</code></td>
+<td>Inventario: nombre, categoría, icono, total, unidades fuera de servicio, código, ubicación y aval.</td>
+</tr>
+<tr>
+<td><code>reqs</code></td>
+<td>Solicitudes: solicitante, grupo, actividad, fechas, elementos, estado, observaciones, historial y novedades.</td>
+</tr>
+<tr>
+<td><code>notifs</code></td>
+<td>Notificaciones por usuario, leídas o pendientes.</td>
+</tr>
+<tr>
+<td><code>emails</code></td>
+<td>Bandeja de correos simulados o enviados, con plantilla, estado y error.</td>
+</tr>
+<tr>
+<td><code>settings</code></td>
+<td>Periodo activo, nombre del CAT y configuración de EmailJS.</td>
+</tr>
+</tbody>
+</table>
+<p>El modelo mantiene el nombre completo del grupo dentro de cada solicitud (<code>r.group</code>) y conserva <code>groupId</code> como referencia. Gracias a ello, si un grupo se elimina, el historial sigue siendo legible.</p>
+<h3>6.3 Roles y permisos</h3>
+<table>
+<thead>
+<tr>
+<th>Rol</th>
+<th>Acceso principal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Administrador</strong></td>
+<td>Panel, solicitudes, inventario, devoluciones, usuarios, grupos, correos, reportes y configuración.</td>
+</tr>
+<tr>
+<td><strong>Coordinación</strong></td>
+<td>Panel, solicitudes, inventario, devoluciones, correos y reportes.</td>
+</tr>
+<tr>
+<td><strong>Estudiante representante</strong></td>
+<td>Inicio, catálogo, mi solicitud, historial y perfil.</td>
+</tr>
+<tr>
+<td><strong>Docente</strong></td>
+<td>Inicio, catálogo, mi solicitud, historial y perfil.</td>
+</tr>
+</tbody>
+</table>
+<p>La cuenta administradora se muestra como <strong>Administrador</strong>, sin nombre personal, porque representa un rol institucional y no a una persona. El menú y las acciones se generan según el rol; sin embargo, en esta versión la validación es del lado del cliente y no constituye seguridad real.</p>
+<h3>6.4 Flujo de un préstamo</h3>
+<pre><code class="language-text">Representante o docente
+  → consulta el catálogo
+  → agrega elementos y elige fechas
+  → envía la solicitud (Pendiente)
+  → coordinación revisa disponibilidad
+  → aprueba (Aprobada) o rechaza (Rechazada)
+  → se registra la entrega (En préstamo)
+  → se registra la devolución (Devuelta)
+  → el historial y los reportes conservan la trazabilidad
+</code></pre>
+<p>El solicitante también puede cancelar una solicitud pendiente. Si la coordinación detecta que no hay existencias suficientes, puede ajustar las cantidades a la disponibilidad real antes de aprobar.</p>
+<h3>6.5 Cálculo de disponibilidad</h3>
+<p>La disponibilidad no se calcula restando únicamente los préstamos activos del total. Se comparan <strong>rangos de fechas y horas</strong>:</p>
+<ol>
+<li>Cada solicitud tiene una fecha y hora de inicio (<code>date</code>, <code>time</code>) y una fecha y hora de devolución (<code>ret</code>, <code>retTime</code>).</li>
+<li>Solo compiten por el inventario las solicitudes en estado <code>Aprobada</code> o <code>En préstamo</code>.</li>
+<li><code>outQ()</code> suma las cantidades de las solicitudes cuyos rangos se cruzan con el rango consultado.</li>
+<li><code>avail()</code> resta al total las unidades fuera de servicio y las unidades comprometidas.</li>
+<li>Dos solicitudes que no se cruzan pueden usar el mismo material; las que se cruzan compiten por las existencias.</li>
+</ol>
+<p>La función <code>effectiveStart()</code> incorpora una corrección importante: si la entrega se registra <strong>antes</strong> de la fecha de uso solicitada, el material se descuenta desde el momento real de la entrega (<code>deliveredAt</code>). De igual forma, <code>effectiveEnd()</code> mantiene el préstamo ocupando inventario hasta que se registre la devolución, aunque la fecha prevista ya haya pasado. Así se evita el error de que un material entregado anticipadamente siguiera apareciendo como disponible.</p>
+<h3>6.6 Entrega, devolución e inventario</h3>
+<ul>
+<li>Al registrar la entrega, la solicitud pasa a <code>En préstamo</code>, se guarda <code>deliveredAt</code> y el inventario se descuenta de inmediato.</li>
+<li>Al registrar la devolución, la solicitud pasa a <code>Devuelta</code>, se guarda <code>returnedAt</code> y las unidades vuelven a estar disponibles.</li>
+<li>Si hay daños o pérdidas, se registra una novedad y se descuentan las unidades afectadas.</li>
+<li>El historial de la solicitud conserva cada acción con fecha, hora y responsable.</li>
+</ul>
+<p>La prueba de regresión de este comportamiento mostró el cambio esperado: antes de la entrega había 8 unidades disponibles de un elemento; después de entregar 2 quedaron 6; después de la devolución volvieron a 8.</p>
+<h3>6.7 Grupos, semestres y periodos</h3>
+<p>Un grupo se identifica por su nombre, programa, semestre, jornada y periodo. La aplicación permite <strong>repetir el nombre</strong> en semestres, jornadas o periodos diferentes, porque en la vida académica existen varios cursos con el mismo nombre. Solo se bloquea el <strong>duplicado exacto</strong> de todos esos campos.</p>
+<p>Ejemplo válido:</p>
+<ul>
+<li>Grupo 1 Ingeniería de Sistemas · Semestre 1 · 2026-2</li>
+<li>Grupo 1 Ingeniería de Sistemas · Semestre 2 · 2026-2</li>
+</ul>
+<p>Los selectores, las solicitudes y los reportes muestran la etiqueta completa para evitar ambigüedad. Cuando un grupo se elimina:</p>
+<ul>
+<li>Los usuarios vinculados quedan sin grupo.</li>
+<li>Las solicitudes históricas se conservan con el nombre completo del grupo.</li>
+<li>La acción queda restringida al administrador y exige confirmación.</li>
+</ul>
+<h3>6.8 Notificaciones y correos</h3>
+<p>Cada acción relevante genera una notificación interna y un correo:</p>
+<ul>
+<li>Invitación al crear un usuario.</li>
+<li>Confirmación al solicitante y aviso a coordinación al crear una solicitud.</li>
+<li>Aprobación, rechazo o ajuste.</li>
+<li>Entrega y devolución.</li>
+<li>Cancelación, restablecimiento de contraseña y correo de prueba.</li>
+</ul>
+<p>Por defecto, los correos quedan en una <strong>bandeja simulada</strong> y no salen a internet. El administrador puede configurar EmailJS con Service ID, Template ID y Public Key para intentar un envío real. Aun así, al tratarse de una aplicación estática, la clave pública queda expuesta y la entrega no está garantizada.</p>
+<h3>6.9 PWA, instalación y caché</h3>
+<p>La aplicación incluye:</p>
+<ul>
+<li><code>manifest.webmanifest</code> con nombre, colores, iconos y modo de visualización.</li>
+<li>Service worker que cachea el app shell y los iconos.</li>
+<li>Botón de instalación cuando el navegador lo permite.</li>
+<li>Estrategia <strong>network-first</strong> para JavaScript y CSS, de modo que los cambios se vean al recargar.</li>
+<li><code>CACHE_VERSION = 'v14'</code> y recursos versionados con <code>?v=14</code>.</li>
+</ul>
+<p>La caché se actualiza al cambiar la versión. Si un usuario no ve los cambios, debe recargar con <code>Ctrl + Shift + R</code>, desregistrar el service worker y borrar los datos del sitio. Esta guía está documentada en el README.</p>
+<h3>6.10 Identidad visual y diseño responsive</h3>
+<p>La interfaz conserva la identidad de la Universidad del Tolima:</p>
+<ul>
+<li>Logosímbolo oficial en la barra lateral y en la pantalla de inicio de sesión.</li>
+<li>Color institucional vinotinto (<code>#7a1230</code>) combinado con blanco, gris y negro.</li>
+<li>Tipografía serif en títulos y sans-serif en textos y controles.</li>
+<li>Pie institucional con NIT, dirección, teléfonos, correo y sitio web.</li>
+<li>Diseño adaptable a computador, tableta y teléfono.</li>
+<li>Modo oscuro automático según la preferencia del sistema.</li>
+</ul>
+<h2>7. Accesibilidad de los préstamos</h2>
+<p>La accesibilidad se aborda en dos sentidos complementarios: <strong>acceso al servicio</strong> y <strong>accesibilidad web</strong>.</p>
+<h3>7.1 Acceso al servicio: eliminar barreras para solicitar un préstamo</h3>
+<p>Antes, una persona debía desplazarse al CAT, preguntar por disponibilidad y llenar un formato físico. Con la aplicación:</p>
+<ul>
+<li>La solicitud puede prepararse desde cualquier lugar y a cualquier hora.</li>
+<li>El catálogo muestra qué recursos existen y cuántas unidades hay.</li>
+<li>La disponibilidad se consulta para las fechas concretas de la actividad.</li>
+<li>El estudiante no necesita conocer el nombre interno del área ni hablar con varias personas.</li>
+<li>La respuesta queda registrada y llega por notificación y correo.</li>
+<li>La PWA se instala en el teléfono y reduce pasos repetidos.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Barrera anterior</th>
+<th>Facilitador incorporado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Solo atención presencial</td>
+<td>Acceso web desde el teléfono o el computador.</td>
+</tr>
+<tr>
+<td>Catálogo en papel o en la memoria del funcionario</td>
+<td>Catálogo digital con búsqueda y categorías.</td>
+</tr>
+<tr>
+<td>Preguntar si hay disponibilidad</td>
+<td>Consulta por fechas y cantidades.</td>
+</tr>
+<tr>
+<td>Formatos repetidos</td>
+<td>Formulario único con datos del grupo y la actividad.</td>
+</tr>
+<tr>
+<td>No saber el estado de la solicitud</td>
+<td>Estados visibles e historial.</td>
+</tr>
+<tr>
+<td>Depender de llamadas o mensajes</td>
+<td>Notificaciones internas y correos.</td>
+</tr>
+<tr>
+<td>Perder el comprobante</td>
+<td>Historial y correos consultables.</td>
+</tr>
+</tbody>
+</table>
+<h3>7.2 Ejemplo de accesibilidad: estudiante con discapacidad visual</h3>
+<p><strong>Situación.</strong> Ana es representante de un grupo de Licenciatura en Educación Artística. Tiene baja visión, usa el teléfono con lector de pantalla y vive en un municipio cercano a Medellín. Necesita dos bafles y dos micrófonos para una muestra de danza.</p>
+<p><strong>Antes.</strong> Debía viajar al CAT, pedir ayuda para leer la planilla, preguntar si había equipos y volver otro día a confirmar. Si el material estaba comprometido, repetía el desplazamiento.</p>
+<p><strong>Con Préstamos UT:</strong></p>
+<ol>
+<li>Ingresa desde el teléfono con su correo institucional.</li>
+<li>El lector de pantalla anuncia el título de la página, el menú principal y el campo de búsqueda con su etiqueta.</li>
+<li>Busca «bafles» y el catálogo le informa que hay 8 unidades y que el recurso está disponible.</li>
+<li>Agrega dos bafles y dos micrófonos; el carrito anuncia cuántos elementos lleva.</li>
+<li>En «Mi solicitud», el formulario tiene etiquetas asociadas, campos nativos de fecha y hora, y un área de observaciones.</li>
+<li>Elige las fechas, escribe la actividad y envía. Recibe una confirmación con el número de solicitud.</li>
+<li>La coordinación aprueba y el estado cambia; Ana lo consulta en su historial sin llamar.</li>
+<li>Al recoger el material, se registra la entrega. Ana recibe el correo con la fecha de devolución.</li>
+<li>Al devolver, el historial queda cerrado y el inventario se actualiza.</li>
+</ol>
+<p><strong>Apoyos implementados:</strong> estructura semántica, <code>lang=&quot;es&quot;</code>, textos alternativos en el logosímbolo, etiquetas en los campos, <code>aria-label</code> en el menú, la campana y acciones críticas, <code>role=&quot;alert&quot;</code> en los errores de acceso, región <code>aria-live</code> para avisos, botones nativos, mensajes que combinan texto y color, diseño responsive, modo oscuro y reducción de animaciones según la preferencia del sistema.</p>
+<p><strong>Limitaciones:</strong> la aplicación todavía no cuenta con una auditoría formal WCAG 2.1 AA, no se probó con todos los lectores de pantalla del mercado ni con usuarios con discapacidad. Falta mejorar el foco visible, el control de foco en modales, la navegación por teclado de todos los componentes, la descripción de tablas complejas y la validación de contraste con herramientas automáticas.</p>
+<h3>7.3 Criterios WCAG aplicados y pendientes</h3>
+<table>
+<thead>
+<tr>
+<th>Principio</th>
+<th>Evidencia en el prototipo</th>
+<th>Estado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Perceptible</strong></td>
+<td>Texto alternativo, contraste alto, información no dependiente solo del color, diseño adaptable.</td>
+<td>Parcial</td>
+</tr>
+<tr>
+<td><strong>Operable</strong></td>
+<td>Controles nativos, botones con etiquetas, navegación por menú, atajos del navegador.</td>
+<td>Parcial</td>
+</tr>
+<tr>
+<td><strong>Comprensible</strong></td>
+<td>Lenguaje sencillo, mensajes de error claros, estados explícitos, consistencia.</td>
+<td>Implementado</td>
+</tr>
+<tr>
+<td><strong>Robusto</strong></td>
+<td>HTML estándar, <code>lang</code>, landmarks, roles ARIA básicos, compatible con navegadores modernos.</td>
+<td>Parcial</td>
+</tr>
+</tbody>
+</table>
+<h3>7.4 Accesibilidad más allá de la pantalla</h3>
+<p>La accesibilidad del préstamo también implica:</p>
+<ul>
+<li>Mantener atención presencial y telefónica para quien no use la aplicación.</li>
+<li>Permitir que otra persona (docente o compañero) ayude a radicar la solicitud.</li>
+<li>Ofrecer el catálogo en formato legible y con lenguaje claro.</li>
+<li>Coordinar la entrega en un lugar físico accesible.</li>
+<li>Dar prioridad a personas con movilidad reducida o que vienen de otro municipio.</li>
+<li>No exigir la app como único canal mientras no se complete la auditoría de accesibilidad.</li>
+</ul>
+<h2>8. Requisitos funcionales</h2>
+<p>Los siguientes son los requisitos fundamentales del prototipo. La columna «Estado» indica si están implementados en la demostración, si son parciales o si pertenecen a la versión de producción.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requisito funcional</th>
+<th>Estado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>RF-01</strong></td>
+<td>El sistema debe permitir el ingreso con correo institucional <code>@ut.edu.co</code> y contraseña.</td>
+<td>Implementado (demo)</td>
+</tr>
+<tr>
+<td><strong>RF-02</strong></td>
+<td>Debe diferenciar los roles administrador, coordinación, estudiante y docente, y mostrar solo las opciones permitidas.</td>
+<td>Implementado</td>
+</tr>
+<tr>
+<td><strong>RF-03</strong></td>
+<td>El administrador debe crear usuarios, asignar rol, programa, grupo y generar una contraseña temporal.</td>
+<td>Implementado</td>
+</tr>
+<tr>
+<td><strong>RF-04</strong></td>
+<td>El administrador debe activar, desactivar, editar y restablecer la contraseña de un usuario.</td>
+<td>Implementado</td>
+</tr>
+<tr>
+<td><strong>RF-05</strong></td>
+<td>El administrador debe crear, editar y eliminar grupos con nombre, programa, facultad, semestre, jornada, periodo, integrantes y representante.</td>
+<td>Implementado</td>
+</tr>
+<tr>
+<td><strong>RF-06</strong></td>
+<td>El sistema debe permitir el mismo nombre de grupo en semestres, jornadas o periodos distintos, y bloquear solo el duplicado exacto.</td>
+<td>Implementado</td>
+</tr>
+<tr>
+<td><strong>RF-07</strong></td>
+<td>Al eliminar un grupo, los usuarios deben quedar sin grupo y las solicitudes históricas deben conservar su nombre.</td>
+<td>Implementado</td>
+</tr>
+<tr>
+<td><strong>RF-08</strong></td>
+<td>El catálogo debe mostrar categoría, código, ubicación, existencias, unidades fuera de servicio y aval requerido.</td>
+<td>Implementado</td>
+</tr>
+<tr>
+<td><strong>RF-09</strong></td>
+<td>El usuario debe poder buscar y filtrar el catálogo por texto y categoría.</td>
+<td>Implementado</td>
+</tr>
+<tr>
+<td><strong>RF-10</strong></td>
+<td>El sistema debe calcular la disponibilidad para un rango de fechas y horas.</td>
+<td>Implementado</td>
+</tr>
+<tr>
+<td><strong>RF-11</strong></td>
+<td>El solicitante debe crear una solicitud con elementos, cantidades, fechas, horas, actividad, observaciones y aval cuando aplique.</td>
+<td>Implementado</td>
+</tr>
+<tr>
+<td><strong>RF-12</strong></td>
+<td>El sistema debe validar fechas, cantidades, grupo del estudiante y aval obligatorio.</td>
+<td>Implementado</td>
+</tr>
+<tr>
+<td><strong>RF-13</strong></td>
+<td>La coordinación debe aprobar o rechazar una solicitud, dejando un motivo cuando rechaza.</td>
+<td>Implementado</td>
+</tr>
+<tr>
+<td><strong>RF-14</strong></td>
+<td>La coordinación debe poder ajustar las cantidades a la disponibilidad real.</td>
+<td>Implementado</td>
+</tr>
+<tr>
+<td><strong>RF-15</strong></td>
+<td>El solicitante debe poder cancelar una solicitud pendiente.</td>
+<td>Implementado</td>
+</tr>
+<tr>
+<td><strong>RF-16</strong></td>
+<td>La coordinación debe registrar la entrega y el sistema debe descontar el inventario de inmediato, aunque la fecha de uso sea futura.</td>
+<td>Implementado</td>
+</tr>
+<tr>
+<td><strong>RF-17</strong></td>
+<td>La coordinación debe registrar la devolución y restaurar las unidades disponibles.</td>
+<td>Implementado</td>
+</tr>
+<tr>
+<td><strong>RF-18</strong></td>
+<td>La devolución debe permitir registrar novedades por daño o pérdida y descontar las unidades afectadas.</td>
+<td>Implementado</td>
+</tr>
+<tr>
+<td><strong>RF-19</strong></td>
+<td>Cada usuario debe recibir notificaciones internas de los cambios que le afectan.</td>
+<td>Implementado</td>
+</tr>
+<tr>
+<td><strong>RF-20</strong></td>
+<td>El sistema debe generar correos con plantillas para invitación, solicitud, decisión, entrega, devolución, cancelación y reset.</td>
+<td>Implementado</td>
+</tr>
+<tr>
+<td><strong>RF-21</strong></td>
+<td>El administrador debe poder configurar EmailJS para intentar envíos reales.</td>
+<td>Implementado (opcional)</td>
+</tr>
+<tr>
+<td><strong>RF-22</strong></td>
+<td>El sistema debe generar reportes de solicitudes, estados, disponibilidad, novedades, correos y uso por grupo, con exportación CSV e impresión/PDF.</td>
+<td>Implementado</td>
+</tr>
+<tr>
+<td><strong>RF-23</strong></td>
+<td>El administrador debe descargar un respaldo JSON y restablecer la demo.</td>
+<td>Implementado</td>
+</tr>
+<tr>
+<td><strong>RF-24</strong></td>
+<td>La aplicación debe instalarse como PWA y conservar el app shell en caché.</td>
+<td>Implementado</td>
+</tr>
+<tr>
+<td><strong>RF-25</strong></td>
+<td>El historial de cada solicitud debe registrar las acciones, su fecha y el responsable.</td>
+<td>Parcial (local)</td>
+</tr>
+<tr>
+<td><strong>RF-26</strong></td>
+<td>La autenticación, los permisos y la auditoría deben validarse en un servidor con base de datos central.</td>
+<td>Futuro</td>
+</tr>
+<tr>
+<td><strong>RF-27</strong></td>
+<td>El sistema debe permitir devoluciones parciales, importar respaldos y eliminar usuarios conservando su historial.</td>
+<td>Futuro</td>
+</tr>
+<tr>
+<td><strong>RF-28</strong></td>
+<td>El sistema debe enviar correos reales desde un backend institucional y gestionar recordatorios de devolución.</td>
+<td>Futuro</td>
+</tr>
+</tbody>
+</table>
+<h2>9. Requisitos no funcionales</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Categoría</th>
+<th>Requisito</th>
+<th>Evidencia o meta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>RNF-01</strong></td>
+<td>Usabilidad</td>
+<td>Una solicitud debe completarse en pocos pasos y sin capacitación extensa.</td>
+<td>Flujo catálogo → solicitud → confirmación.</td>
+</tr>
+<tr>
+<td><strong>RNF-02</strong></td>
+<td>Accesibilidad</td>
+<td>La interfaz debe seguir criterios WCAG 2.1 AA en la medida de lo posible.</td>
+<td>Etiquetas, alt, ARIA básico, contraste, responsive; auditoría pendiente.</td>
+</tr>
+<tr>
+<td><strong>RNF-03</strong></td>
+<td>Compatibilidad</td>
+<td>Debe funcionar en navegadores modernos de escritorio y móvil.</td>
+<td>Chrome, Edge, Firefox y Safari actuales.</td>
+</tr>
+<tr>
+<td><strong>RNF-04</strong></td>
+<td>Responsive</td>
+<td>Debe adaptarse a pantallas desde 360 px hasta escritorio.</td>
+<td>Captura móvil y diseño con grid/flexbox.</td>
+</tr>
+<tr>
+<td><strong>RNF-05</strong></td>
+<td>Rendimiento</td>
+<td>La carga inicial debe ser rápida y sin dependencias pesadas.</td>
+<td>HTML, CSS y JS sin framework; recursos locales.</td>
+</tr>
+<tr>
+<td><strong>RNF-06</strong></td>
+<td>Disponibilidad</td>
+<td>El app shell debe funcionar sin conexión después de la primera visita.</td>
+<td>Service worker y caché.</td>
+</tr>
+<tr>
+<td><strong>RNF-07</strong></td>
+<td>Instalabilidad</td>
+<td>Debe poder instalarse como aplicación.</td>
+<td>Manifest, iconos y botón de instalación.</td>
+</tr>
+<tr>
+<td><strong>RNF-08</strong></td>
+<td>Portabilidad</td>
+<td>Debe publicarse en hosting estático sin servidor propio.</td>
+<td>Rutas relativas y compatibilidad con GitHub Pages.</td>
+</tr>
+<tr>
+<td><strong>RNF-09</strong></td>
+<td>Mantenibilidad</td>
+<td>El código debe estar separado por responsabilidades y documentado.</td>
+<td><code>store</code>, <code>email</code>, <code>app</code>, vistas y <code>sw</code>.</td>
+</tr>
+<tr>
+<td><strong>RNF-10</strong></td>
+<td>Seguridad</td>
+<td>En producción, las contraseñas no deben estar en el cliente y los permisos deben validarse en el servidor.</td>
+<td>Limitación declarada; ruta a Supabase/Auth.</td>
+</tr>
+<tr>
+<td><strong>RNF-11</strong></td>
+<td>Privacidad</td>
+<td>No se deben usar datos personales reales en la demo.</td>
+<td>README y avisos de la interfaz.</td>
+</tr>
+<tr>
+<td><strong>RNF-12</strong></td>
+<td>Persistencia</td>
+<td>Los datos deben sobrevivir a la recarga dentro del mismo navegador.</td>
+<td><code>localStorage</code> con claves versionadas.</td>
+</tr>
+<tr>
+<td><strong>RNF-13</strong></td>
+<td>Consistencia</td>
+<td>El inventario debe reflejar entregas y devoluciones.</td>
+<td>Prueba 8 → 6 → 8 unidades.</td>
+</tr>
+<tr>
+<td><strong>RNF-14</strong></td>
+<td>Trazabilidad</td>
+<td>Cada solicitud debe conservar su historial y el nombre del grupo.</td>
+<td><code>hist</code> y <code>r.group</code>.</td>
+</tr>
+<tr>
+<td><strong>RNF-15</strong></td>
+<td>Actualización</td>
+<td>Los cambios deben verse tras recargar, sin quedar atrapados en caché antigua.</td>
+<td><code>CACHE_VERSION v14</code>, <code>?v=14</code>, network-first.</td>
+</tr>
+<tr>
+<td><strong>RNF-16</strong></td>
+<td>Escalabilidad</td>
+<td>La versión de producción debe soportar múltiples usuarios y dispositivos.</td>
+<td>Fuera del alcance actual; requiere backend.</td>
+</tr>
+<tr>
+<td><strong>RNF-17</strong></td>
+<td>Idioma</td>
+<td>La interfaz debe estar en español y usar formato de fecha local.</td>
+<td><code>lang=&quot;es&quot;</code>, <code>es-CO</code>.</td>
+</tr>
+<tr>
+<td><strong>RNF-18</strong></td>
+<td>Documentación</td>
+<td>Debe existir guía de uso, requisitos, arquitectura y publicación.</td>
+<td>README y carpeta <code>docs/</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2>10. Mockups y capturas de las funciones</h2>
+<p>Las siguientes son capturas reales del prototipo, tomadas con un navegador en modo de prueba y con datos ficticios. No son diseños hipotéticos: corresponden a las pantallas que se presentan durante la demostración.</p>
+<figure>
+<img src="img/01-login.png" alt="Pantalla de inicio de sesión con el logosímbolo de la Universidad del Tolima, acceso rápido y credenciales de demostración.">
+<figcaption><b>Figura 1.</b> Pantalla de ingreso. Se muestra el logosímbolo institucional, el acceso con correo y las cuentas de demostración para administrador y coordinación.</figcaption>
+</figure>
+<figure>
+<img src="img/02-panel.png" alt="Panel principal del administrador con indicadores de solicitudes, préstamos, materiales, devoluciones y correos.">
+<figcaption><b>Figura 2.</b> Panel principal del administrador. Resume solicitudes pendientes, préstamos activos, materiales disponibles, devoluciones y correos, con acceso rápido a las tareas frecuentes.</figcaption>
+</figure>
+<figure>
+<img src="img/03-solicitudes.png" alt="Listado de solicitudes con filtros por estado, solicitante, grupo, elementos, fechas y estado.">
+<figcaption><b>Figura 3.</b> Bandeja de solicitudes. La coordinación filtra por estado y revisa solicitante, grupo, elementos, fechas y estado antes de abrir el detalle.</figcaption>
+</figure>
+<figure>
+<img src="img/04-detalle-solicitud.png" alt="Detalle de una solicitud con datos del solicitante, elementos, disponibilidad, decisión de coordinación e historial.">
+<figcaption><b>Figura 4.</b> Detalle de la solicitud. Integra datos del solicitante, disponibilidad para las fechas, decisión de coordinación e historial de acciones.</figcaption>
+</figure>
+<figure>
+<img src="img/05-grupos.png" alt="Gestión de grupos con dos grupos del mismo nombre en semestres diferentes y botones de editar y eliminar.">
+<figcaption><b>Figura 5.</b> Gestión de grupos. Se observan dos grupos con el mismo nombre en semestres distintos; cada fila permite editar o eliminar. Al eliminar se conserva el historial.</figcaption>
+</figure>
+<figure>
+<img src="img/06-inventario.png" alt="Inventario con categorías, códigos, ubicación, disponibilidad y estado de los recursos.">
+<figcaption><b>Figura 6.</b> Inventario. Muestra existencias, unidades fuera de servicio, ubicación, disponibilidad y estado de cada material o espacio.</figcaption>
+</figure>
+<figure>
+<img src="img/07-reportes.png" alt="Reportes con indicadores, solicitudes por estado, elementos más solicitados y uso por grupo.">
+<figcaption><b>Figura 7.</b> Reportes. Indicadores del periodo, distribución por estado, elementos más solicitados y uso por grupo, con exportación CSV e impresión/PDF.</figcaption>
+</figure>
+<figure>
+<img src="img/08-usuarios.png" alt="Listado de usuarios con rol, correo, programa, grupo, estado y acciones de administración.">
+<figcaption><b>Figura 8.</b> Usuarios. El administrador consulta roles, programas, grupos y estado, y puede crear, editar o restablecer credenciales.</figcaption>
+</figure>
+<figure>
+<img src="img/09-correos.png" alt="Bandeja de correos simulados con destinatario, asunto, plantilla y estado.">
+<figcaption><b>Figura 9.</b> Bandeja de correos. En modo demostración los mensajes no salen a internet; quedan registrados con su plantilla y estado.</figcaption>
+</figure>
+<figure>
+<img src="img/10-catalogo.png" alt="Catálogo de préstamos para estudiantes con categorías, búsqueda, disponibilidad y botón agregar.">
+<figcaption><b>Figura 10.</b> Catálogo del estudiante. Búsqueda, categorías, disponibilidad del día y carrito de solicitud. La disponibilidad se valida de nuevo para las fechas elegidas.</figcaption>
+</figure>
+<figure>
+<img src="img/11-mi-solicitud.png" alt="Formulario Mi solicitud con elementos, cantidades, disponibilidad, fechas, actividad y observaciones.">
+<figcaption><b>Figura 11.</b> Mi solicitud. El estudiante revisa cantidades y disponibilidad para las fechas, describe la actividad y envía la solicitud.</figcaption>
+</figure>
+<figure class="fig-mobile">
+<img src="img/12-movil-catalogo.png" alt="Vista móvil del catálogo de préstamos con menú adaptado y tarjetas de recursos.">
+<figcaption><b>Figura 12.</b> Vista móvil del catálogo. El diseño responsive permite solicitar desde el teléfono, lo que reduce la dependencia de la atención presencial.</figcaption>
+</figure>
+<h2>11. Pruebas y resultados</h2>
+<p>Las pruebas se realizaron en el navegador, con datos de demostración y con la aplicación servida por HTTP. No se dispone de pruebas automatizadas en esta versión.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Caso de prueba</th>
+<th>Procedimiento</th>
+<th>Resultado esperado</th>
+<th>Resultado obtenido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Ingreso por rol</td>
+<td>Iniciar sesión como administrador y como coordinación.</td>
+<td>Cada rol ve su menú y sus acciones.</td>
+<td>Correcto.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Crear grupos homónimos</td>
+<td>Crear «Grupo 1 Ingeniería de Sistemas» en semestre 1 y en semestre 2.</td>
+<td>Se permiten ambos y se muestran etiquetas completas.</td>
+<td>Correcto.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Bloquear duplicado exacto</td>
+<td>Repetir nombre, programa, semestre, jornada y periodo.</td>
+<td>El sistema rechaza el duplicado.</td>
+<td>Correcto.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Eliminar grupo con usuarios</td>
+<td>Eliminar un grupo con un usuario y una solicitud asociada.</td>
+<td>Usuario sin grupo; solicitud conserva el nombre; grupo desaparece.</td>
+<td>Correcto.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Disponibilidad por fechas</td>
+<td>Crear dos solicitudes que se cruzan y dos que no se cruzan.</td>
+<td>Las primeras compiten; las segundas pueden usar el mismo recurso.</td>
+<td>Correcto.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Entrega anticipada</td>
+<td>Aprobar una solicitud con fecha futura y registrar la entrega hoy.</td>
+<td>El inventario se descuenta de inmediato.</td>
+<td>Correcto: 8 → 6 unidades.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Devolución</td>
+<td>Registrar la devolución del caso anterior.</td>
+<td>Las unidades vuelven a estar disponibles.</td>
+<td>Correcto: 6 → 8 unidades.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Devolución con novedad</td>
+<td>Registrar una unidad dañada.</td>
+<td>Se descuenta y queda en el historial.</td>
+<td>Correcto.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Correos simulados</td>
+<td>Crear una solicitud y revisar la bandeja.</td>
+<td>Se generan correos para solicitante y coordinación.</td>
+<td>Correcto.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Caché de la PWA</td>
+<td>Actualizar archivos y recargar.</td>
+<td>Se carga la versión nueva y la caché queda en <code>v14</code>.</td>
+<td>Correcto.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Consola del navegador</td>
+<td>Recorrer las vistas principales.</td>
+<td>Sin errores de JavaScript.</td>
+<td>Correcto.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Diseño móvil</td>
+<td>Abrir el catálogo en 430 px de ancho.</td>
+<td>Navegación y tarjetas adaptadas.</td>
+<td>Correcto.</td>
+</tr>
+</tbody>
+</table>
+<h3>11.1 Hallazgo corregido durante el proyecto</h3>
+<p>Durante las pruebas se detectó que, si se registraba una entrega antes de la fecha de uso, el material seguía apareciendo como disponible hasta que llegara esa fecha. El problema se corrigió con <code>deliveredAt</code>, <code>effectiveStart()</code> y <code>effectiveEnd()</code>. La corrección se verificó con una prueba de regresión y quedó documentada en el README.</p>
+<h3>11.2 Alcance de la validación</h3>
+<p>Las pruebas confirman el comportamiento funcional del prototipo en un navegador y con datos ficticios. No sustituyen:</p>
+<ul>
+<li>Pruebas de carga con muchos usuarios.</li>
+<li>Pruebas de seguridad y penetración.</li>
+<li>Pruebas de accesibilidad con usuarios reales.</li>
+<li>Pruebas de concurrencia entre dispositivos.</li>
+<li>Pruebas automatizadas de regresión.</li>
+</ul>
+<h2>12. Resultados y discusión</h2>
+<h3>12.1 Resultados alcanzados</h3>
+<p>El prototipo logra un flujo completo y comprensible:</p>
+<ul>
+<li>El administrador puede preparar la operación: usuarios, grupos, inventario y periodo.</li>
+<li>El estudiante o docente encuentra recursos y solicita con fechas concretas.</li>
+<li>La coordinación decide con información de disponibilidad y deja constancia.</li>
+<li>La entrega y la devolución actualizan el inventario.</li>
+<li>Las notificaciones y los correos mantienen informados a los actores.</li>
+<li>Los reportes permiten observar el uso del servicio.</li>
+</ul>
+<h3>12.2 Valor frente al proceso manual</h3>
+<table>
+<thead>
+<tr>
+<th>Aspecto</th>
+<th>Proceso manual</th>
+<th>Prototipo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consulta de disponibilidad</td>
+<td>Preguntar o revisar planillas</td>
+<td>Cálculo por fechas y cantidades</td>
+</tr>
+<tr>
+<td>Registro de la solicitud</td>
+<td>Papel, correo o mensaje</td>
+<td>Formulario único con estado</td>
+</tr>
+<tr>
+<td>Aprobación</td>
+<td>Informal</td>
+<td>Decisión registrada con motivo</td>
+</tr>
+<tr>
+<td>Entrega</td>
+<td>Anotación separada</td>
+<td>Estado e inventario actualizados</td>
+</tr>
+<tr>
+<td>Devolución</td>
+<td>Sin control uniforme</td>
+<td>Registro con novedades</td>
+</tr>
+<tr>
+<td>Notificación</td>
+<td>Llamadas o mensajes</td>
+<td>Campana y correos</td>
+</tr>
+<tr>
+<td>Reportes</td>
+<td>Conteo manual</td>
+<td>Indicadores y exportación</td>
+</tr>
+<tr>
+<td>Acceso</td>
+<td>Presencial</td>
+<td>Web y móvil, instalable</td>
+</tr>
+</tbody>
+</table>
+<h3>12.3 Discusión</h3>
+<p>La principal fortaleza del proyecto es haber convertido un proceso disperso en un flujo verificable. La principal debilidad es que la persistencia local no permite operar institucionalmente: cada navegador tiene su propia copia y no hay sincronización. Por eso el prototipo debe entenderse como una <strong>prueba de concepto</strong> y como una base de interfaz para la versión con backend.</p>
+<p>También es importante no confundir «tener una pantalla» con «resolver el proceso». Las reglas de disponibilidad, los estados, la entrega anticipada y la conservación del historial son las decisiones que realmente aportan valor y las que deben validarse con la coordinación del CAT antes de avanzar a producción.</p>
+<h2>13. Limitaciones y trabajo futuro</h2>
+<h3>13.1 Limitaciones actuales</h3>
+<ol>
+<li><strong>Sin backend:</strong> no hay base de datos central ni sincronización.</li>
+<li><strong>Autenticación de demostración:</strong> las credenciales están en el código y en <code>localStorage</code>.</li>
+<li><strong>Datos por navegador:</strong> cada equipo ve su propia copia.</li>
+<li><strong>Correos simulados:</strong> no llegan a buzones reales salvo que se configure EmailJS.</li>
+<li><strong>Sin control de concurrencia:</strong> dos personas podrían modificar la misma copia en equipos distintos.</li>
+<li><strong>Auditoría local:</strong> el historial se puede alterar desde el navegador.</li>
+<li><strong>Accesibilidad parcial:</strong> falta auditoría WCAG y pruebas con usuarios.</li>
+<li><strong>Sin pruebas automatizadas:</strong> la validación es manual.</li>
+<li><strong>Respaldo solo de salida:</strong> se descarga JSON, pero no se importa.</li>
+<li><strong>Sin eliminación de usuarios:</strong> se pueden desactivar, pero no borrar conservando historial.</li>
+</ol>
+<h3>13.2 Trabajo futuro</h3>
+<table>
+<thead>
+<tr>
+<th>Prioridad</th>
+<th>Mejora</th>
+<th>Beneficio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alta</td>
+<td>Migrar a Supabase/PostgreSQL con autenticación y RLS.</td>
+<td>Datos centrales, seguridad y multiusuario.</td>
+</tr>
+<tr>
+<td>Alta</td>
+<td>Validar permisos y disponibilidad en el servidor.</td>
+<td>Evita dobles reservas y accesos indebidos.</td>
+</tr>
+<tr>
+<td>Alta</td>
+<td>Enviar correos desde backend y programar recordatorios.</td>
+<td>Comunicación confiable.</td>
+</tr>
+<tr>
+<td>Alta</td>
+<td>Auditoría inmutable de acciones.</td>
+<td>Trazabilidad institucional.</td>
+</tr>
+<tr>
+<td>Media</td>
+<td>Devoluciones parciales por línea y unidad.</td>
+<td>Mayor precisión del inventario.</td>
+</tr>
+<tr>
+<td>Media</td>
+<td>Importar respaldos y exportar reportes en Excel/PDF.</td>
+<td>Operación y análisis.</td>
+</tr>
+<tr>
+<td>Media</td>
+<td>Auditoría de accesibilidad WCAG 2.1 AA y pruebas con lectores de pantalla.</td>
+<td>Inclusión real.</td>
+</tr>
+<tr>
+<td>Media</td>
+<td>Pruebas automatizadas y despliegue continuo.</td>
+<td>Menos regresiones.</td>
+</tr>
+<tr>
+<td>Baja</td>
+<td>Notificaciones push y calendario de reservas.</td>
+<td>Mejor experiencia.</td>
+</tr>
+<tr>
+<td>Baja</td>
+<td>Firma digital y evidencias fotográficas.</td>
+<td>Actas de entrega más robustas.</td>
+</tr>
+</tbody>
+</table>
+<h2>14. Conclusiones</h2>
+<ol>
+<li>El préstamo de materiales y espacios del CAT Medellín es un proceso con reglas de negocio claras que puede beneficiarse de una aplicación web sencilla, siempre que se definan disponibilidad, roles, estados y trazabilidad.</li>
+<li>El prototipo Préstamos UT demuestra que es posible recorrer todo el ciclo del préstamo —catálogo, solicitud, aprobación, entrega, devolución y reporte— con tecnologías web estándar y sin infraestructura costosa.</li>
+<li>La gestión de grupos por semestre y periodo, la conservación del historial al eliminar un grupo y el descuento inmediato del inventario al entregar son mejoras que acercan el prototipo a la operación real.</li>
+<li>La accesibilidad debe entenderse en dos planos: facilitar el acceso al servicio y cumplir criterios de accesibilidad web. El prototipo avanza en ambos, pero todavía requiere una auditoría formal y pruebas con usuarios.</li>
+<li>El prototipo es adecuado para una presentación académica y para validar el diseño con la coordinación, pero no para operar con datos personales reales hasta migrar a un backend con autenticación, base de datos central y auditoría.</li>
+<li>El siguiente paso recomendado no es agregar más pantallas, sino <strong>probar el flujo con usuarios reales del CAT</strong>, priorizar los ajustes de accesibilidad y definir las reglas institucionales de disponibilidad, devolución y sanción.</li>
+</ol>
+<h2>15. Referencias</h2>
+<p>Congreso de la República de Colombia. (2012). <em>Ley 1581 de 2012, por la cual se dictan disposiciones generales para la protección de datos personales</em>. Diario Oficial.</p>
+<p>MDN Web Docs. (2026). <em>Progressive web apps (PWAs)</em>. Mozilla. https://developer.mozilla.org/es/docs/Web/Progressive_web_apps</p>
+<p>MDN Web Docs. (2026). <em>Service Worker API</em>. Mozilla. https://developer.mozilla.org/es/docs/Web/API/Service_Worker_API</p>
+<p>MDN Web Docs. (2026). <em>Window.localStorage</em>. Mozilla. https://developer.mozilla.org/es/docs/Web/API/Window/localStorage</p>
+<p>Universidad del Tolima. (2026). <em>Directorio institucional: CAT Medellín</em>. https://administrativos.ut.edu.co/atencion-al-ciudadano/directorio.html</p>
+<p>W3C. (2023). <em>Web Content Accessibility Guidelines (WCAG) 2.1</em>. World Wide Web Consortium. https://www.w3.org/TR/WCAG21/</p>
+<p>W3C. (2024). <em>Web Content Accessibility Guidelines (WCAG) 2.2</em>. World Wide Web Consortium. https://www.w3.org/TR/WCAG22/</p>
+<p>web.dev. (2026). <em>Learn PWA</em>. Google. https://web.dev/learn/pwa/</p>
+<p>EmailJS. (2026). <em>EmailJS documentation</em>. https://www.emailjs.com/docs/</p>
+<h2>Anexos</h2>
+<h3>Anexo A. Credenciales de demostración</h3>
+<table>
+<thead>
+<tr>
+<th>Rol</th>
+<th>Correo</th>
+<th>Contraseña</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Administrador</td>
+<td><code>admin@ut.edu.co</code></td>
+<td><code>admin2026</code></td>
+</tr>
+<tr>
+<td>Coordinación</td>
+<td><code>coordinacion.cat@ut.edu.co</code></td>
+<td><code>cat2026</code></td>
+</tr>
+</tbody>
+</table>
+<p>La cuenta administradora se muestra como <strong>Administrador</strong>, sin nombre personal. Los datos de estudiantes, docentes, solicitudes, notificaciones y correos que aparecen en las capturas son ficticios y se generaron para la presentación.</p>
+<h3>Anexo B. Ejecución local</h3>
+<pre><code class="language-bash">cd prestamos-ut-pwa-v3
+python3 -m http.server 8080
+</code></pre>
+<p>Abrir <code>http://localhost:8080/</code>. No se debe abrir <code>index.html</code> con <code>file://</code> porque el service worker, el manifiesto y las rutas relativas requieren HTTP o HTTPS.</p>
+<p>Si no se ven los cambios:</p>
+<ol>
+<li>Recargar con <code>Ctrl + Shift + R</code>.</li>
+<li>Abrir las herramientas del navegador → <strong>Application → Service Workers → Unregister</strong>.</li>
+<li><strong>Application → Storage → Clear site data</strong>.</li>
+<li>Volver a cargar la aplicación.</li>
+</ol>
+<h3>Anexo C. Estructura de la entrega</h3>
+<pre><code class="language-text">prestamos-ut-pwa-v3/
+├── index.html
+├── manifest.webmanifest
+├── sw.js
+├── css/
+│   ├── styles.css
+│   └── demo.css
+├── js/
+│   ├── store.js
+│   ├── email.js
+│   ├── app.js
+│   ├── views-requests.js
+│   ├── views-admin.js
+│   ├── views-student.js
+│   ├── init.js
+│   └── pwa.js
+├── icons/
+├── docs/
+│   ├── INFORME-APLICACION.md
+│   ├── INFORME-APLICACION.html
+│   ├── INFORME-APLICACION.pdf
+│   ├── INFORME-APLICACION.docx
+│   ├── REQUISITOS.md
+│   ├── ARQUITECTURA-Y-DATOS.md
+│   └── PLAN-MAESTRO.md
+└── README.md
+</code></pre>
+<h3>Anexo D. Glosario</h3>
+<table>
+<thead>
+<tr>
+<th>Término</th>
+<th>Definición</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PWA</strong></td>
+<td>Aplicación web progresiva: sitio web que puede instalarse y funcionar como app.</td>
+</tr>
+<tr>
+<td><strong>Service worker</strong></td>
+<td>Script del navegador que intercepta solicitudes y gestiona la caché.</td>
+</tr>
+<tr>
+<td><strong><code>localStorage</code></strong></td>
+<td>Almacenamiento persistente del navegador, limitado al equipo y al dominio.</td>
+</tr>
+<tr>
+<td><strong>Disponibilidad</strong></td>
+<td>Unidades de un recurso que pueden prestarse en un rango de fechas.</td>
+</tr>
+<tr>
+<td><strong>Aval</strong></td>
+<td>Autorización de un docente o dependencia para usar un recurso.</td>
+</tr>
+<tr>
+<td><strong>Novedad</strong></td>
+<td>Registro de daño, pérdida o faltante al devolver un préstamo.</td>
+</tr>
+<tr>
+<td><strong>Historial</strong></td>
+<td>Conjunto de acciones registradas sobre una solicitud.</td>
+</tr>
+<tr>
+<td><strong>Rol</strong></td>
+<td>Conjunto de permisos asignado a un tipo de usuario.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>Fin del informe.</em></p>
+
+</main>
+</body>
+</html>

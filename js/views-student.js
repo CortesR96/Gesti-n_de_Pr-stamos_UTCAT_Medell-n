@@ -2,7 +2,7 @@
    Vistas de estudiante / docente – catálogo, solicitud e historial
    ============================================================ */
 
-const nCart = () => Object.values(cart).reduce((a, b) => a + b, 0);
+const nCart = () => Object.entries(cart).reduce((a, [id, n]) => a + (isActiveItem(item(id)) ? n : 0), 0);
 const frmStart = () => new Date(`${frm.date}T${frm.time || '00:00'}:00`);
 const frmEnd = () => new Date(`${frm.ret}T${frm.retTime || '23:59'}:00`);
 function setFrm(k, v) {
@@ -19,7 +19,7 @@ function maxFor(id) {
 }
 function add(id) {
   const i = item(id);
-  if (!i) return;
+  if (!isActiveItem(i)) return;
   const max = availNow(id);
   if (!max) { toast('No hay disponibilidad en este momento.', 'no'); return; }
   if ((cart[id] || 0) >= max) { toast('Ya tienes el máximo disponible hoy. Puedes ajustar las fechas en Mi solicitud.', 'info'); return; }
@@ -29,7 +29,7 @@ function add(id) {
 }
 function chg(id, d) {
   const i = item(id);
-  if (!i) return;
+  if (!isActiveItem(i)) return;
   const max = maxFor(id);
   cart[id] = Math.max(0, Math.min(max, (cart[id] || 0) + d));
   if (!cart[id]) delete cart[id];
@@ -40,7 +40,7 @@ function sdash() {
   const my = myReqs();
   const n = statuses => my.filter(r => statuses.includes(r.status)).length;
   const g = groupById(me.groupId);
-  const total = db.inv.filter(i => i.cat !== 'Espacios').reduce((s, i) => s + availNow(i.id), 0);
+  const total = activeInv().filter(i => i.cat !== 'Espacios').reduce((s, i) => s + availNow(i.id), 0);
   const nextR = my.filter(r => r.status === 'En préstamo').sort((a, b) => (a.ret + a.retTime).localeCompare(b.ret + b.retTime))[0];
   const who = me.role === 'prof' ? `Docente · ${me.course || me.program}` : `Representante · ${g ? groupLabel(g) : 'Sin grupo asignado'}`;
   const k = [
@@ -57,7 +57,7 @@ function sdash() {
 
 function gridHtml() {
   const s = q.toLowerCase();
-  const rows = db.inv.filter(c => (cat === 'Todos' || c.cat === cat) && (!s || (c.name + ' ' + c.code + ' ' + c.cat).toLowerCase().includes(s)));
+  const rows = activeInv().filter(c => (cat === 'Todos' || c.cat === cat) && (!s || (c.name + ' ' + c.code + ' ' + c.cat).toLowerCase().includes(s)));
   return rows.map(c => {
     const a = availNow(c.id);
     const state = itemState(c);
@@ -76,7 +76,7 @@ function scat() {
 }
 
 function ssol() {
-  const it = Object.entries(cart).filter(([id]) => item(id));
+  const it = Object.entries(cart).filter(([id]) => isActiveItem(item(id)));
   if (done) {
     const r = db.reqs.find(x => x.id === done);
     return `<div class="card success"><div style="font-size:42px">✅</div><h2>Solicitud enviada</h2><p class="mut">Número <b>${esc(done)}</b>. La coordinación recibió una notificación y tú recibiste un correo de confirmación. Cuando la aprueben o rechacen, el resultado también llegará a tu correo y a la campana 🔔.</p><div class="acts" style="justify-content:center"><button class="btn p" onclick="go('shist','Historial')">Ver mi historial</button><button class="btn" onclick="myEmails('${done}')">Ver correos</button><button class="btn" onclick="go('sdash','Inicio')">Volver al inicio</button></div>${r ? `<p class="mut" style="margin-top:14px;font-size:12px">${esc(itemsText(r))} · ${fmtDT(r.date, r.time)} → ${fmtDT(r.ret, r.retTime)}</p>` : ''}</div>`;
@@ -111,7 +111,7 @@ function ssol() {
 
 function send() {
   if (!me) return;
-  const items = Object.entries(cart).filter(([id, n]) => item(id) && n > 0).map(([id, n]) => [id, Math.min(n, item(id).total)]);
+  const items = Object.entries(cart).filter(([id, n]) => isActiveItem(item(id)) && n > 0).map(([id, n]) => [id, Math.min(n, item(id).total)]);
   if (!items.length) { toast('Agrega al menos un elemento a la solicitud.', 'no'); return; }
   const f = frm;
   if (!f.act.trim()) { toast('Escribe la actividad o motivo del préstamo.', 'no'); return; }

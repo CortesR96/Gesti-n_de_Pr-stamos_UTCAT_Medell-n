@@ -9,6 +9,12 @@ El **demo funcional v5** ya está implementado en la raíz del proyecto: consult
 | [`PLAN-MAESTRO.md`](./PLAN-MAESTRO.md) | Diagnóstico, visión, roles, arquitectura, identidad UT, roadmap, costos, riesgos y primeros pasos. | Para entender el proyecto completo y presentarlo. |
 | [`REQUISITOS.md`](./REQUISITOS.md) | RF1–RF31 revisados, RF32–RF96 nuevos, RNF1–RNF50, criterios de aceptación y glosario. | Para construir, priorizar y verificar el alcance. |
 | [`ARQUITECTURA-Y-DATOS.md`](./ARQUITECTURA-Y-DATOS.md) | Stack, modelo de datos SQL, RLS, motor de disponibilidad, clases OOP, PWA, migración y pruebas. | Para implementar la base de datos y el código. |
+| [`INFORME-APLICACION.md`](./INFORME-APLICACION.md) | Informe académico: problemática, objetivos, metodología, arquitectura, accesibilidad, requisitos, capturas, pruebas y conclusiones. | Para la presentación y la entrega académica. |
+| [`MANUAL-DE-USUARIO.md`](./MANUAL-DE-USUARIO.md) | Manual de usuario: roles, ingreso, guías por rol, correos, instalación de la PWA, solución de problemas, credenciales y glosario. | Para enseñar a usar la aplicación paso a paso. |
+
+El informe también está disponible en [`INFORME-APLICACION.docx`](./INFORME-APLICACION.docx) (Word editable), [`INFORME-APLICACION.html`](./INFORME-APLICACION.html) (versión imprimible) y [`INFORME-APLICACION.pdf`](./INFORME-APLICACION.pdf) (30 páginas, con las capturas del aplicativo).
+
+El manual de usuario se entrega en [`MANUAL-DE-USUARIO.pdf`](./MANUAL-DE-USUARIO.pdf) (28 páginas, con las mismas capturas), [`MANUAL-DE-USUARIO.html`](./MANUAL-DE-USUARIO.html) (versión navegable) y [`MANUAL-DE-USUARIO.md`](./MANUAL-DE-USUARIO.md) (fuente editable). Se regenera con `python3 docs/_generar_manual.py`.
 
 ## Orden de lectura recomendado
 

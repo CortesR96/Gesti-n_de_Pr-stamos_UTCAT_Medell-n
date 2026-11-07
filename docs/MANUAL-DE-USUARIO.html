@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manual de usuario · Préstamos UT · CAT Medellín</title>
+<style>
+:root{
+  --wine:#7a1230; --wine-d:#5c0d24; --wine-l:#f6e9ed;
+  --ink:#171717; --mut:#5f5f5f; --line:#dedada; --bg:#eeeae9;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font:10.8pt/1.58 "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.sheet{
+  width:min(980px,100%); margin:28px auto; background:#fff; padding:56px 64px 72px;
+  box-shadow:0 10px 40px #0002; border-radius:2px;
+}
+h1,h2,h3,h4{font-family:Georgia,"Times New Roman",serif; color:var(--ink); line-height:1.18}
+h2{
+  font-size:18pt; color:var(--wine); margin:0 0 16px; padding-bottom:8px;
+  border-bottom:1.5px solid var(--wine); break-after:avoid;
+}
+h3{font-size:12.6pt; margin:22px 0 8px; break-after:avoid}
+h4{font-size:11.3pt; margin:16px 0 6px; break-after:avoid}
+p{margin:0 0 10px; text-align:justify; hyphens:auto}
+ul,ol{margin:0 0 12px; padding-left:24px}
+li{margin:4px 0}
+a{color:var(--wine); text-decoration:none}
+strong{color:#111}
+code{
+  font:9.5pt ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  background:#f3efef; border:1px solid #e6dede; border-radius:4px; padding:1px 4px;
+}
+pre{
+  background:#f7f4f4; border:1px solid var(--line); border-left:4px solid var(--wine);
+  border-radius:6px; padding:12px 14px; overflow:auto; margin:14px 0; break-inside:avoid;
+}
+pre code{background:none;border:0;padding:0;font-size:9pt;line-height:1.45}
+blockquote{
+  margin:14px 0; padding:10px 16px; background:var(--wine-l);
+  border-left:4px solid var(--wine); border-radius:0 6px 6px 0; color:#3a1822;
+}
+blockquote p{margin:0}
+table{
+  width:100%; border-collapse:collapse; margin:14px 0 18px; font-size:8.8pt; line-height:1.4;
+}
+thead{display:table-header-group}
+th{
+  background:var(--wine-l); color:var(--wine-d); text-align:left; font-weight:700;
+  border:1px solid #d9bfc8; padding:6px 7px;
+}
+td{border:1px solid var(--line); padding:5px 7px; vertical-align:top}
+tr{break-inside:avoid}
+tbody tr:nth-child(even){background:#fbf9f9}
+figure{
+  margin:18px 0 22px; padding:0; break-inside:avoid; text-align:center;
+}
+figure img{
+  display:block; width:100%; height:auto; margin:0 auto;
+  border:1px solid #cfc7c7; border-radius:6px; box-shadow:0 4px 14px #0001;
+}
+figcaption{
+  font-size:9pt; color:var(--mut); line-height:1.45; text-align:left;
+  margin:8px 6px 0; padding-left:10px; border-left:3px solid var(--wine);
+}
+figcaption b{color:var(--wine)}
+.fig-mobile img{width:290px; max-width:100%}
+hr{border:0; border-top:1px solid var(--line); margin:26px 0}
+
+/* Portada */
+.cover{
+  min-height:245mm; display:flex; flex-direction:column; justify-content:center;
+  padding:10mm 6mm 14mm; break-after:page; text-align:left;
+}
+.cover-logo{width:100px; height:100px; object-fit:contain; margin:0 0 28px}
+.cover-kicker{
+  font:700 10.5pt/1.3 "Segoe UI",Arial,sans-serif; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--wine); margin:0 0 14px;
+}
+.cover h1{font-size:38pt; max-width:760px; margin:0 0 14px; color:var(--wine-d)}
+.cover-sub{font:15pt/1.38 Georgia,serif; color:#4a3a3e; margin:0 0 38px; max-width:660px}
+.cover-meta{
+  border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  padding:15px 0; margin:0 0 28px; max-width:580px;
+}
+.cover-meta p{margin:4px 0; font-size:10.2pt; text-align:left}
+.cover-note{font-size:9.4pt; color:var(--mut); max-width:580px; text-align:left; margin:0}
+
+/* Contenido */
+.toc{break-after:page; padding-top:6mm}
+.toc-title{
+  font:700 26pt/1.1 Georgia,serif; color:var(--wine-d);
+  border-bottom:2px solid var(--wine); padding-bottom:10px; margin:0 0 22px;
+}
+.toc-list{list-style:none; margin:0; padding:0}
+.toc-list li{
+  display:flex; align-items:baseline; gap:8px; margin:0; padding:9px 0;
+  border-bottom:1px dotted #d9cfd3; font-size:11pt;
+}
+.toc-list li a{flex:1; color:var(--ink)}
+.toc-list li a:hover{color:var(--wine)}
+.toc-page{font:700 10pt "Segoe UI",Arial,sans-serif; color:var(--wine); min-width:26px; text-align:right}
+.toc-note{font-size:9pt; color:var(--mut); margin-top:24px; text-align:left}
+
+.manual-end{
+  margin-top:26px; padding-top:14px; border-top:1px solid var(--line);
+  font-size:9.5pt; color:var(--mut); text-align:left;
+}
+
+/* Pantalla */
+@media (max-width:760px){
+  .sheet{margin:0; padding:28px 20px 50px; border-radius:0}
+  .cover{min-height:70vh; padding:24px 0}
+  .cover h1{font-size:28pt}
+  h2{font-size:16pt}
+  table{font-size:8.4pt}
+  td,th{padding:4px}
+}
+
+/* Impresión */
+@page{
+  size:A4;
+  margin:16mm 16mm 20mm;
+  @bottom-left{
+    content:"Manual de usuario · Préstamos UT";
+    font-family:"Segoe UI", Arial, sans-serif; font-size:8pt; color:#7a1230;
+  }
+  @bottom-right{
+    content:"Página " counter(page) " de " counter(pages);
+    font-family:"Segoe UI", Arial, sans-serif; font-size:8pt; color:#7a1230;
+  }
+}
+@page:first{
+  @bottom-left{content:none}
+  @bottom-right{content:none}
+}
+@media print{
+  body{background:#fff; font-size:9.8pt; line-height:1.45}
+  .sheet{width:auto; margin:0; padding:0; box-shadow:none; border-radius:0}
+  a{color:inherit; text-decoration:none}
+  h2{break-before:page; margin-top:0}
+  .page-break{break-before:page}
+  h3{margin:16px 0 6px}
+  p{margin-bottom:7px}
+  li{margin:3px 0}
+  .toc{break-after:page; padding-top:0}
+  .toc-list li{padding:7px 0}
+  figure{margin:10px 0 14px}
+  figure img{box-shadow:none; width:auto; max-width:100%; max-height:112mm; margin:0 auto}
+  .cover{min-height:auto; height:calc(297mm - 36mm); padding:4mm; page-break-after:always}
+  .cover h1{font-size:32pt}
+  .cover-sub{font-size:13.5pt}
+  blockquote{margin:9px 0; padding:7px 13px}
+  table{font-size:8.1pt; line-height:1.32}
+  td,th{padding:3.5px 5.5px}
+  thead{display:table-header-group}
+  .fig-mobile img{width:245px}
+  .fig-inv img{max-height:74mm}
+}
+</style>
+</head>
+<body>
+<main class="sheet">
+<div class="cover">
+<img class="cover-logo" src="../icons/logo-ut.png" alt="Logosímbolo oficial de la Universidad del Tolima">
+<p class="cover-kicker">Universidad del Tolima · IDEAD · CAT Medellín</p>
+<h1>Manual de usuario</h1>
+<p class="cover-sub">Préstamos UT · Sistema de gestión de préstamos de materiales, equipos y espacios</p>
+<div class="cover-meta">
+<p><b>Dirigido a:</b> administración, coordinación, estudiantes y docentes</p>
+<p><b>Periodo de referencia:</b> 2026-2</p>
+<p><b>Versión del documento:</b> 1.0 · noviembre de 2026</p>
+<p><b>Modalidad:</b> prototipo funcional (aplicación web progresiva)</p>
+</div>
+<p class="cover-note">Guía paso a paso para usar la aplicación. Las capturas corresponden al prototipo funcional y utilizan datos ficticios de demostración. No se deben registrar datos personales reales en esta versión.</p>
+</div>
+<div class="toc">
+<div class="toc-title">Contenido</div>
+<ol class="toc-list">
+<li><a href="#presentacion">1. Presentación</a><span class="toc-page" data-sec="presentacion">3</span></li>
+<li><a href="#antes-de-empezar">2. Antes de empezar</a><span class="toc-page" data-sec="antes-de-empezar">5</span></li>
+<li><a href="#ingresar-y-cerrar-sesion">3. Ingresar y cerrar sesión</a><span class="toc-page" data-sec="ingresar-y-cerrar-sesion">7</span></li>
+<li><a href="#guia-del-administrador">4. Guía del administrador</a><span class="toc-page" data-sec="guia-del-administrador">9</span></li>
+<li><a href="#guia-de-coordinacion">5. Guía de coordinación</a><span class="toc-page" data-sec="guia-de-coordinacion">15</span></li>
+<li><a href="#guia-del-estudiante-y-del-docente">6. Guía del estudiante y del docente</a><span class="toc-page" data-sec="guia-del-estudiante-y-del-docente">19</span></li>
+<li><a href="#correos-y-notificaciones">7. Correos y notificaciones</a><span class="toc-page" data-sec="correos-y-notificaciones">22</span></li>
+<li><a href="#instalar-la-pwa">8. Instalar la PWA y usarla en el celular</a><span class="toc-page" data-sec="instalar-la-pwa">24</span></li>
+<li><a href="#solucion-de-problemas">9. Solución de problemas</a><span class="toc-page" data-sec="solucion-de-problemas">25</span></li>
+<li><a href="#buenas-practicas">10. Buenas prácticas y cierre</a><span class="toc-page" data-sec="buenas-practicas">26</span></li>
+<li><a href="#anexo-a-credenciales">Anexo A. Credenciales y flujo rápido</a><span class="toc-page" data-sec="anexo-a-credenciales">27</span></li>
+<li><a href="#anexo-b-glosario">Anexo B. Glosario</a><span class="toc-page" data-sec="anexo-b-glosario">28</span></li>
+</ol>
+<p class="toc-note">Los enlaces del contenido permiten saltar a cada sección cuando el documento se consulta en pantalla.</p>
+</div>
+<h2 id="1-presentacion">1. Presentación</h2>
+<h3 id="1-1-que-es-prestamos-ut">1.1 ¿Qué es Préstamos UT?</h3>
+<p><strong>Préstamos UT</strong> es una aplicación web progresiva (PWA) creada para apoyar la gestión de préstamos de materiales, equipos y espacios del CAT Medellín de la Universidad del Tolima. En un solo lugar permite consultar el catálogo, crear solicitudes, aprobarlas o rechazarlas, registrar entregas y devoluciones, generar notificaciones y consultar reportes.</p>
+<p>La aplicación está pensada para que cada persona realice solamente las tareas que le corresponden. El administrador organiza las cuentas, los grupos y el inventario; la coordinación atiende las solicitudes y controla el préstamo; los estudiantes y docentes consultan la disponibilidad y solicitan los recursos.</p>
+<blockquote>
+<p><strong>Importante:</strong> esta versión es un <strong>prototipo académico y funcional</strong>. Los datos se guardan únicamente en el navegador donde se usa la aplicación y los correos se registran en una bandeja interna. No es todavía un sistema institucional de producción.</p>
+</blockquote>
+<h3 id="1-2-a-quien-esta-dirigido-este-manual">1.2 ¿A quién está dirigido este manual?</h3>
+<p>Este manual está dirigido a cuatro tipos de usuario:</p>
+<ul>
+<li><strong>Administración:</strong> crea y mantiene usuarios, grupos, inventario y configuración general.</li>
+<li><strong>Coordinación del CAT:</strong> revisa solicitudes, decide, registra entregas y devoluciones y consulta reportes.</li>
+<li><strong>Estudiantes:</strong> solicitan recursos a nombre de su grupo o representación estudiantil.</li>
+<li><strong>Docentes:</strong> solicitan recursos para un curso o cátedra y pueden avalar actividades.</li>
+</ul>
+<p>Cada rol ve un menú diferente. Si una opción no aparece en la pantalla, significa que el rol de la cuenta no tiene permiso para usarla.</p>
+<h3 id="1-3-alcance-de-esta-version">1.3 Alcance de esta versión</h3>
+<p>La versión que se describe en este manual permite:</p>
+<ul>
+<li>Ingresar con correo institucional y contraseña.</li>
+<li>Gestionar usuarios con roles de administrador, coordinación, estudiante y docente.</li>
+<li>Crear, editar y eliminar grupos con programa, facultad, semestre, jornada y periodo.</li>
+<li>Administrar un catálogo de materiales, equipos y espacios.</li>
+<li>Consultar disponibilidad por rangos de fechas y horas.</li>
+<li>Crear solicitudes con varios elementos, cantidades, actividad, fechas y observaciones.</li>
+<li>Aprobar, rechazar o ajustar solicitudes desde la coordinación.</li>
+<li>Registrar la entrega y la devolución, incluidas novedades por daño o pérdida.</li>
+<li>Generar notificaciones internas y correos simulados.</li>
+<li>Consultar reportes, exportar un CSV e imprimir o guardar en PDF.</li>
+<li>Instalar la aplicación en el celular o en el computador cuando el navegador lo permita.</li>
+</ul>
+<div class="page-break"></div>
+<h3 id="1-4-requisitos-para-usar-la-aplicacion">1.4 Requisitos para usar la aplicación</h3>
+<p>Para usar Préstamos UT se necesita:</p>
+<ol>
+<li>Un navegador actualizado: Google Chrome, Microsoft Edge, Mozilla Firefox, Safari u otro navegador moderno.</li>
+<li>Conexión a internet la primera vez que se abre la aplicación, para descargar los archivos y el catálogo.</li>
+<li>Un correo institucional terminado en <code>@ut.edu.co</code> para las cuentas creadas desde el sistema.</li>
+<li>JavaScript activado en el navegador.</li>
+<li>Para instalar la PWA, acceder mediante <code>https://</code> o desde <code>http://localhost</code>. En una dirección <code>file://</code> la instalación y el service worker no funcionan correctamente.</li>
+</ol>
+<blockquote>
+<p><strong>Consejo:</strong> para una presentación, abre la aplicación antes de empezar y deja el navegador en una pestaña independiente. Así evitas esperas por la carga inicial y puedes mostrar el flujo sin interrupciones.</p>
+</blockquote>
+<h2 id="2-antes-de-empezar">2. Antes de empezar</h2>
+<h3 id="2-1-roles-y-permisos">2.1 Roles y permisos</h3>
+<p>La aplicación distingue cuatro roles. El menú y las acciones disponibles cambian según el rol de la cuenta que inicia sesión.</p>
+<table>
+<thead>
+<tr>
+<th>Rol</th>
+<th>Para qué sirve</th>
+<th>Opciones principales</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Administrador</strong></td>
+<td>Organiza el sistema y las cuentas.</td>
+<td>Panel, Solicitudes, Inventario, Devoluciones, Usuarios, Grupos, Correos, Reportes y Configuración.</td>
+</tr>
+<tr>
+<td><strong>Coordinación</strong></td>
+<td>Atiende el ciclo operativo del préstamo.</td>
+<td>Panel, Solicitudes, Inventario, Devoluciones, Correos y Reportes.</td>
+</tr>
+<tr>
+<td><strong>Estudiante</strong></td>
+<td>Solicita recursos para su grupo o representación.</td>
+<td>Inicio, Catálogo, Mi solicitud e Historial.</td>
+</tr>
+<tr>
+<td><strong>Docente</strong></td>
+<td>Solicita recursos para un curso o cátedra.</td>
+<td>Inicio, Catálogo, Mi solicitud e Historial.</td>
+</tr>
+</tbody>
+</table>
+<p>Además, todos los usuarios pueden abrir <strong>Mi perfil</strong> desde el botón con su nombre, en la parte inferior de la barra lateral, y cerrar sesión con el botón <strong>Salir</strong>.</p>
+<h3 id="2-2-estados-de-una-solicitud">2.2 Estados de una solicitud</h3>
+<p>Cada solicitud recorre un ciclo de vida. El estado se muestra con una etiqueta de color en las tablas y en el detalle.</p>
+<table>
+<thead>
+<tr>
+<th>Estado</th>
+<th>Significado</th>
+<th>Quién lo genera</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pendiente</strong></td>
+<td>La solicitud fue enviada y espera la decisión de coordinación.</td>
+<td>El solicitante al enviarla.</td>
+</tr>
+<tr>
+<td><strong>Aprobada</strong></td>
+<td>La coordinación autorizó el préstamo y las existencias quedan reservadas para las fechas.</td>
+<td>Coordinación al aprobar.</td>
+</tr>
+<tr>
+<td><strong>En préstamo</strong></td>
+<td>El material fue entregado físicamente y ya está descontado del inventario.</td>
+<td>Coordinación al registrar la entrega.</td>
+</tr>
+<tr>
+<td><strong>Devuelta</strong></td>
+<td>El material regresó al CAT y el préstamo quedó cerrado.</td>
+<td>Coordinación al registrar la devolución.</td>
+</tr>
+<tr>
+<td><strong>Rechazada</strong></td>
+<td>La solicitud no fue autorizada; debe incluir un motivo para el solicitante.</td>
+<td>Coordinación al rechazar.</td>
+</tr>
+<tr>
+<td><strong>Cancelada</strong></td>
+<td>El solicitante decidió retirar la solicitud antes de que fuera atendida.</td>
+<td>El solicitante, mientras esté pendiente.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Importante:</strong> una solicitud <strong>aprobada</strong> todavía no descuenta el inventario disponible. El descuento ocurre cuando la coordinación registra la <strong>entrega</strong>. Si la entrega se hace antes de la fecha de uso, el material se descuenta desde ese momento, aunque la actividad sea en días posteriores.</p>
+</blockquote>
+<h3 id="2-3-como-se-calcula-la-disponibilidad">2.3 Cómo se calcula la disponibilidad</h3>
+<p>La disponibilidad no depende solo de la cantidad total de un elemento. El sistema compara las <strong>fechas y horas de uso</strong> de las solicitudes activas:</p>
+<ul>
+<li>Una solicitud <strong>aprobada</strong> o <strong>en préstamo</strong> ocupa inventario durante su rango de fechas.</li>
+<li>Dos solicitudes que no se cruzan en el tiempo pueden usar el mismo material.</li>
+<li>Dos solicitudes que se cruzan compiten por las existencias disponibles.</li>
+<li>Las unidades <strong>fuera de servicio</strong> se restan de la cantidad total.</li>
+<li>Cuando una entrega se registra antes de la fecha prevista, el sistema descuenta el material desde el momento real de la entrega.</li>
+<li>Mientras un préstamo no se devuelva, sigue ocupando inventario aunque la fecha prevista ya haya pasado.</li>
+</ul>
+<p>La fórmula que se aplica es, en términos sencillos:</p>
+<p><strong>Disponible para un rango = total − unidades fuera de servicio − unidades comprometidas en ese rango</strong></p>
+<h3 id="2-4-recomendaciones-para-una-demostracion">2.4 Recomendaciones para una demostración</h3>
+<p>Si vas a presentar la aplicación:</p>
+<ol>
+<li>Abre la aplicación y verifica que las cuentas de administrador y coordinación funcionen.</li>
+<li>Crea un grupo y un usuario de estudiante antes de la presentación, o hazlo en vivo si el tiempo lo permite.</li>
+<li>Ten a mano las credenciales y una actividad de ejemplo, por ejemplo «muestra cultural» o «torneo interno».</li>
+<li>Usa fechas cercanas y distintas para mostrar que la disponibilidad cambia según el rango.</li>
+<li>Al terminar, revisa la campana de notificaciones, la bandeja de correos y el historial de la solicitud.</li>
+</ol>
+<h2 id="3-ingresar-y-cerrar-sesion">3. Ingresar y cerrar sesión</h2>
+<h3 id="3-1-abrir-la-aplicacion">3.1 Abrir la aplicación</h3>
+<p>Abre la dirección que te entregue la coordinación del CAT. Si estás ejecutando la aplicación localmente, usa la dirección del servidor, por ejemplo <code>http://localhost:8080/</code>. No abras el archivo <code>index.html</code> directamente con <code>file://</code>, porque la PWA y el service worker necesitan HTTP o HTTPS.</p>
+<p>Al cargar, verás la pantalla de ingreso con el logosímbolo de la Universidad del Tolima, el formulario de correo y contraseña y el bloque de <strong>acceso rápido para la demostración</strong>.</p>
+<figure>
+<img src="img/01-login.png" alt="Pantalla de inicio de sesión de Préstamos UT con el logosímbolo de la Universidad del Tolima y el acceso rápido de demostración.">
+<figcaption><b>Figura 1.</b> Pantalla de ingreso. A la izquierda se presenta la aplicación; a la derecha se escribe el correo institucional y la contraseña. Los botones inferiores permiten entrar rápidamente con las cuentas de demostración.</figcaption>
+</figure>
+<h3 id="3-2-ingresar-con-correo-y-contrasena">3.2 Ingresar con correo y contraseña</h3>
+<ol>
+<li>Escribe tu <strong>correo institucional</strong> en el primer campo. Debe ser el correo con el que la coordinación creó tu cuenta.</li>
+<li>Escribe tu <strong>contraseña</strong> en el segundo campo. Puedes usar el botón del ojo para mostrar u ocultar lo que escribiste.</li>
+<li>Pulsa <strong>Ingresar</strong>.</li>
+<li>Si los datos son correctos, la aplicación abre el panel correspondiente a tu rol.</li>
+</ol>
+<p>Si el correo o la contraseña no coinciden, aparecerá el mensaje <strong>«Correo o contraseña incorrectos»</strong>. Si la cuenta existe pero fue desactivada, el mensaje indicará que debes contactar al administrador del sistema.</p>
+<h3 id="3-3-acceso-rapido-de-demostracion">3.3 Acceso rápido de demostración</h3>
+<p>En la parte inferior de la pantalla de ingreso hay dos botones de acceso rápido:</p>
+<ul>
+<li><strong>Admin:</strong> ingresa con la cuenta <code>admin@ut.edu.co</code>.</li>
+<li><strong>Coordinación:</strong> ingresa con la cuenta <code>coordinacion.cat@ut.edu.co</code>.</li>
+</ul>
+<p>Estos botones son una ayuda para la demostración y no reemplazan el ingreso normal. Las contraseñas de demostración están documentadas en el Anexo A y son visibles en el código del prototipo.</p>
+<h3 id="3-4-si-olvidaste-la-contrasena">3.4 Si olvidaste la contraseña</h3>
+<p>Esta versión no tiene recuperación automática de contraseña por correo. Si no puedes ingresar:</p>
+<ol>
+<li>Pide al <strong>administrador</strong> que restablezca tu contraseña. La coordinación no puede gestionar cuentas de usuario.</li>
+<li>La persona administradora debe abrir <strong>Usuarios</strong>, ubicar tu cuenta y pulsar <strong>Clave</strong>.</li>
+<li>El sistema genera una contraseña temporal y un correo de restablecimiento.</li>
+<li>Consulta la bandeja de correos o el correo que te comparta el administrador e ingresa con la nueva contraseña.</li>
+</ol>
+<h3 id="3-5-cerrar-sesion-y-editar-el-perfil">3.5 Cerrar sesión y editar el perfil</h3>
+<ul>
+<li>Para cerrar sesión, pulsa <strong>Salir</strong> en la parte inferior de la barra lateral.</li>
+<li>Para consultar o editar tus datos, pulsa el botón con tu nombre, junto a <strong>Salir</strong>. Se abrirá <strong>Mi perfil</strong>.</li>
+<li>En <strong>Mi perfil</strong> puedes cambiar tu nombre, tu teléfono y tu contraseña. El correo institucional solo lo puede modificar la administración.</li>
+</ul>
+<blockquote>
+<p><strong>Consejo:</strong> si usas un computador compartido, cierra sesión al terminar. La sesión se guarda mientras la pestaña permanezca abierta, pero los datos de la demostración quedan en el navegador.</p>
+</blockquote>
+<h2 id="4-guia-del-administrador">4. Guía del administrador</h2>
+<p>El administrador es el rol con más opciones. Su tarea principal es preparar el sistema para que la coordinación y los solicitantes puedan trabajar: crear grupos, crear usuarios, mantener el inventario y revisar la configuración.</p>
+<h3 id="4-1-conocer-el-panel-principal">4.1 Conocer el panel principal</h3>
+<p>Al ingresar como administrador se abre el <strong>Panel principal</strong>. Allí se resume el estado general:</p>
+<ul>
+<li>Solicitudes pendientes.</li>
+<li>Préstamos activos.</li>
+<li>Materiales disponibles.</li>
+<li>Devoluciones por recibir.</li>
+<li>Correos en la bandeja.</li>
+<li>Solicitudes por categoría.</li>
+<li>Solicitudes recientes con acceso directo al detalle.</li>
+</ul>
+<p>En la parte superior también hay accesos rápidos para configurar el correo, crear un usuario y revisar las solicitudes pendientes.</p>
+<figure>
+<img src="img/02-panel.png" alt="Panel principal del administrador con indicadores de solicitudes, préstamos, materiales, devoluciones y correos.">
+<figcaption><b>Figura 2.</b> Panel principal del administrador. Los indicadores permiten detectar pendientes y revisar la actividad reciente sin entrar a cada módulo.</figcaption>
+</figure>
+<h3 id="4-2-crear-y-organizar-grupos">4.2 Crear y organizar grupos</h3>
+<p>Los grupos permiten identificar a los estudiantes que solicitan recursos: semilleros, clubes, representaciones estudiantiles o grupos de curso. Un estudiante debe tener un grupo asignado para poder enviar solicitudes.</p>
+<h4>Crear un grupo</h4>
+<ol>
+<li>En la barra lateral, abre <strong>Grupos</strong>.</li>
+<li>Pulsa <strong>+ Crear grupo</strong>.</li>
+<li>Completa los datos:
+<ul>
+<li><strong>Nombre del grupo:</strong> por ejemplo, «Semillero Arte Vivo».</li>
+<li><strong>Programa:</strong> programa académico al que pertenece.</li>
+<li><strong>Facultad / dependencia:</strong> opcional, pero recomendable.</li>
+<li><strong>Semestre:</strong> número entre 1 y 12.</li>
+<li><strong>Miembros:</strong> cantidad aproximada de integrantes.</li>
+<li><strong>Jornada:</strong> Diurna, Nocturna o Mixta.</li>
+<li><strong>Periodo:</strong> por ejemplo, <code>2026-2</code>.</li>
+<li><strong>Representante:</strong> estudiante activo que actuará como contacto. Es opcional.</li>
+<li><strong>Grupo activo:</strong> deja la casilla marcada para que aparezca en los selectores.</li>
+</ul>
+</li>
+<li>Pulsa <strong>Guardar</strong>.</li>
+</ol>
+<p>Al asignar un representante, su cuenta queda vinculada al grupo y hereda el programa y el semestre del grupo. Si el representante estaba asignado a otro grupo, se actualiza la relación.</p>
+<h4>Repetir el nombre de un grupo</h4>
+<p>El sistema permite que dos grupos tengan el mismo nombre cuando cambian el programa, el semestre, la jornada o el periodo. Por ejemplo, puede existir «Grupo 1» en el semestre 2 de la jornada diurna y «Grupo 1» en el semestre 4 de la jornada nocturna.</p>
+<p>Solo se bloquea el duplicado exacto: mismo nombre, mismo programa, mismo semestre, misma jornada y mismo periodo. Si aparece el mensaje de duplicado, cambia el semestre, la jornada o el periodo para diferenciar el grupo.</p>
+<figure>
+<img src="img/05-grupos.png" alt="Listado de grupos con dos grupos del mismo nombre en semestres diferentes, programa, representante, miembros, solicitudes y acciones.">
+<figcaption><b>Figura 3.</b> Gestión de grupos. Cada fila muestra el nombre, el periodo, la jornada, el programa, el semestre, el representante y el número de solicitudes. Los botones permiten editar o eliminar.</figcaption>
+</figure>
+<h4>Editar o eliminar un grupo</h4>
+<ul>
+<li>Para <strong>editar</strong>, pulsa <strong>✎ Editar</strong> en la fila del grupo, modifica los datos y guarda.</li>
+<li>Para <strong>eliminar</strong>, pulsa <strong>🗑 Eliminar</strong> y confirma la acción.</li>
+</ul>
+<p>Al eliminar un grupo:</p>
+<ul>
+<li>Los usuarios vinculados quedan <strong>sin grupo</strong>. Deberás asignarles uno nuevo antes de que puedan volver a solicitar.</li>
+<li>Las solicitudes históricas <strong>conservan el nombre completo del grupo</strong> con el que fueron creadas.</li>
+<li>La acción no se puede deshacer.</li>
+</ul>
+<blockquote>
+<p><strong>Importante:</strong> antes de eliminar un grupo, revisa cuántos usuarios y solicitudes están asociados. El mensaje de confirmación indica cuántos registros se verán afectados.</p>
+</blockquote>
+<h3 id="4-3-crear-usuarios-y-enviar-invitaciones">4.3 Crear usuarios y enviar invitaciones</h3>
+<p>Solo el administrador puede crear usuarios. El sistema valida que el correo termine en <code>@ut.edu.co</code> y genera una contraseña temporal.</p>
+<h4>Crear una cuenta</h4>
+<ol>
+<li>Abre <strong>Usuarios</strong> en la barra lateral.</li>
+<li>Pulsa <strong>+ Crear usuario</strong>.</li>
+<li>Completa el formulario:
+<ul>
+<li><strong>Nombre completo.</strong></li>
+<li><strong>Correo institucional:</strong> por ejemplo, <code>nombre.apellido@ut.edu.co</code>.</li>
+<li><strong>Documento y teléfono:</strong> opcionales.</li>
+<li><strong>Rol:</strong> Estudiante, Docente, Coordinación o Administrador.</li>
+<li><strong>Programa / dependencia.</strong></li>
+<li><strong>Grupo y semestre:</strong> solo para estudiantes. El grupo es obligatorio.</li>
+<li><strong>Curso / cátedra:</strong> solo para docentes.</li>
+<li><strong>Contraseña temporal:</strong> se genera automáticamente; puedes cambiarla o generar otra con el botón del dado.</li>
+<li><strong>Cuenta activa:</strong> deja la casilla marcada para permitir el ingreso.</li>
+</ul>
+</li>
+<li>Pulsa <strong>Crear y enviar invitación</strong>.</li>
+</ol>
+<p>Si el rol es <strong>Estudiante</strong>, primero debe existir al menos un grupo activo. Si aún no hay grupos, crea uno en <strong>Grupos</strong> y vuelve al formulario.</p>
+<p>Después de guardar, el sistema abre el correo de invitación con el correo institucional y la contraseña temporal. Ese correo queda en la bandeja de <strong>Correos</strong> y, si el envío real está configurado, también se intenta enviar al buzón del usuario.</p>
+<figure>
+<img src="img/08-usuarios.png" alt="Listado de usuarios con rol, grupo o programa, estado, último ingreso y acciones de editar, restablecer clave y activar o desactivar.">
+<figcaption><b>Figura 4.</b> Gestión de usuarios. Desde esta tabla se crean cuentas, se editan datos, se restablece la contraseña y se activan o desactivan usuarios.</figcaption>
+</figure>
+<h4>Editar, desactivar o restablecer una cuenta</h4>
+<ul>
+<li><strong>Editar:</strong> pulsa <strong>✎ Editar</strong>. Si dejas la contraseña en blanco, se conserva la actual. No puedes cambiar tu propio rol ni desactivar tu propia cuenta desde este formulario.</li>
+<li><strong>Desactivar:</strong> pulsa <strong>Desactivar</strong>. El usuario no podrá ingresar, pero sus solicitudes y su historial se conservan. Si era representante de un grupo, el grupo queda sin representante.</li>
+<li><strong>Activar:</strong> vuelve a pulsar el botón cuando la cuenta esté inactiva.</li>
+<li><strong>Restablecer contraseña:</strong> pulsa <strong>Clave</strong>. Se genera una contraseña temporal y un correo de restablecimiento.</li>
+</ul>
+<blockquote>
+<p><strong>Consejo:</strong> durante la demostración, crea un usuario de estudiante y muestra la invitación en <strong>Correos</strong>. Luego cierra sesión e ingresa con esa cuenta para explicar el flujo completo.</p>
+</blockquote>
+<h3 id="4-4-revisar-la-bandeja-de-correos">4.4 Revisar la bandeja de correos</h3>
+<p>La opción <strong>Correos</strong> muestra todos los mensajes generados por el sistema: invitaciones, solicitudes recibidas, nuevas solicitudes, aprobaciones, rechazos, ajustes, entregas, devoluciones, cancelaciones, restablecimientos y pruebas.</p>
+<p>Cada fila indica:</p>
+<ul>
+<li>Fecha del mensaje.</li>
+<li>Destinatario.</li>
+<li>Asunto.</li>
+<li>Plantilla utilizada.</li>
+<li>Estado: <strong>Simulado</strong>, <strong>Pendiente</strong>, <strong>Enviado</strong> o <strong>Error</strong>.</li>
+</ul>
+<p>Puedes abrir un correo con <strong>Ver</strong>, reenviarlo con <strong>Reenviar</strong> o abrir un enlace <code>mailto:</code> con <strong>Cliente</strong>. En modo demostración los correos no salen a internet: quedan registrados en la bandeja y en <strong>Mis correos</strong> del usuario.</p>
+<figure>
+<img src="img/09-correos.png" alt="Bandeja de correos simulados con fecha, destinatario, asunto, plantilla, estado y acciones.">
+<figcaption><b>Figura 5.</b> Bandeja de correos. El estado «Simulado» confirma que el mensaje no se envió a un buzón real. Si configuras EmailJS, los envíos correctos aparecen como «Enviado».</figcaption>
+</figure>
+<h3 id="4-5-administrar-el-inventario">4.5 Administrar el inventario</h3>
+<p>La opción <strong>Inventario</strong> contiene los materiales, equipos y espacios disponibles. Desde allí puedes consultar existencias, disponibilidad, unidades fuera de servicio y el estado de cada recurso.</p>
+<h4>Agregar un elemento</h4>
+<ol>
+<li>Abre <strong>Inventario</strong>.</li>
+<li>Pulsa <strong>+ Agregar elemento</strong>.</li>
+<li>Completa:
+<ul>
+<li><strong>Nombre:</strong> por ejemplo, «Trípodes».</li>
+<li><strong>Categoría:</strong> Tecnología, Artes y Cultura, Deportes o Espacios.</li>
+<li><strong>Icono:</strong> un emoji representativo.</li>
+<li><strong>Código:</strong> identificador interno, por ejemplo <code>TEC-TR-01</code>.</li>
+<li><strong>Ubicación:</strong> almacén, sala o zona.</li>
+<li><strong>Cantidad total.</strong></li>
+<li><strong>Fuera de servicio:</strong> unidades dañadas o no disponibles.</li>
+<li><strong>Requiere aval para estudiantes:</strong> marca esta casilla si el elemento necesita autorización docente o de dirección.</li>
+</ul>
+</li>
+<li>Pulsa <strong>Guardar</strong>.</li>
+</ol>
+<h4>Editar existencias</h4>
+<p>Pulsa <strong>✎ Editar</strong> en la fila del elemento. El sistema no permite dejar el inventario por debajo de las unidades que están prestadas o reservadas. Si intentas reducirlo, aparecerá una advertencia.</p>
+<p>El listado muestra:</p>
+<ul>
+<li>Total de unidades.</li>
+<li>Disponibilidad de hoy.</li>
+<li>Unidades prestadas o reservadas.</li>
+<li>Unidades con novedades.</li>
+<li>Estado: Disponible, Inventario bajo, Agotado, Reservado o Con novedades.</li>
+</ul>
+<h4>Eliminar un elemento</h4>
+<ol>
+<li>Abre <strong>Inventario</strong>.</li>
+<li>Ubica el elemento y pulsa <strong>🗑 Eliminar</strong>.</li>
+<li>Confirma la acción.</li>
+</ol>
+<p>El sistema no permite eliminar un elemento si tiene solicitudes <strong>pendientes, aprobadas o en préstamo</strong>; primero deben cerrarse o rechazarse. Al eliminarlo, deja de aparecer en el inventario y en el catálogo, pero las solicitudes históricas conservan su nombre y su detalle. La acción no se puede deshacer desde la interfaz.</p>
+<blockquote>
+<p><strong>Consejo:</strong> si solo quieres retirarlo temporalmente, edita la cantidad total a 0 en lugar de eliminarlo. Así el elemento sigue en el inventario, pero sin disponibilidad.</p>
+</blockquote>
+<figure class="fig-inv">
+<img src="img/06-inventario.png" alt="Inventario con categorías, códigos, ubicación, total, disponibilidad, unidades prestadas, novedades y estado.">
+<figcaption><b>Figura 6.</b> Inventario. La barra de disponibilidad y las etiquetas de estado ayudan a detectar recursos agotados o con novedades.</figcaption>
+</figure>
+<h3 id="4-6-configurar-el-periodo-el-respaldo-y-el-reinicio">4.6 Configurar el periodo, el respaldo y el reinicio</h3>
+<p>La opción <strong>Configuración</strong> está disponible solo para el administrador. Allí puedes:</p>
+<ul>
+<li><strong>Cambiar el periodo académico y el nombre del CAT.</strong> Se usan en la cabecera y en algunas comunicaciones.</li>
+<li><strong>Configurar el correo real.</strong> Abre el formulario de EmailJS.</li>
+<li><strong>Descargar un respaldo.</strong> Genera un archivo JSON con usuarios, grupos, inventario, solicitudes, notificaciones, correos y configuración.</li>
+<li><strong>Abrir el guion de la presentación.</strong> Muestra un recorrido rápido de los pasos recomendados.</li>
+<li><strong>Restablecer la demostración.</strong> Borra los cambios y vuelve al estado inicial. Esta acción no se puede deshacer.</li>
+</ul>
+<blockquote>
+<p><strong>Importante:</strong> el respaldo es un archivo local. Guárdalo en un lugar seguro si necesitas conservar los datos de una demostración. El reinicio elimina todo lo creado en ese navegador.</p>
+</blockquote>
+<h2 id="5-guia-de-coordinacion">5. Guía de coordinación</h2>
+<p>La coordinación es responsable de atender las solicitudes y de controlar el ciclo físico del préstamo: aprobar, entregar y recibir. Su menú incluye Panel, Solicitudes, Inventario, Devoluciones, Correos y Reportes.</p>
+<h3 id="5-1-revisar-las-solicitudes">5.1 Revisar las solicitudes</h3>
+<ol>
+<li>Abre <strong>Solicitudes</strong> en la barra lateral.</li>
+<li>Usa los filtros para ver <strong>Todas</strong>, <strong>Pendiente</strong>, <strong>Aprobada</strong>, <strong>En préstamo</strong>, <strong>Devuelta</strong>, <strong>Rechazada</strong> o <strong>Cancelada</strong>.</li>
+<li>Puedes buscar por número de solicitud, solicitante, correo, grupo, actividad o elemento.</li>
+<li>Pulsa <strong>Revisar</strong> en una solicitud pendiente o <strong>Ver</strong> en una solicitud ya atendida.</li>
+</ol>
+<p>La tabla muestra el número de solicitud, el tiempo transcurrido desde su creación, el solicitante, el grupo o curso, los elementos, las fechas y el estado.</p>
+<figure>
+<img src="img/03-solicitudes.png" alt="Bandeja de solicitudes con filtros por estado, solicitante, grupo, elementos, fechas y estado.">
+<figcaption><b>Figura 7.</b> Bandeja de solicitudes. Los filtros y el buscador permiten localizar rápidamente una solicitud y priorizar las que están pendientes.</figcaption>
+</figure>
+<h3 id="5-2-analizar-el-detalle-de-la-solicitud">5.2 Analizar el detalle de la solicitud</h3>
+<p>El detalle reúne toda la información necesaria para decidir:</p>
+<ul>
+<li>Datos del solicitante: nombre, rol, correo, grupo o curso, programa y teléfono.</li>
+<li>Actividad y observaciones.</li>
+<li>Fechas y horas de uso y devolución.</li>
+<li>Elementos solicitados, cantidades y disponibilidad para esas fechas.</li>
+<li>Aval, si el elemento lo requiere.</li>
+<li>Historial de acciones con fecha y responsable.</li>
+<li>Correos asociados a la solicitud.</li>
+</ul>
+<p>Si algún elemento no tiene disponibilidad suficiente, el sistema lo señala en rojo y ofrece la opción de <strong>ajustar</strong> la solicitud a la disponibilidad real.</p>
+<figure>
+<img src="img/04-detalle-solicitud.png" alt="Detalle de una solicitud con datos del solicitante, elementos, disponibilidad, decisión de coordinación e historial.">
+<figcaption><b>Figura 8.</b> Detalle de la solicitud. La columna derecha concentra la decisión y el historial; la izquierda muestra el contexto y los elementos solicitados.</figcaption>
+</figure>
+<h3 id="5-3-aprobar-rechazar-o-ajustar">5.3 Aprobar, rechazar o ajustar</h3>
+<h4>Aprobar</h4>
+<ol>
+<li>Verifica que todos los elementos tengan disponibilidad suficiente para las fechas.</li>
+<li>Escribe un mensaje para el solicitante si lo deseas. Es opcional al aprobar.</li>
+<li>Pulsa <strong>✓ Aprobar solicitud</strong>.</li>
+</ol>
+<p>La solicitud pasa a <strong>Aprobada</strong>. Las existencias quedan reservadas para ese rango de fechas y se genera una notificación y un correo para el solicitante.</p>
+<h4>Rechazar</h4>
+<ol>
+<li>Escribe el <strong>motivo del rechazo</strong>. Es obligatorio.</li>
+<li>Pulsa <strong>✕ Rechazar</strong>.</li>
+</ol>
+<p>La solicitud pasa a <strong>Rechazada</strong>. El motivo queda en el historial y se envía al solicitante. Procura escribir un motivo claro y respetuoso.</p>
+<h4>Ajustar a la disponibilidad</h4>
+<p>Si no hay suficientes unidades, pulsa <strong>✎ Ajustar a disponibilidad</strong>. El sistema reduce las cantidades al máximo disponible para las fechas solicitadas y elimina los elementos que queden en cero. La solicitud sigue pendiente y el solicitante recibe una notificación con el ajuste.</p>
+<p>Si después del ajuste no queda ningún elemento, lo recomendable es rechazar la solicitud con un motivo.</p>
+<blockquote>
+<p><strong>Importante:</strong> la aprobación no descuenta el inventario. El descuento se produce al registrar la entrega. Si el solicitante no recoge el material, la solicitud puede quedar aprobada y reservada, pero no aparecerá como préstamo activo hasta la entrega.</p>
+</blockquote>
+<h3 id="5-4-registrar-la-entrega">5.4 Registrar la entrega</h3>
+<p>La entrega se registra cuando el solicitante recoge físicamente el material.</p>
+<ol>
+<li>Abre el detalle de la solicitud aprobada.</li>
+<li>Verifica con el solicitante que los elementos y las cantidades coinciden.</li>
+<li>Pulsa <strong>📦 Registrar entrega</strong>.</li>
+<li>La solicitud pasa a <strong>En préstamo</strong> y el inventario se descuenta de inmediato.</li>
+<li>El solicitante recibe una notificación y un correo con la fecha prevista de devolución.</li>
+</ol>
+<p>También puedes registrar la entrega desde <strong>Devoluciones</strong>, en la fila de una solicitud aprobada.</p>
+<blockquote>
+<p><strong>Importante:</strong> la entrega se registra en el momento en que pulsas el botón, aunque la fecha de uso sea futura. El material ya está físicamente fuera del CAT y por eso se descuenta del inventario. Para probar este comportamiento, observa cómo baja la disponibilidad y cómo se restaura al registrar la devolución.</p>
+</blockquote>
+<h3 id="5-5-registrar-la-devolucion">5.5 Registrar la devolución</h3>
+<ol>
+<li>Abre el detalle de una solicitud <strong>En préstamo</strong> o entra a <strong>Devoluciones</strong>.</li>
+<li>Pulsa <strong>↩ Registrar devolución</strong>.</li>
+<li>En la ventana de devolución, para cada elemento indica:
+<ul>
+<li><strong>Devuelto bien:</strong> unidades que regresan en buen estado.</li>
+<li><strong>Con daño:</strong> unidades que regresan dañadas.</li>
+</ul>
+</li>
+<li>Si una unidad no se devuelve, deja la diferencia entre lo solicitado, lo devuelto bien y lo dañado. El sistema la registrará como <strong>No devuelto</strong>.</li>
+<li>Escribe una observación si hay novedades.</li>
+<li>Pulsa <strong>Confirmar devolución</strong>.</li>
+</ol>
+<p>Al confirmar:</p>
+<ul>
+<li>La solicitud pasa a <strong>Devuelta</strong>.</li>
+<li>Las unidades devueltas en buen estado vuelven a estar disponibles.</li>
+<li>Las unidades dañadas o no devueltas se suman a las unidades fuera de servicio del inventario.</li>
+<li>Se crea una <strong>novedad</strong> en la solicitud y se envía un correo al solicitante.</li>
+<li>El historial conserva el nombre de quien recibió la devolución y la observación.</li>
+</ul>
+<blockquote>
+<p><strong>Consejo:</strong> revisa el estado físico del material antes de confirmar. Si detectas un daño, regístralo en el momento para que el inventario y el historial queden actualizados.</p>
+</blockquote>
+<h3 id="5-6-consultar-reportes-y-exportar">5.6 Consultar reportes y exportar</h3>
+<p>La opción <strong>Reportes</strong> presenta una visión general del periodo:</p>
+<ul>
+<li>Solicitudes totales.</li>
+<li>Devoluciones cerradas.</li>
+<li>Disponibilidad del inventario.</li>
+<li>Unidades fuera de servicio.</li>
+<li>Correos generados y correos con error.</li>
+<li>Solicitudes por estado.</li>
+<li>Elementos más solicitados.</li>
+<li>Uso por grupo o curso.</li>
+</ul>
+<p>Desde esta pantalla puedes:</p>
+<ul>
+<li><strong>Exportar CSV:</strong> descarga un archivo con el detalle de las solicitudes, compatible con Excel y otras hojas de cálculo.</li>
+<li><strong>Imprimir / PDF:</strong> abre el diálogo de impresión del navegador. Elige «Guardar como PDF» para conservar el reporte.</li>
+</ul>
+<figure>
+<img src="img/07-reportes.png" alt="Reportes con indicadores, solicitudes por estado, elementos más solicitados, uso por grupo y botones de exportación.">
+<figcaption><b>Figura 9.</b> Reportes. Los indicadores y gráficos se actualizan con las solicitudes registradas en el navegador. La exportación CSV y la impresión facilitan la entrega de evidencias.</figcaption>
+</figure>
+<h2 id="6-guia-del-estudiante-y-del-docente">6. Guía del estudiante y del docente</h2>
+<p>Estudiantes y docentes comparten el mismo menú: <strong>Inicio</strong>, <strong>Catálogo</strong>, <strong>Mi solicitud</strong> e <strong>Historial</strong>. La diferencia principal es que el estudiante solicita a nombre de un grupo y el docente a nombre de un curso o cátedra.</p>
+<h3 id="6-1-inicio-del-estudiante">6.1 Inicio del estudiante</h3>
+<p>Al ingresar, verás un saludo, tu rol y tu grupo o curso. La pantalla de inicio resume:</p>
+<ul>
+<li>Solicitudes activas.</li>
+<li>Solicitudes pendientes.</li>
+<li>Materiales por devolver.</li>
+<li>Materiales disponibles en el catálogo.</li>
+<li>Acceso rápido para solicitar material.</li>
+<li>Aviso de la devolución más próxima, si tienes un préstamo en curso.</li>
+</ul>
+<h3 id="6-2-explorar-el-catalogo">6.2 Explorar el catálogo</h3>
+<ol>
+<li>Abre <strong>Catálogo</strong>.</li>
+<li>Usa el buscador para encontrar un material o espacio por nombre, código o categoría.</li>
+<li>Filtra por <strong>Tecnología</strong>, <strong>Artes y Cultura</strong>, <strong>Deportes</strong> o <strong>Espacios</strong>.</li>
+<li>Revisa la disponibilidad de hoy y el estado de cada recurso.</li>
+<li>Pulsa <strong>+ Agregar</strong> para sumar una unidad a tu solicitud. Puedes agregar varias unidades del mismo elemento.</li>
+</ol>
+<p>La disponibilidad que se muestra en el catálogo es la del día actual. Al enviar la solicitud, el sistema vuelve a validar la disponibilidad para las fechas y horas que elijas.</p>
+<figure>
+<img src="img/10-catalogo.png" alt="Catálogo de préstamos para estudiantes con búsqueda, categorías, disponibilidad y botones para agregar elementos.">
+<figcaption><b>Figura 10.</b> Catálogo del estudiante. Cada tarjeta muestra el elemento, la categoría, el código, la disponibilidad del día y el estado. El botón «+ Agregar» lo lleva al carrito de la solicitud.</figcaption>
+</figure>
+<h3 id="6-3-preparar-mi-solicitud">6.3 Preparar «Mi solicitud»</h3>
+<p>Cuando tengas elementos en el carrito, abre <strong>Mi solicitud</strong> o pulsa <strong>Ver solicitud</strong> en la barra del catálogo.</p>
+<ol>
+<li>Revisa los elementos y ajusta las cantidades con los botones <strong>−</strong> y <strong>+</strong>.</li>
+<li>Selecciona la <strong>fecha de uso</strong> y la <strong>hora</strong> de inicio.</li>
+<li>Selecciona la <strong>fecha de devolución</strong> y la <strong>hora</strong> de devolución. La devolución debe ser posterior al uso.</li>
+<li>Escribe la <strong>actividad</strong> o motivo del préstamo. Es obligatorio.</li>
+<li>Si eres estudiante y algún elemento requiere aval, escribe el <strong>nombre o dependencia que avala</strong>.</li>
+<li>Agrega observaciones si necesitas explicar el montaje o alguna necesidad especial.</li>
+<li>Revisa la columna de disponibilidad para las fechas elegidas.</li>
+<li>Pulsa <strong>Enviar solicitud</strong>.</li>
+</ol>
+<p>Si no hay disponibilidad suficiente, el sistema muestra una advertencia y desactiva el botón de envío. Ajusta las cantidades o cambia las fechas.</p>
+<figure>
+<img src="img/11-mi-solicitud.png" alt="Formulario Mi solicitud con elementos, cantidades, disponibilidad para las fechas, datos de la actividad y observaciones.">
+<figcaption><b>Figura 11.</b> Mi solicitud. La columna de disponibilidad se recalcula con las fechas y horas elegidas. El botón de envío solo se habilita cuando las cantidades son suficientes.</figcaption>
+</figure>
+<h3 id="6-4-enviar-y-hacer-seguimiento">6.4 Enviar y hacer seguimiento</h3>
+<p>Al enviar la solicitud:</p>
+<ul>
+<li>Se crea un número de solicitud, por ejemplo <code>UT-2026-0001</code>.</li>
+<li>La solicitud queda en estado <strong>Pendiente</strong>.</li>
+<li>La coordinación recibe una notificación y un correo.</li>
+<li>Tú recibes un correo de confirmación.</li>
+<li>La pantalla muestra el número de solicitud y accesos para ver el historial, los correos o volver al inicio.</li>
+</ul>
+<p>Puedes seguir el estado desde <strong>Historial</strong>. Allí verás la actividad, los elementos, las fechas, el estado, las observaciones, la respuesta de coordinación y los correos asociados.</p>
+<h3 id="6-5-cancelar-una-solicitud-pendiente">6.5 Cancelar una solicitud pendiente</h3>
+<p>Si ya no necesitas el préstamo y la solicitud aún está <strong>Pendiente</strong>:</p>
+<ol>
+<li>Abre <strong>Historial</strong>.</li>
+<li>Ubica la solicitud.</li>
+<li>Pulsa <strong>Cancelar solicitud</strong> y confirma.</li>
+</ol>
+<p>La solicitud pasa a <strong>Cancelada</strong>, se notifica a la coordinación y el historial conserva el registro. Una solicitud ya aprobada o en préstamo no se puede cancelar desde esta opción: en ese caso, contacta a la coordinación.</p>
+<h3 id="6-6-editar-el-perfil">6.6 Editar el perfil</h3>
+<p>En <strong>Mi perfil</strong> puedes actualizar tu nombre, tu teléfono y tu contraseña. El correo institucional solo lo puede cambiar la administración. Si cambias la contraseña, debe tener al menos 6 caracteres.</p>
+<h3 id="6-7-si-eres-docente">6.7 Si eres docente</h3>
+<p>El flujo es el mismo, con dos diferencias:</p>
+<ul>
+<li>En <strong>Mi solicitud</strong> debes escribir el <strong>curso o cátedra</strong> que solicita el préstamo. El sistema lo usa como grupo o curso en la solicitud.</li>
+<li>La solicitud no se asocia a un grupo de estudiantes, sino al curso indicado.</li>
+</ul>
+<p>Puedes consultar tus solicitudes y correos desde <strong>Historial</strong> y <strong>Mis correos</strong>.</p>
+<h2 id="7-correos-y-notificaciones">7. Correos y notificaciones</h2>
+<h3 id="7-1-la-campana-de-notificaciones">7.1 La campana de notificaciones</h3>
+<p>La campana de la barra superior muestra las novedades de tu cuenta. El número rojo indica cuántas notificaciones sin leer tienes.</p>
+<ul>
+<li>Pulsa la campana para abrir el panel.</li>
+<li>Pulsa una notificación para ir a la solicitud o al historial relacionado.</li>
+<li>Pulsa <strong>Marcar leídas</strong> para limpiar el contador.</li>
+</ul>
+<p>Las notificaciones se generan cuando se crea una solicitud, se aprueba, se rechaza, se ajusta, se entrega o se devuelve. La coordinación también recibe avisos de nuevas solicitudes y cancelaciones.</p>
+<h3 id="7-2-correos-simulados">7.2 Correos simulados</h3>
+<p>Por defecto, la aplicación funciona en <strong>modo demostración</strong>. Esto significa que:</p>
+<ul>
+<li>Los correos se guardan en la bandeja interna.</li>
+<li>No se envían a buzones reales.</li>
+<li>El estado del mensaje es <strong>Simulado</strong>.</li>
+<li>Puedes ver el contenido, la plantilla y el destinatario.</li>
+<li>Puedes abrir el mensaje en tu cliente de correo con el enlace <code>mailto:</code>.</li>
+</ul>
+<p>Los estudiantes y docentes ven sus mensajes en <strong>Mis correos</strong>. La administración y la coordinación ven la bandeja completa en <strong>Correos</strong>.</p>
+<h3 id="7-3-activar-el-envio-real-con-emailjs">7.3 Activar el envío real con EmailJS</h3>
+<p>El envío real es opcional. Si se necesita que los correos lleguen a un buzón, se puede configurar EmailJS:</p>
+<ol>
+<li>Crea una cuenta en <a href="https://www.emailjs.com/">EmailJS</a>.</li>
+<li>Conecta un servicio de correo y crea una plantilla.</li>
+<li>La plantilla debe aceptar las variables <code>{{to_email}}</code>, <code>{{to_name}}</code>, <code>{{subject}}</code>, <code>{{message}}</code>, <code>{{from_name}}</code> y <code>{{reply_to}}</code>.</li>
+<li>En la aplicación, entra como administrador o coordinación.</li>
+<li>Abre <strong>Correos → Configurar envío real</strong> o <strong>Configuración → Configurar correo</strong>.</li>
+<li>Activa la casilla de envío real.</li>
+<li>Escribe el <strong>Service ID</strong>, el <strong>Template ID</strong> y la <strong>Public Key</strong>.</li>
+<li>Escribe un correo de prueba y pulsa <strong>Enviar prueba</strong>.</li>
+<li>Guarda la configuración.</li>
+</ol>
+<p>Si el envío falla, el correo queda en la bandeja con estado <strong>Error</strong> y el mensaje de error. La aplicación sigue funcionando normalmente.</p>
+<blockquote>
+<p><strong>Importante:</strong> en GitHub Pages no hay backend. La clave pública de EmailJS queda visible en el navegador y la entrega no está garantizada. Para un sistema institucional se necesita un servidor que envíe los correos de forma segura.</p>
+</blockquote>
+<h3 id="7-4-plantillas-disponibles">7.4 Plantillas disponibles</h3>
+<table>
+<thead>
+<tr>
+<th>Plantilla</th>
+<th>Cuándo se genera</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Invitación</td>
+<td>Al crear una cuenta.</td>
+</tr>
+<tr>
+<td>Solicitud recibida</td>
+<td>Al solicitante, cuando envía una solicitud.</td>
+</tr>
+<tr>
+<td>Nueva solicitud</td>
+<td>A coordinación y administración, cuando llega una solicitud.</td>
+</tr>
+<tr>
+<td>Aprobación</td>
+<td>Al solicitante, cuando se aprueba.</td>
+</tr>
+<tr>
+<td>Rechazo</td>
+<td>Al solicitante, con el motivo.</td>
+</tr>
+<tr>
+<td>Ajuste</td>
+<td>Al solicitante, cuando se ajustan cantidades.</td>
+</tr>
+<tr>
+<td>Entrega</td>
+<td>Al solicitante, cuando se registra la entrega.</td>
+</tr>
+<tr>
+<td>Devolución</td>
+<td>Al solicitante, cuando se recibe el material.</td>
+</tr>
+<tr>
+<td>Cancelación</td>
+<td>A coordinación, cuando el solicitante cancela.</td>
+</tr>
+<tr>
+<td>Contraseña</td>
+<td>Al usuario, cuando se restablece su clave.</td>
+</tr>
+<tr>
+<td>Prueba</td>
+<td>Al correo de prueba configurado.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="8-instalar-la-pwa-y-usarla-en-el-celular">8. Instalar la PWA y usarla en el celular</h2>
+<p>Préstamos UT es una aplicación web progresiva. Esto significa que se puede abrir en el navegador y, si el navegador lo permite, instalar como una aplicación en el celular o en el computador.</p>
+<h3 id="8-1-instalar-desde-el-computador">8.1 Instalar desde el computador</h3>
+<ol>
+<li>Abre la aplicación en Chrome o Edge.</li>
+<li>Busca el botón <strong>⬇ Instalar app</strong> en la barra superior. Si aparece, pulsa y confirma.</li>
+<li>También puedes usar el menú del navegador y elegir <strong>Instalar Préstamos UT</strong> o <strong>Agregar a la pantalla de inicio</strong>.</li>
+</ol>
+<p>La aplicación se abrirá en una ventana independiente y quedará disponible como un acceso directo.</p>
+<h3 id="8-2-instalar-desde-el-celular">8.2 Instalar desde el celular</h3>
+<ul>
+<li><strong>Android (Chrome):</strong> abre el menú de tres puntos y elige <strong>Instalar aplicación</strong> o <strong>Agregar a la pantalla de inicio</strong>.</li>
+<li><strong>iPhone (Safari):</strong> pulsa el botón Compartir y elige <strong>Agregar a la pantalla de inicio</strong>.</li>
+</ul>
+<p>La primera carga necesita conexión. Después, el service worker guarda los archivos principales para que la aplicación pueda abrirse con más facilidad. Los datos siguen viviendo en el navegador del dispositivo.</p>
+<figure class="fig-mobile">
+<img src="img/12-movil-catalogo.png" alt="Vista móvil del catálogo de préstamos con menú adaptado y tarjetas de recursos.">
+<figcaption><b>Figura 12.</b> Vista móvil del catálogo. El diseño responsive permite buscar, consultar disponibilidad y agregar elementos desde el teléfono.</figcaption>
+</figure>
+<blockquote>
+<p><strong>Importante:</strong> cada navegador y cada dispositivo tiene su propia copia de los datos. Las cuentas, solicitudes y correos creados en un computador no aparecen automáticamente en otro. Esta versión no sincroniza información entre dispositivos.</p>
+</blockquote>
+<h2 id="9-solucion-de-problemas">9. Solución de problemas</h2>
+<table>
+<thead>
+<tr>
+<th>Situación</th>
+<th>Posible causa</th>
+<th>Qué hacer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No veo los últimos cambios después de actualizar.</td>
+<td>La PWA conserva archivos en caché.</td>
+<td>Recarga con <code>Ctrl + Shift + R</code> (o <code>Cmd + Shift + R</code> en Mac). Si persiste, abre las herramientas del navegador → <strong>Application → Service Workers → Unregister</strong> y luego <strong>Storage → Clear site data</strong>. Vuelve a cargar.</td>
+</tr>
+<tr>
+<td>La página no carga o se ve incompleta.</td>
+<td>Se abrió con <code>file://</code> o el servidor no está activo.</td>
+<td>Sirve la carpeta por HTTP, por ejemplo <code>python3 -m http.server 8080</code>, y abre <code>http://localhost:8080/</code>.</td>
+</tr>
+<tr>
+<td>El correo o la contraseña no funcionan.</td>
+<td>Credenciales incorrectas o cuenta desactivada.</td>
+<td>Verifica mayúsculas y minúsculas. Si la cuenta está desactivada, pide al administrador que la active o restablezca la clave.</td>
+</tr>
+<tr>
+<td>No aparece la opción <strong>Instalar app</strong>.</td>
+<td>El navegador no cumple las condiciones de instalación o no se sirve por HTTPS/localhost.</td>
+<td>Usa Chrome o Edge, abre la aplicación por <code>https://</code> o <code>localhost</code> y revisa el menú del navegador.</td>
+</tr>
+<tr>
+<td>No puedo crear un estudiante.</td>
+<td>No hay grupos activos.</td>
+<td>Crea primero un grupo en <strong>Grupos</strong> y vuelve a <strong>Usuarios</strong>.</td>
+</tr>
+<tr>
+<td>Un estudiante no puede enviar una solicitud.</td>
+<td>No tiene grupo asignado.</td>
+<td>Edita el usuario en <strong>Usuarios</strong> y asígnale un grupo activo.</td>
+</tr>
+<tr>
+<td>No hay disponibilidad para las fechas elegidas.</td>
+<td>Otra solicitud ocupa el material en ese rango o no hay unidades suficientes.</td>
+<td>Cambia las fechas, reduce la cantidad o elige otro recurso. La coordinación también puede ajustar la solicitud.</td>
+</tr>
+<tr>
+<td>No puedo aprobar una solicitud.</td>
+<td>Algún elemento no tiene disponibilidad suficiente.</td>
+<td>Usa <strong>Ajustar a disponibilidad</strong> o rechaza la solicitud con un motivo.</td>
+</tr>
+<tr>
+<td>No puedo dejar el inventario con menos unidades.</td>
+<td>Hay unidades prestadas o reservadas.</td>
+<td>Espera a que se devuelvan o registra primero la devolución. Revisa el total y las unidades fuera de servicio.</td>
+</tr>
+<tr>
+<td>No llegan correos a mi buzón.</td>
+<td>La aplicación está en modo simulado.</td>
+<td>Revisa <strong>Correos</strong> o <strong>Mis correos</strong>. Si necesitas envío real, configura EmailJS y prueba la conexión.</td>
+</tr>
+<tr>
+<td>No puedo desactivar mi propia cuenta.</td>
+<td>Es una protección del sistema.</td>
+<td>Pide a otro administrador que realice el cambio.</td>
+</tr>
+<tr>
+<td>Los datos desaparecieron.</td>
+<td>Se restableció la demostración o se limpió el almacenamiento del navegador.</td>
+<td>Descarga un respaldo con frecuencia. Si reiniciaste la demo, vuelve a crear los datos.</td>
+</tr>
+<tr>
+<td>La aplicación se ve diferente en otro equipo.</td>
+<td>Cada navegador tiene su propia copia local.</td>
+<td>Es el comportamiento esperado en esta versión. No hay sincronización entre dispositivos.</td>
+</tr>
+<tr>
+<td>El envío real de EmailJS falla.</td>
+<td>Credenciales incorrectas, plantilla incompatible o límite del servicio.</td>
+<td>Revisa Service ID, Template ID, Public Key y las variables de la plantilla. Consulta el estado <strong>Error</strong> en la bandeja.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="9-1-si-la-aplicacion-no-responde">9.1 Si la aplicación no responde</h3>
+<ol>
+<li>Recarga la página.</li>
+<li>Cierra y vuelve a abrir el navegador.</li>
+<li>Verifica que el servidor local siga activo.</li>
+<li>Abre la consola del navegador y revisa si hay errores en rojo.</li>
+<li>Si el problema continúa, limpia la caché y el almacenamiento del sitio, y vuelve a cargar.</li>
+</ol>
+<blockquote>
+<p><strong>Consejo:</strong> antes de una presentación, prueba el flujo completo en el mismo navegador y con el mismo equipo que vas a usar. Así evitas diferencias de caché, resolución o permisos.</p>
+</blockquote>
+<h2 id="10-buenas-practicas-y-cierre">10. Buenas prácticas y cierre</h2>
+<h3 id="10-1-buenas-practicas-de-uso">10.1 Buenas prácticas de uso</h3>
+<ul>
+<li>Usa <strong>datos ficticios</strong> durante la demostración. No ingreses documentos, teléfonos o correos de personas reales.</li>
+<li>Asigna a cada estudiante un grupo activo antes de que solicite.</li>
+<li>Revisa la disponibilidad para las fechas antes de aprobar.</li>
+<li>Registra la entrega solo cuando el material esté físicamente entregado.</li>
+<li>Registra las devoluciones con novedades en el mismo momento en que se recibe el material.</li>
+<li>Escribe motivos claros cuando rechaces o ajustes una solicitud.</li>
+<li>Descarga un respaldo antes de reiniciar la demostración.</li>
+<li>Cierra sesión al terminar en un equipo compartido.</li>
+</ul>
+<h3 id="10-2-lista-de-verificacion-para-la-presentacion">10.2 Lista de verificación para la presentación</h3>
+<ol>
+<li>Abrir la aplicación y comprobar que carga.</li>
+<li>Ingresar como administrador.</li>
+<li>Mostrar el panel y los indicadores.</li>
+<li>Crear un grupo y un usuario de estudiante.</li>
+<li>Abrir la invitación en <strong>Correos</strong>.</li>
+<li>Cerrar sesión e ingresar con el estudiante.</li>
+<li>Agregar materiales al catálogo y enviar una solicitud.</li>
+<li>Ingresar como coordinación y aprobar la solicitud.</li>
+<li>Registrar la entrega y mostrar el descuento del inventario.</li>
+<li>Registrar la devolución y mostrar la restauración del inventario.</li>
+<li>Revisar el historial, las notificaciones y los correos.</li>
+<li>Abrir <strong>Reportes</strong> y exportar el CSV o guardar el PDF.</li>
+</ol>
+<h3 id="10-3-limitaciones-que-debes-explicar">10.3 Limitaciones que debes explicar</h3>
+<p>Esta versión es una demostración académica. Todavía no reemplaza un sistema institucional porque:</p>
+<ul>
+<li>No tiene backend ni base de datos central.</li>
+<li>No tiene autenticación segura: las contraseñas están en el código y en el almacenamiento local.</li>
+<li>No sincroniza datos entre dispositivos o personas.</li>
+<li>No envía correos reales por defecto.</li>
+<li>No tiene auditoría externa ni control de concurrencia.</li>
+<li>No debe usarse con datos personales reales.</li>
+</ul>
+<p>La ruta para una versión de producción está documentada en el informe técnico y en los documentos de arquitectura del proyecto.</p>
+<h3 id="10-4-contacto-y-soporte">10.4 Contacto y soporte</h3>
+<p>Para dudas sobre el uso de la aplicación, contacta a la coordinación del CAT Medellín:</p>
+<ul>
+<li><strong>Correo:</strong> <a href="mailto:cmedellin@ut.edu.co">cmedellin@ut.edu.co</a></li>
+<li><strong>Teléfono:</strong> 2669041 · Cel. 316 695 0541</li>
+<li><strong>Dirección:</strong> I.E. INEM José Félix de Restrepo · Carrera 48 No. 1-125, Avenida Las Vegas, Bloque 7A, Medellín</li>
+<li><strong>Horario:</strong> martes a viernes de 8:00 a. m. a 12:00 m. y de 2:00 p. m. a 6:00 p. m.; sábado de 7:00 a. m. a 3:00 p. m.</li>
+</ul>
+<h2 id="anexo-a-credenciales-y-flujo-rapido">Anexo A. Credenciales y flujo rápido</h2>
+<h3 id="a-1-credenciales-de-demostracion">A.1 Credenciales de demostración</h3>
+<table>
+<thead>
+<tr>
+<th>Rol</th>
+<th>Correo</th>
+<th>Contraseña</th>
+<th>Uso recomendado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Administrador</td>
+<td><code>admin@ut.edu.co</code></td>
+<td><code>admin2026</code></td>
+<td>Crear usuarios, grupos, inventario y configuración.</td>
+</tr>
+<tr>
+<td>Coordinación</td>
+<td><code>coordinacion.cat@ut.edu.co</code></td>
+<td><code>cat2026</code></td>
+<td>Aprobar, entregar, devolver y reportar.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Importante:</strong> estas credenciales son públicas dentro del prototipo y sirven únicamente para la demostración. No las uses en un sistema real.</p>
+</blockquote>
+<h3 id="a-2-flujo-rapido-de-una-solicitud">A.2 Flujo rápido de una solicitud</h3>
+<ol>
+<li><strong>Administrador:</strong> crea un grupo en <strong>Grupos</strong>.</li>
+<li><strong>Administrador:</strong> crea un estudiante en <strong>Usuarios</strong> y asígnale el grupo.</li>
+<li><strong>Administrador:</strong> revisa la invitación en <strong>Correos</strong>.</li>
+<li><strong>Estudiante:</strong> ingresa, abre <strong>Catálogo</strong>, agrega elementos y envía la solicitud.</li>
+<li><strong>Coordinación:</strong> abre <strong>Solicitudes</strong>, revisa y aprueba.</li>
+<li><strong>Coordinación:</strong> registra la <strong>entrega</strong> y verifica el inventario.</li>
+<li><strong>Coordinación:</strong> registra la <strong>devolución</strong> y las novedades.</li>
+<li><strong>Administrador o coordinación:</strong> revisa <strong>Reportes</strong> y exporta la evidencia.</li>
+</ol>
+<h3 id="a-3-navegacion-por-rol">A.3 Navegación por rol</h3>
+<table>
+<thead>
+<tr>
+<th>Rol</th>
+<th>Menú visible</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Administrador</td>
+<td>Panel principal, Solicitudes, Inventario, Devoluciones, Usuarios, Grupos, Correos, Reportes, Configuración.</td>
+</tr>
+<tr>
+<td>Coordinación</td>
+<td>Panel principal, Solicitudes, Inventario, Devoluciones, Correos, Reportes.</td>
+</tr>
+<tr>
+<td>Estudiante y docente</td>
+<td>Inicio, Catálogo, Mi solicitud, Historial.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="anexo-b-glosario">Anexo B. Glosario</h2>
+<table>
+<thead>
+<tr>
+<th>Término</th>
+<th>Definición</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Aval</strong></td>
+<td>Autorización docente o de dirección que algunos elementos requieren para ser prestados a estudiantes.</td>
+</tr>
+<tr>
+<td><strong>Bandeja de correos</strong></td>
+<td>Registro interno de los mensajes generados por la aplicación. En modo demostración no salen a internet.</td>
+</tr>
+<tr>
+<td><strong>Disponibilidad</strong></td>
+<td>Cantidad de un elemento que puede prestarse en un rango de fechas y horas, después de restar unidades fuera de servicio y comprometidas.</td>
+</tr>
+<tr>
+<td><strong>Entrega</strong></td>
+<td>Momento en que el material sale físicamente del CAT y se descuenta del inventario.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td>Etapa del ciclo de una solicitud: Pendiente, Aprobada, En préstamo, Devuelta, Rechazada o Cancelada.</td>
+</tr>
+<tr>
+<td><strong>Grupo</strong></td>
+<td>Semillero, club, representación o grupo de curso al que pertenece un estudiante.</td>
+</tr>
+<tr>
+<td><strong>Novedad</strong></td>
+<td>Registro de una unidad dañada o no devuelta durante la devolución.</td>
+</tr>
+<tr>
+<td><strong>PWA</strong></td>
+<td>Aplicación web progresiva: se abre en el navegador y puede instalarse como una aplicación.</td>
+</tr>
+<tr>
+<td><strong>Representante</strong></td>
+<td>Estudiante que actúa como contacto de un grupo.</td>
+</tr>
+<tr>
+<td><strong>Solicitud</strong></td>
+<td>Petición de uno o varios elementos para una actividad, con fechas y cantidades.</td>
+</tr>
+<tr>
+<td><strong>Service worker</strong></td>
+<td>Componente del navegador que guarda archivos en caché y permite que la PWA funcione con mayor disponibilidad.</td>
+</tr>
+<tr>
+<td><strong>Unidad fuera de servicio</strong></td>
+<td>Unidad dañada, perdida o no disponible que se resta del inventario.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p class="manual-end"><b>Fin del manual.</b> Préstamos UT · Universidad del Tolima · IDEAD · CAT Medellín · Versión 1.0 · noviembre de 2026.</p>
+
+</main>
+</body>
+</html>
