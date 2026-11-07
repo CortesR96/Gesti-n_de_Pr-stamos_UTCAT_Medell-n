@@ -135,7 +135,7 @@ function showLogin() {
         </label>
         <div class="lerr" id="lerr" role="alert" hidden></div>
         <button class="btn p" type="submit">Ingresar</button>
-        <p class="lhint">¿Olvidaste tu contraseña? Contacta a la coordinación del CAT.</p>
+        <p class="lhint">¿Olvidaste tu contraseña? Contacta al administrador del sistema.</p>
       </form>
       <div class="ldemo">
         <b>Acceso rápido para la demostración</b>
@@ -165,7 +165,7 @@ function doLogin(e) {
   if (!email || !pass) { showLoginError('Escribe tu correo y contraseña.'); return; }
   const u = db.users.find(x => x.email.toLowerCase() === email);
   if (!u || u.pass !== pass) { showLoginError('Correo o contraseña incorrectos.'); return; }
-  if (!u.active) { showLoginError('Tu cuenta está desactivada. Contacta a la coordinación del CAT.'); return; }
+  if (!u.active) { showLoginError('Tu cuenta está desactivada. Contacta al administrador del sistema.'); return; }
   me = u;
   sessionStorage.setItem(SESSION_KEY, u.id);
   u.lastLogin = Date.now();
